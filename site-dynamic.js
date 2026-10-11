@@ -38,7 +38,8 @@
           const title=document.createElement('h3');title.textContent=item.name;
           const desc=document.createElement('p');desc.textContent=item.description||item.category||'';
           const meta=document.createElement('small');meta.textContent=(item.duration_minutes?item.duration_minutes+' min':'')+(item.price_cents==null?' · Tarif sur demande':' · '+Number(item.price_cents/100).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}));
-          article.append(title,desc,meta);host.append(article);
+          const more=document.createElement('button');more.type='button';more.className='text-arrow care-more';more.textContent='Se renseigner ↗';more.setAttribute('aria-haspopup','dialog');more.dataset.careDetail='dynamic';more.dataset.serviceName=item.name;more.dataset.serviceDescription=item.description||'';more.dataset.serviceDuration=String(item.duration_minutes??'');more.dataset.servicePrice=String(item.price_cents??'');
+          article.append(title,desc,meta,more);host.append(article);
         }
         document.querySelectorAll('[data-filter]').forEach(btn=>btn.addEventListener('click',()=>{
           const filter=btn.dataset.filter;

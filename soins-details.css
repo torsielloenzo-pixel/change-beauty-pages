@@ -1,0 +1,26 @@
+
+/* Modal informative des soins: styles uniquement, pas de modification de la carte des tarifs */
+.care-more{background:none;border:0;padding:0;color:inherit;text-align:left;appearance:none;cursor:pointer}
+.care-more:hover{text-decoration:none;color:#986e63}
+.care-detail-dialog{border:1px solid #e4d4c9;border-radius:6px;background:#fffaf6;color:#3d2e2c;box-shadow:0 28px 110px #38231d40;width:min(760px,calc(100vw - 28px));max-height:min(86vh,940px);overflow:auto;padding:0}
+.care-detail-dialog::backdrop{background:rgba(40,28,27,.68);backdrop-filter:blur(6px)}
+.care-dialog-shell{padding:clamp(23px,4.4vw,49px)}
+.care-dialog-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;border-bottom:1px solid #ddc7b9;padding-bottom:21px}
+.care-dialog-head h2{font:clamp(36px,4.3vw,58px)/1.05 var(--display);margin:18px 0 0}
+.care-dialog-close{border:1px solid #ddc7b9;background:transparent;color:#614d41;width:39px;height:39px;border-radius:50%;font-size:26px;line-height:1;flex-shrink:0}
+.care-dialog-close:hover,.care-dialog-secondary:hover{background:#f0e6dd}
+.care-dialog-intro{color:#806c63;font-size:13px;line-height:1.9;margin:21px 0 14px}
+#care-dialog-status{font-size:13px;line-height:1.7;color:#896e62;margin:17px 0}
+.care-dialog-group{margin:28px 0 12px}
+.care-dialog-group h3{font:27px/1.1 var(--display);margin:0 0 8px;border-bottom:1px solid #dbc5b6;padding-bottom:12px}
+.care-dialog-group small{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:#947a70}
+.care-dialog-row{display:grid;grid-template-columns:minmax(0,1fr) 97px 87px;column-gap:14px;row-gap:5px;padding:16px 0;border-bottom:1px solid #eee1d9}
+.care-dialog-row strong{font-size:13px;line-height:1.5;font-weight:600}
+.care-dialog-row p{font-size:11px;line-height:1.65;color:#857369;margin:5px 0 0}
+.care-dialog-row .care-duration{font-size:12px;color:#7b695f;text-align:right;line-height:1.6}
+.care-dialog-row .care-price{font:24px/1.25 var(--display);white-space:nowrap;text-align:right;color:#725543}
+.care-dialog-note{font-size:12px;line-height:1.8;color:#876d61;margin-top:20px;border-left:2px solid #c5a195;padding:2px 13px}
+.care-dialog-actions{display:flex;gap:17px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-top:29px}
+.care-dialog-actions .btn{gap:14px;padding:16px 18px}
+.care-dialog-secondary{background:none;border:1px solid #cfb4a5;color:#6e5246;padding:16px 18px;font-size:12px}
+@media(max-width:600px){.care-dialog-row{grid-template-columns:minmax(0,1fr) 83px;gap:5px 8px}.care-dialog-row .care-duration{grid-row:2;grid-column:1;text-align:left;font-size:11px}.care-dialog-row .care-price{grid-row:1/span 2;grid-column:2;font-size:22px}.care-dialog-head h2{font-size:38px}.care-dialog-actions{flex-direction:column;align-items:stretch}.care-dialog-actions .btn,.care-dialog-secondary{width:100%;justify-content:center}}

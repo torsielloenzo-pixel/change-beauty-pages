@@ -2,16 +2,20 @@
 const host=document.getElementById('price-catalog'),status=document.getElementById('price-status'),filters=document.getElementById('price-filter');if(!host)return;
 const conf=window.CHANGE_SUPABASE;
 const cats=['Drainage lymphatique','Regard & sourcils','Soins du visage','Beauté des pieds','Gommages corps'];
+// Conserver les catégories, mais afficher d'abord celles dont le premier soin est le plus accessible.
+const minPrice=cat=>Math.min(...records.filter(p=>p.category===cat).map(p=>p.price_cents));
+const sortedCategories=()=>cats.filter(cat=>records.some(p=>p.category===cat)).sort((a,b)=>minPrice(a)-minPrice(b)||a.localeCompare(b,'fr'));
+const byPrice=(a,b)=>a.price_cents-b.price_cents||(a.display_order??0)-(b.display_order??0)||a.title.localeCompare(b.title,'fr');
 let records=[],selected='Tout';
 const el=(type,className,value)=>{const x=document.createElement(type);if(className)x.className=className;if(value!==undefined)x.textContent=value;return x};
 const euro=n=>(n/100).toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
 function draw(){
  host.replaceChildren();
- for(const cat of cats){if(selected!=='Tout'&&selected!==cat)continue;
+ for(const cat of sortedCategories()){if(selected!=='Tout'&&selected!==cat)continue;
  const data=records.filter(p=>p.category===cat);if(!data.length)continue;
  const sect=el('section','price-section');const top=el('div','price-section-head');
  top.append(el('h2','',cat),el('small','',data.length+' tarifs'));sect.append(top);
- for(const type of ['Séance','Cure']){const entries=data.filter(x=>x.offer_type===type);if(!entries.length)continue;
+ for(const type of ['Séance','Cure']){const entries=data.filter(x=>x.offer_type===type).sort(byPrice);if(!entries.length)continue;
  if(cat==='Drainage lymphatique')sect.append(el('h3','price-subtitle',type==='Cure'?'Cures · 5 séances':'Séances individuelles'));
  for(const p of entries){
  const row=el('article','price-row'),title=el('div','price-info');
@@ -24,7 +28,7 @@ function draw(){
  }status.textContent=host.children.length?'':'Aucun tarif publié dans cette catégorie.';
 }
 function drawFilters(){filters.replaceChildren();
- for(const c of ['Tout',...cats.filter(k=>records.some(p=>p.category===k))]){const b=el('button','price-chip',c);b.type='button';b.setAttribute('aria-pressed',String(c===selected));b.addEventListener('click',()=>{selected=c;drawFilters();draw()});filters.append(b)}
+ for(const c of ['Tout',...sortedCategories()]){const b=el('button','price-chip',c);b.type='button';b.setAttribute('aria-pressed',String(c===selected));b.addEventListener('click',()=>{selected=c;drawFilters();draw()});filters.append(b)}
 }
 try{
  if(!conf?.url||!conf.publishableKey)throw Error('non configuré');
