@@ -1,0 +1,20 @@
+{
+  "id": "/change-beauty-pages/pro-preview/",
+  "name": "Ch’ange Pro — Espace professionnel",
+  "short_name": "Ch’ange Pro",
+  "description": "Application professionnelle de l'institut Ch’ange (prévisualisation)",
+  "lang": "fr",
+  "start_url": "/change-beauty-pages/pro-preview/",
+  "scope": "/change-beauty-pages/pro-preview/",
+  "display": "standalone",
+  "background_color": "#faf6f2",
+  "theme_color": "#493630",
+  "icons": [
+    {
+      "src": "/change-beauty-pages/pro-preview/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
