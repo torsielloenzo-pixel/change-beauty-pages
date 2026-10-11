@@ -1,9 +1,20 @@
 /*
- * Le verrouillage natif iOS des PWA n'est pas disponible de façon fiable.
- * Portrait virtuel : cadrage portrait réel, compensé par une rotation CSS.
- * Uniquement html.pwa-virtual-portrait, ajouté par orientation.js lorsque
- * la PWA installée est tournée. Aucun impact sur Safari ou la vitrine.
+ * PWA installée UNIQUEMENT. Le script est exécuté dans <head> :
+ * - en portrait, seule une couche GPU est préchauffée ;
+ * - en paysage, CSS peut anticiper avant que JS reçoive les nouveaux pixels.
+ * - aucune animation/transition sur le conteneur pendant l'orientation.
  */
+html.pwa-orientation-armed,
+html.pwa-orientation-armed body {
+  background: var(--bg, #faf6f2);
+}
+html.pwa-orientation-armed .app {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  transition: none !important;
+}
 html.pwa-virtual-portrait,
 html.pwa-virtual-portrait body {
   width: 100%;
@@ -25,7 +36,7 @@ html.pwa-virtual-portrait .app {
   max-height: none;
   overflow: hidden;
   transform-origin: center center;
-  transform: translate(-50%, -50%) rotate(var(--pwa-counter-angle));
+  transform: translate3d(-50%, -50%, 0) rotate(var(--pwa-counter-angle));
 }
 html.pwa-virtual-portrait .auth-page {
   min-height: 100%;
@@ -52,65 +63,105 @@ html.pwa-virtual-portrait .content {
 }
 
 /*
- * En paysage, les media queries ordinaires voient la LARGEUR PAYSAGE de
- * l'écran iOS. Imposer donc le layout mobile dans le cadre portrait virtuel.
+ * CSS ANTICIPÉ : dès que le navigateur change l'orientation de la fenêtre,
+ * les règles ci-dessous entrent en jeu sans attendre un événement JS.
+ * Les mesures JS en pixels restent prioritaires quand elles sont stabilisées.
  */
-html.pwa-virtual-landscape .auth-page { grid-template-columns: 1fr; }
-html.pwa-virtual-landscape .auth-decor { display: none; }
-html.pwa-virtual-landscape .auth-card { padding: 30px 26px 40px; }
-html.pwa-virtual-landscape .auth-brand { margin-bottom: 48px; }
-html.pwa-virtual-landscape .sidebar { display: none; }
-html.pwa-virtual-landscape .topbar { height: 73px; padding: 0 19px; }
-html.pwa-virtual-landscape .content { padding: 26px 19px 29px; }
-html.pwa-virtual-landscape .bottom-nav {
-  display: flex;
-  flex-shrink: 0;
-  align-items: stretch;
-  justify-content: space-around;
-  padding: 8px 3px 10px;
-  background: var(--paper);
-  border-top: 1px solid var(--line);
+@media (orientation: landscape) {
+  html.pwa-orientation-armed,
+  html.pwa-orientation-armed body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+  html.pwa-orientation-armed body {
+    position: fixed;
+    inset: 0;
+  }
+  html.pwa-orientation-armed .app {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: var(--pwa-portrait-width, 100dvh);
+    height: var(--pwa-portrait-height, 100dvw);
+    max-width: none;
+    max-height: none;
+    overflow: hidden;
+    transform-origin: center center;
+    transform: translate3d(-50%, -50%, 0) rotate(var(--pwa-counter-angle, -90deg));
+  }
+  html.pwa-orientation-armed .auth-page {
+    grid-template-columns: 1fr;
+    min-height: 100%;
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  html.pwa-orientation-armed .auth-decor { display: none; }
+  html.pwa-orientation-armed .auth-card { padding: 30px 26px 40px; }
+  html.pwa-orientation-armed .auth-brand { margin-bottom: 48px; }
+  html.pwa-orientation-armed .sidebar { display: none; }
+  html.pwa-orientation-armed .workspace { min-height: 0; height: 100%; overflow: hidden; }
+  html.pwa-orientation-armed .main { height: 100%; min-height: 0; overflow: hidden; }
+  html.pwa-orientation-armed .topbar { height: 73px; padding: 0 19px; }
+  html.pwa-orientation-armed .content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    padding: 26px 19px 29px;
+  }
+  html.pwa-orientation-armed .bottom-nav {
+    display: flex;
+    flex-shrink: 0;
+    align-items: stretch;
+    justify-content: space-around;
+    padding: 8px 3px 10px;
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+  }
+  html.pwa-orientation-armed .bottom-nav .nav-item {
+    display: grid;
+    place-items: center;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+    border-radius: 11px;
+    padding: 3px 1px;
+    background: transparent;
+    color: var(--muted);
+  }
+  html.pwa-orientation-armed .bottom-nav .nav-item.active {
+    background: var(--soft);
+    color: var(--ink);
+  }
+  html.pwa-orientation-armed .bottom-nav .nav-item .ico {
+    font-size: 22px;
+    color: var(--rose);
+    line-height: 1.2;
+  }
+  html.pwa-orientation-armed .bottom-nav .nav-item .lab {
+    font-size: 10px;
+    font-weight: 700;
+  }
+  html.pwa-orientation-armed .metrics { gap: 8px; }
+  html.pwa-orientation-armed .metric { padding: 13px; }
+  html.pwa-orientation-armed .metric small { font-size: 10px; min-height: 29px; }
+  html.pwa-orientation-armed .metric strong { font-size: 27px; margin-top: 9px; }
+  html.pwa-orientation-armed .section-head h2 { font-size: 23px; }
+  html.pwa-orientation-armed .pill { font-size: 9px; padding: 5px 7px; }
+  html.pwa-orientation-armed .card { padding: 14px 12px; gap: 9px; }
+  html.pwa-orientation-armed .card-time { min-width: 50px; font-size: 12px; }
+  html.pwa-orientation-armed .note-card { padding: 23px; }
+  html.pwa-orientation-armed .note-card p { font-size: 22px; }
 }
-html.pwa-virtual-landscape .bottom-nav .nav-item {
-  display: grid;
-  place-items: center;
-  gap: 3px;
-  flex: 1;
-  min-width: 0;
-  border-radius: 11px;
-  padding: 3px 1px;
-  background: transparent;
-  color: var(--muted);
-}
-html.pwa-virtual-landscape .bottom-nav .nav-item.active {
-  background: var(--soft);
-  color: var(--ink);
-}
-html.pwa-virtual-landscape .bottom-nav .nav-item .ico {
-  font-size: 22px;
-  color: var(--rose);
-  line-height: 1.2;
-}
-html.pwa-virtual-landscape .bottom-nav .nav-item .lab {
-  font-size: 10px;
-  font-weight: 700;
-}
-html.pwa-virtual-landscape .metrics { gap: 8px; }
-html.pwa-virtual-landscape .metric { padding: 13px; }
-html.pwa-virtual-landscape .metric small { font-size: 10px; min-height: 29px; }
-html.pwa-virtual-landscape .metric strong { font-size: 27px; margin-top: 9px; }
-html.pwa-virtual-landscape .section-head h2 { font-size: 23px; }
-html.pwa-virtual-landscape .pill { font-size: 9px; padding: 5px 7px; }
-html.pwa-virtual-landscape .card { padding: 14px 12px; gap: 9px; }
-html.pwa-virtual-landscape .card-time { min-width: 50px; font-size: 12px; }
-html.pwa-virtual-landscape .note-card { padding: 23px; }
-html.pwa-virtual-landscape .note-card p { font-size: 22px; }
 
-/* iPhone étroit : conserver les mêmes ajustements que pour 370px portrait */
-@media (max-height: 370px) and (orientation: landscape) {
-  html.pwa-virtual-landscape .bottom-nav .nav-item .lab { font-size: 9px; }
-  html.pwa-virtual-landscape .topbar { padding: 0 15px; }
-  html.pwa-virtual-landscape .content { padding: 23px 13px 24px; }
-  html.pwa-virtual-landscape .metric { padding: 10px; }
-  html.pwa-virtual-landscape .metric strong { font-size: 25px; }
+@media (orientation: landscape) and (max-height: 370px) {
+  html.pwa-orientation-armed .bottom-nav .nav-item .lab { font-size: 9px; }
+  html.pwa-orientation-armed .topbar { padding: 0 15px; }
+  html.pwa-orientation-armed .content { padding: 23px 13px 24px; }
+  html.pwa-orientation-armed .metric { padding: 10px; }
+  html.pwa-orientation-armed .metric strong { font-size: 25px; }
 }

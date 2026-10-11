@@ -1,5 +1,5 @@
 /* Prévisualisation Ch’ange Pro — offline limité à l'interface statique, sans données clients. */
-const CACHE = 'change-pro-preview-shell-v3';
+const CACHE = 'change-pro-preview-shell-v4';
 const ROOT = '/change-beauty-pages/pro-preview/';
 const SHELL = [ROOT, ROOT+'index.html', ROOT+'style.css', ROOT+'orientation.css', ROOT+'orientation.js', ROOT+'app.js', ROOT+'icon.svg', ROOT+'manifest.webmanifest'];
 self.addEventListener('install', event => {
