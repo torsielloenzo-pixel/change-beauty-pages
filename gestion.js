@@ -25,8 +25,11 @@ const done=({error,data})=>{if(error)throw error;return data};
 async function currentIdentity(){
   const {data:{user:u},error}=await sb.auth.getUser();
   if(error||!u)throw Error('Votre session a expiré. Connectez-vous à nouveau.');
-  const {data:p,error:pe}=await sb.from('staff_profiles').select('id,display_name,role,active').eq('id',u.id).single();
-  if(pe||!p?.active||!['administrateur','gerant'].includes(p.role))throw Error('Compte non autorisé ou désactivé.');
+  const {data:r,error:re}=await sb.from('user_roles').select('establishment_id,staff_id,role,is_enabled').eq('user_id',u.id).eq('is_enabled',true).maybeSingle();
+  if(re||!r||!['owner','manager'].includes(r.role)||!r.staff_id)throw Error('Compte non autorisé ou désactivé.');
+  const {data:s,error:se}=await sb.from('staff').select('display_name,is_active,establishment_id').eq('id',r.staff_id).eq('establishment_id',r.establishment_id).single();
+  if(se||!s?.is_active)throw Error('Fiche professionnelle inactive ou introuvable.');
+  const p={id:u.id,display_name:s.display_name,role:r.role==='owner'?'administrateur':'gerant',active:true,establishment_id:r.establishment_id};
   return {u,p};
 }
 async function boot(){
@@ -117,11 +120,14 @@ async function fetchModules(){state.modules=done(await sb.from('site_modules').s
 function filterModules(){const slug=$('module-page-filter').value;const arr=state.modules.filter(x=>!slug||x.page_slug===slug);
   $('modules-list').innerHTML=arr.length?arr.map(m=>`<div class="module-line"><div><strong>${safe(m.title||'Section sans titre')}</strong><small>${safe(m.page_slug)} · ${safe(m.module_type)} · position ${safe(m.sort_order)} · ${m.published?'Publié':'Brouillon'}</small></div><button class="small-button" data-edit-module="${safe(m.id)}">Éditer</button></div>`).join(''):'<p class="empty">Aucun module enregistré pour cette page.</p>';
 }
-async function renderAccounts(){requireAdmin();state.profiles=done(await sb.from('staff_profiles').select('id,display_name,role,active,created_at').order('created_at'));
+async function renderAccounts(){requireAdmin();const roles=done(await sb.from('user_roles').select('user_id,staff_id,role,is_enabled,created_at').eq('establishment_id',estId).order('created_at'));
+  const staff=done(await sb.from('staff').select('id,display_name,is_active').eq('establishment_id',estId));
+  const byId=new Map(staff.map(x=>[x.id,x]));
+  state.profiles=roles.map(r=>{const s=byId.get(r.staff_id);return {id:r.user_id,display_name:s?.display_name||'Compte',role:r.role==='owner'?'administrateur':r.role==='manager'?'gerant':'inconnu',active:Boolean(r.is_enabled&&s?.is_active),created_at:r.created_at}});
   $('accounts-table').innerHTML=state.profiles.length?state.profiles.map(p=>`<tr><td><strong>${safe(p.display_name||'Compte')}</strong>${p.id===user.id?' <span class="pill">Vous</span>':''}</td><td>${safe(p.role==='administrateur'?'Administrateur':p.role==='gerant'?'Gérant':'En attente')}</td><td>${p.active?'<span class="pill green">Actif</span>':'<span class="pill red">Désactivé</span>'}</td><td><button class="small-button" data-edit-account="${safe(p.id)}">Modifier</button></td></tr>`).join(''):'<tr><td colspan="4">Aucun compte enregistré.</td></tr>';
 }
 async function renderDatabase(){requireAdmin();
-  const tables=['appointments','customers','services','staff_profiles','site_pages','site_modules'];
+  const tables=['appointments','customers','services','staff','user_roles','site_pages','site_modules'];
   const counts=await Promise.all(tables.map(table=>sb.from(table).select('*',{count:'exact',head:true})));
   counts.forEach((x,i)=>{if(x.error)throw Error(tables[i]+': '+x.error.message)});
   $('db-stats').innerHTML=counts.map((x,i)=>`<div class="metric"><small>${safe(tables[i])}</small><strong>${safe(x.count??0)}</strong></div>`).join('');
