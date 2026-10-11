@@ -9,7 +9,7 @@
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./gestion.css">
+<link rel="stylesheet" href="./gestion.css"><link rel="stylesheet" href="./analytics-dashboard.css">
 </head>
 <body>
 <a class="skip" href="#workspace">Aller au contenu</a>
@@ -52,6 +52,7 @@
    <button type="button" data-view="appointments" class="nav-item">▦ <span>Rendez-vous</span></button>
    <button type="button" data-view="clients" class="nav-item">♡ <span>Clientèle</span></button>
    <button type="button" data-view="services" class="nav-item">✳ <span>Prestations</span></button>
+   <button type="button" data-view="analytics" class="nav-item" hidden>▥ <span>Visibilité & résultats</span></button>
    <div class="sidebar-label admin-only" hidden>ÉDITION & ADMINISTRATION</div>
    <button type="button" data-view="site" class="nav-item admin-only" hidden>◈ <span>Site et pages</span></button>
    <button type="button" data-view="tarifs" class="nav-item admin-only" hidden>€ <span>Tarifs</span></button>
@@ -69,7 +70,41 @@
     <div class="panel-heading"><div><span class="eyebrow">AUJOURD’HUI · CH’ANGE</span><h1>Vue d’ensemble <em>de l’institut.</em></h1><p>Votre activité à jour, directement depuis la base de données.</p></div><button class="primary" data-view="appointments">+ Nouveau rendez-vous</button></div>
     <div class="stats" id="stats"></div><div class="dash-columns"><div class="surface"><div class="surface-heading"><h2>Les prochains rendez-vous</h2><button class="link-button" data-view="appointments">Voir l’agenda →</button></div><div id="upcoming-appointments"></div></div><div class="surface welcome-note"><span class="eyebrow">VOTRE ESPACE</span><h2>Une gestion aussi douce que votre univers.</h2><p>Vos informations professionnelles restent réservées à l’équipe autorisée. Les mises à jour du site sont distinctes du suivi des rendez-vous.</p></div></div>
    </section>
-   <section class="panel-view" data-panel="appointments" hidden>
+   
+<section class="panel-view" data-panel="analytics" hidden>
+  <div class="panel-heading"><div><span class="eyebrow">SUIVI DES PERFORMANCES</span><h1>Visibilité & <em>résultats.</em></h1><p>Comprendre ce qui attire les visiteurs, les contacts et les rendez-vous enregistrés.</p></div><button type="button" class="secondary" id="an-refresh">↻ Actualiser</button></div>
+  <div class="an-toolbar"><label>Période <select id="an-period"><option value="3">3 derniers mois</option><option value="6" selected>6 derniers mois</option><option value="12">12 derniers mois</option></select></label>
+   <label>Indicateur <select id="an-metric">
+    <option value="sc_clicks">Clics Google Search</option><option value="sc_impressions">Impressions Google Search</option>
+    <option value="bp_website_clicks">Clics site – fiche Google</option><option value="bp_call_clicks">Clics Appeler – fiche Google</option><option value="bp_direction_requests">Demandes d’itinéraire – fiche Google</option>
+    <option value="site_appointment_intent">Clics Prendre rendez-vous – site</option><option value="site_email_click">Clics e-mail – site</option><option value="site_phone_click">Clics téléphone – site</option>
+    <option value="site_directions_click">Clics itinéraire – site</option><option value="appointments_created">Rendez-vous enregistrés</option>
+   </select></label>
+  </div>
+  <div id="an-stats" class="an-stats" aria-live="polite"></div>
+  <section class="surface an-chart-surface"><div class="surface-heading"><div><span class="eyebrow">ÉVOLUTION MENSUELLE</span><h2 id="an-chart-heading">Évolution des résultats</h2></div><span class="an-label" id="an-chart-source"></span></div>
+    <div id="an-chart-area" class="an-chart-area" role="img" aria-label="Graphique de performance mensuelle"></div><p class="an-note" id="an-chart-note"></p>
+  </section>
+  <div class="an-grid">
+    <section class="surface"><span class="eyebrow">GOOGLE SEARCH CONSOLE</span><h2>Recherche Google</h2><p id="an-sc-status" class="an-source-status"></p><p class="an-note">Impressions, clics et recherches. Les relevés importés ne signifient pas une connexion automatique à Google.</p><a class="an-text-link" href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer">Ouvrir Search Console ↗</a></section>
+    <section class="surface"><span class="eyebrow">GOOGLE BUSINESS PROFILE</span><h2>Fiche établissement</h2><p id="an-bp-status" class="an-source-status"></p><p class="an-note">Clics vers le site, sur « Appeler » et demandes d’itinéraire. Un clic sur « Appeler » ne garantit pas un appel abouti.</p><a class="an-text-link" href="https://business.google.com/" target="_blank" rel="noopener noreferrer">Ouvrir la fiche Google ↗</a></section>
+    <section class="surface"><span class="eyebrow">SITE CH’ANGE</span><h2>Contacts & réservations</h2><p id="an-site-status" class="an-source-status"></p><p class="an-note">Clics de contact anonymes, agrégés, et rendez-vous issus de l’agenda. Les intentions de contact ne sont pas des conversions confirmées.</p></section>
+  </div>
+  <div class="an-grid an-bottom">
+    <section class="surface"><div class="surface-heading"><h2>Requêtes de recherche</h2><span class="an-label">Données importées</span></div><div id="an-queries" class="an-query-list"></div></section>
+    <section class="surface"><span class="eyebrow">DONNÉES GOOGLE</span><h2>Importer un relevé</h2><p class="an-note">La connexion automatique nécessitera les autorisations Google. En attendant, vous pouvez importer des exports CSV sans créer de chiffres fictifs.</p>
+     <form id="an-import-form" class="an-import-form">
+      <label>Source <select id="an-import-type" required><option value="search_console">Search Console – dates, clics, impressions</option><option value="business_profile">Fiche Google – appels, itinéraires, clics site</option><option value="queries">Search Console – requêtes</option></select></label>
+      <label id="an-report-month-wrap" hidden>Mois concerné <input type="month" id="an-report-month"></label>
+      <label>Fichier CSV <input type="file" id="an-import-file" accept=".csv,text/csv,text/plain" required></label>
+      <div class="an-actions"><button type="submit" class="primary" id="an-import-submit">Importer les données</button><button type="button" class="secondary" id="an-template">Modèle CSV</button></div>
+     </form>
+     <p class="an-note" id="an-import-status" role="status" aria-live="polite"></p>
+    </section>
+  </div>
+  <p class="an-bottom-note">Google : données disponibles seulement après import autorisé ; les graphiques restent vides tant qu’aucun relevé n’existe. Site : comptage anonyme des clics sans identifiant visiteur, possiblement affecté par les clics répétés et les robots. Réservations : données réelles de Supabase. Aucune connexion Google automatique n’est encore active.</p>
+</section>
+<section class="panel-view" data-panel="appointments" hidden>
     <div class="panel-heading"><div><span class="eyebrow">GESTION QUOTIDIENNE</span><h1>Rendez-<em>vous.</em></h1><p>Créer, déplacer, confirmer ou annuler un rendez-vous.</p></div><button class="primary" id="new-appointment">+ Créer un rendez-vous</button></div>
     <div class="surface"><div class="toolbar"><label>À partir du <input type="date" id="appointment-filter"></label><label>État <select id="appointment-status-filter"><option value="">Tous</option><option value="confirmed">Confirmé</option><option value="pending">En attente</option><option value="in_progress">En cours</option><option value="completed">Terminé</option><option value="cancelled">Annulé</option><option value="no_show">Absent</option></select></label><button class="secondary" id="reload-appointments">Actualiser</button></div><div class="table-scroll"><table><thead><tr><th>Début</th><th>Client</th><th>Prestation</th><th>Équipe</th><th>Statut</th><th>Action</th></tr></thead><tbody id="appointments-table"></tbody></table></div></div>
    </section>
@@ -91,5 +126,5 @@
 <dialog id="edit-dialog"><form id="edit-form" class="form-grid"><div class="dialog-head"><div><span id="dialog-eyebrow" class="eyebrow">ÉDITION</span><h2 id="dialog-title">Modifier</h2></div><button type="button" id="dialog-close" class="icon-button" aria-label="Fermer">×</button></div><div id="dialog-fields" class="form-grid"></div><p id="dialog-error" role="alert" class="form-error"></p><div class="dialog-actions"><button type="button" class="secondary" id="dialog-cancel">Annuler</button><button class="primary" id="dialog-save" type="submit">Enregistrer</button></div></form></dialog>
 <script src="./supabase-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.74.0" defer></script>
-<script src="./gestion.js" defer></script>
+<script src="./analytics-dashboard.js" defer></script><script src="./gestion.js" defer></script>
 </body></html>

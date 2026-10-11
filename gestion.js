@@ -4,9 +4,9 @@
 'use strict';
 const $=id=>document.getElementById(id);
 const conf=window.CHANGE_SUPABASE||{};
-const allowedViews=['dashboard','appointments','clients','services','tarifs','site','modules','accounts','database'];
+const allowedViews=['dashboard','appointments','clients','services','analytics','tarifs','site','modules','accounts','database'];
 const adminViews=new Set(['tarifs','site','modules','accounts','database']);
-const labels={dashboard:'Vue d’ensemble',appointments:'Rendez-vous',clients:'Clientèle',services:'Prestations',tarifs:'Tarifs',site:'Site et pages',modules:'Modules & médias',accounts:'Comptes et accès',database:'Base de données'};
+const labels={dashboard:'Vue d’ensemble',appointments:'Rendez-vous',clients:'Clientèle',services:'Prestations',analytics:'Visibilité & résultats',tarifs:'Tarifs',site:'Site et pages',modules:'Modules & médias',accounts:'Comptes et accès',database:'Base de données'};
 const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmtTime=s=>s?new Date(s).toLocaleString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'—';
 const fmtDate=s=>s?new Date(s).toLocaleDateString('fr-FR'):'—';
@@ -40,6 +40,7 @@ async function boot(){
     if(ee||!e)throw Error('Établissement Ch’ange introuvable.');estId=e.id;
     $('auth-view').hidden=true;$('app-view').hidden=false;
     document.querySelectorAll('.admin-only').forEach(el=>{el.hidden=p.role!=='administrateur'});
+    document.querySelectorAll('[data-view="analytics"]').forEach(el=>{el.hidden=!['administrateur','gerant'].includes(p.role)});
     $('account-chip').textContent=(p.display_name||u.email||'Compte')+' · '+(p.role==='administrateur'?'Administrateur':'Gérant');
     await navigate(currentView);
   }catch(e){showLogin();authStatus(e.message||'Connexion nécessaire.');}
@@ -54,7 +55,7 @@ async function navigate(view){
   try{
     const id=await currentIdentity();user=id.u;profile=id.p;
     if(adminViews.has(view))requireAdmin();
-    await ({dashboard:renderDashboard,appointments:renderAppointments,clients:renderClients,services:renderServices,tarifs:renderTarifs,site:renderSite,modules:renderModules,accounts:renderAccounts,database:renderDatabase}[view])();
+    await ({dashboard:renderDashboard,appointments:renderAppointments,clients:renderClients,services:renderServices,analytics:()=>window.CHANGE_ANALYTICS.render(sb,estId,profile),tarifs:renderTarifs,site:renderSite,modules:renderModules,accounts:renderAccounts,database:renderDatabase}[view])();
   }catch(e){if(String(e.message||'').includes('autorisé')||String(e.message||'').includes('session')){showLogin();authStatus(e.message)}else notify(e.message||'Chargement impossible',true)}
 }
 async function fetchClients(){
