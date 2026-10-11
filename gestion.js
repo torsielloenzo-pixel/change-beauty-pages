@@ -101,7 +101,22 @@ function filterClientList(){
   const clients=state.clients.filter(x=>[x.full_name,x.phone,x.email].some(v=>String(v||'').toLocaleLowerCase('fr').includes(q)));
   $('clients-table').innerHTML=clients.length?clients.map(c=>`<tr><td><strong>${safe(c.full_name)}</strong></td><td>${safe(c.phone)}</td><td>${safe(c.email)}</td><td>${safe(fmtDate(c.created_at))}</td><td><button class="small-button" data-edit-client="${safe(c.id)}">Modifier</button></td></tr>`).join(''):'<tr><td class="empty" colspan="5">Aucun client trouvé.</td></tr>';
 }
-async function renderServices(){await fetchServices();$('services-table').innerHTML=state.services.length?state.services.map(s=>`<tr><td><strong>${safe(s.name)}</strong></td><td>${safe(s.category)}</td><td>${safe(s.duration_min)} min</td><td>${safe(Number(s.price_eur).toFixed(2)+' €')}</td><td>${s.published?'<span class="pill green">Publié</span>':'<span class="pill grey">Brouillon</span>'}</td><td><button class="small-button" data-edit-service="${safe(s.id)}">Modifier</button> <button class="small-button" data-skill-service="${safe(s.id)}">Qualifications</button></td></tr>`).join(''):'<tr><td class="empty" colspan="6">Aucune prestation enregistrée.</td></tr>'}
+async function renderServices(){
+ await fetchServices();
+ const ordered=[...state.services].sort((a,b)=>a.price_cents-b.price_cents||a.category.localeCompare(b.category,'fr')||a.name.localeCompare(b.name,'fr'));
+ $('services-table').innerHTML=ordered.length?ordered.map(s=>{
+  const isPackage=s.offer_type==='Cure';
+  const active=Boolean(s.is_active);
+  const duration=s.duration_minutes===null||s.duration_minutes===undefined?'Durée à confirmer':s.duration_minutes+' min';
+  const schedule=isPackage?(s.session_count?s.session_count+' séances':'Cure')+' · '+(s.duration_minutes?duration+' / séance':duration):duration;
+  const mode=isPackage?'<span class="pill grey">Cure / forfait</span>':'<span class="pill green">Séance</span>';
+  const origin=s.catalog_id?'<span class="pill">Lié aux tarifs</span>':'<span class="pill grey">Prestation interne</span>';
+  const details=s.description?'<details class="service-info"><summary>Voir la description</summary><p>'+safe(s.description)+'</p></details>':'';
+  const editTariff=s.catalog_id&&profile?.role==='administrateur'?'<button class="small-button" data-open-price="'+safe(s.catalog_id)+'">Tarif</button> ':'';
+  const skills=!isPackage&&Number.isInteger(s.duration_minutes)?'<button class="small-button" data-skill-service="'+safe(s.id)+'">Qualifications</button>':'';
+  return '<tr><td><strong>'+safe(s.name)+'</strong>'+details+'</td><td>'+safe(s.category)+'</td><td>'+safe(schedule)+'</td><td><strong>'+safe(euro(s.price_cents))+'</strong></td><td>'+mode+' '+origin+'<small style="display:block;margin-top:6px;color:#8e7b71">'+(active?'Actif':'Masqué / inactif')+'</small></td><td>'+editTariff+'<button class="small-button" data-edit-service="'+safe(s.id)+'">Agenda</button> '+skills+'</td></tr>';
+ }).join(''):'<tr><td class="empty" colspan="6">Aucune prestation enregistrée.</td></tr>';
+}
 
 const tariffCats=['Drainage lymphatique','Regard & sourcils','Soins du visage','Beauté des pieds','Gommages corps'];
 const euro=c=>(Number(c)/100).toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
@@ -193,10 +208,24 @@ function editClient(item){modal(item?'Modifier une fiche client':'Nouvelle fiche
  const phone=val(f,'phone'),email=val(f,'email');if(!phone&&!email)throw Error('Téléphone ou e-mail nécessaire pour la fiche client.');
  await formSave('customers',{establishment_id:estId,first_name:val(f,'first_name'),last_name:val(f,'last_name')||null,phone:phone||null,email:email||null},item?.id);await renderClients();
 });}
-function editService(item){modal(item?'Modifier une prestation':'Nouvelle prestation',[
+function editService(item){
+ if(item?.catalog_id){
+  modal('Paramètres agenda · '+item.name,[
+   {name:'preparation_minutes',label:'Préparation (minutes)',type:'number',value:item.preparation_minutes??0,min:0,max:180},
+   {name:'cleanup_minutes',label:'Rangement (minutes)',type:'number',value:item.cleanup_minutes??0,min:0,max:180},
+   {name:'required_resource_kind',label:'Ressource nécessaire',type:'select',value:item.required_resource_kind||'',options:[['','Aucune'],['cabin','Cabine'],['nail_station','Poste manucure'],['equipment','Équipement'],['other','Autre']]}
+  ],async f=>{
+   const before=Number(val(f,'preparation_minutes')),after=Number(val(f,'cleanup_minutes'));
+   if(!Number.isInteger(before)||before<0||before>180||!Number.isInteger(after)||after<0||after>180)throw Error('Durée de préparation / rangement non valide.');
+   await formSave('services',{preparation_minutes:before,cleanup_minutes:after,required_resource_kind:val(f,'required_resource_kind')||null},item.id);
+   await renderServices();
+  });
+  return;
+ }
+ modal(item?'Modifier une prestation':'Nouvelle prestation',[
  {name:'name',label:'Nom de la prestation',required:true,value:item?.name},
  {name:'category',label:'Catégorie',required:true,value:item?.category||'Visage'},
- {name:'duration_min',label:'Durée (minutes)',type:'number',required:true,value:item?.duration_min||60,min:5,max:720},
+ {name:'duration_min',label:'Durée (minutes)',type:'number',required:true,value:item?.duration_min??60,min:5,max:720},
  {name:'price_eur',label:'Tarif en euros (obligatoire)',type:'number',required:true,step:'0.01',min:0,value:item?.price_eur??''},
  {name:'description',label:'Description',type:'textarea',value:item?.description},
  {name:'published',label:'Afficher cette prestation sur le site',type:'checkbox',value:item?.published||false}
@@ -221,17 +250,24 @@ function editAppointment(item){
  if(!state.clients.length)return notify('Ajoutez d’abord un client.',true);
  if(!state.services.length)return notify('Ajoutez d’abord une prestation.',true);
  const initial=item?.start_at?dateInput(item.start_at):dateInput(new Date(Date.now()+3600000));
- const available=state.staff.filter(s=>state.skills.some(k=>k.staff_id===s.id&&k.service_id===(item?.service_id||state.services[0].id)));
+ const bookable=state.services.filter(s=>s.is_active&&s.offer_type!=='Cure'&&Number.isInteger(s.duration_minutes)&&s.duration_minutes>=5);
+ if(item&&!bookable.some(s=>s.id===item.service_id)){
+  const original=state.services.find(s=>s.id===item.service_id);
+  if(original&&original.offer_type!=='Cure'&&Number.isInteger(original.duration_minutes))bookable.push(original);
+ }
+ if(!bookable.length)return notify('Aucune prestation à la séance avec une durée renseignée. Une cure de plusieurs séances ne peut pas être réservée en un seul créneau.',true);
+ const selectedId=item?.service_id&&bookable.some(s=>s.id===item.service_id)?item.service_id:bookable[0].id;
+ const available=state.staff.filter(s=>state.skills.some(k=>k.staff_id===s.id&&k.service_id===selectedId));
  modal(item?'Modifier un rendez-vous':'Nouveau rendez-vous',[
   {name:'client_id',label:'Client',type:'select',required:true,value:item?.client_id,options:state.clients.map(x=>[x.id,x.full_name])},
-  {name:'service_id',label:'Prestation',type:'select',required:true,value:item?.service_id||state.services[0].id,options:state.services.map(x=>[x.id,x.name])},
+  {name:'service_id',label:'Prestation',type:'select',required:true,value:selectedId,options:bookable.map(x=>[x.id,x.name])},
   {name:'staff_id',label:'Professionnel habilité',type:'select',required:true,value:item?.staff_id||'',options:available.map(s=>[s.id,s.display_name])},
   {name:'start_at',label:'Date et heure',type:'datetime-local',required:true,value:initial},
   {name:'status',label:'Statut',type:'select',value:item?.status||'confirmed',options:[['pending','En attente'],['confirmed','Confirmé'],['in_progress','En cours'],['completed','Terminé'],['cancelled','Annulé'],['no_show','Absent']]},
   {name:'notes',label:'Notes internes protégées',type:'textarea',value:item?.notes||''}
  ],async f=>{
   const start=new Date(val(f,'start_at'));const selected=state.services.find(x=>x.id===val(f,'service_id'));
-  const sid=val(f,'staff_id');if(!selected||!sid||!state.skills.some(x=>x.staff_id===sid&&x.service_id===selected.id))
+  const sid=val(f,'staff_id');if(!selected||selected.offer_type==='Cure'||!Number.isInteger(selected.duration_minutes)||!sid||!state.skills.some(x=>x.staff_id===sid&&x.service_id===selected.id))
    throw Error('Le professionnel doit être habilité à cette prestation (bouton Qualifications).');
   if(!Number.isFinite(start.getTime()))throw Error('Date du rendez-vous invalide.');
   const before=selected.preparation_minutes||0,after=selected.cleanup_minutes||0;
@@ -317,10 +353,15 @@ function wire(){
  $('page-form').addEventListener('submit',savePage);$('page-slug').addEventListener('change',e=>fillPageForm(e.target.value));
  $('module-page-filter').addEventListener('change',filterModules);$('reload-modules').addEventListener('click',renderModules);$('reload-database').addEventListener('click',renderDatabase);
  $('edit-form').addEventListener('submit',submitModal);$('dialog-close').addEventListener('click',()=>$('edit-dialog').close());$('dialog-cancel').addEventListener('click',()=>$('edit-dialog').close());
- document.addEventListener('click',e=>{
+ document.addEventListener('click',async e=>{
   const btn=e.target.closest('button');if(!btn)return;
   if(btn.dataset.editClient)editClient(state.clients.find(x=>x.id===btn.dataset.editClient));
   if(btn.dataset.editService)editService(state.services.find(x=>x.id===btn.dataset.editService));
+  if(btn.dataset.openPrice&&profile?.role==='administrateur'){
+    await navigate('tarifs');
+    const tariff=state.prices.find(x=>x.id===btn.dataset.openPrice);
+    if(tariff)editPrice(tariff);
+  }
   if(btn.dataset.editAppointment)editAppointment(state.appointments.find(x=>x.id===btn.dataset.editAppointment));
   if(btn.dataset.editModule)editModule(state.modules.find(x=>x.id===btn.dataset.editModule));
    if(btn.dataset.priceEdit)editPrice(state.prices.find(x=>x.id===btn.dataset.priceEdit));
