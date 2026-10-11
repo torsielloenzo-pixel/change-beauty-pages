@@ -35,13 +35,20 @@
   let frame = 0;
   let settleOne = 0;
   let settleTwo = 0;
+  let pendingCacheWrite = 0;
   let previousSide = geometry?.side || 90;
   const persist = (pw, ph, side = previousSide) => {
     if (pw < 240 || ph < pw || ph > 1600) return;
     const data = { screenMin: deviceWidth(), pw, ph, side };
+    // Ne jamais faire d'écriture synchrone dans le chemin critique du rendu.
+    if (geometry?.screenMin === data.screenMin && geometry?.pw === data.pw &&
+        geometry?.ph === data.ph && geometry?.side === data.side) return;
     geometry = data;
-    try { window.sessionStorage?.setItem(STORAGE_KEY, JSON.stringify(data)); }
-    catch (_) {}
+    clearTimeout(pendingCacheWrite);
+    pendingCacheWrite = setTimeout(() => {
+      try { window.sessionStorage?.setItem(STORAGE_KEY, JSON.stringify(data)); }
+      catch (_) {}
+    }, 180);
   };
   const angleCandidates = () => [
     normalize(typeof window.orientation === 'number' ? window.orientation : NaN),
@@ -70,20 +77,23 @@
   const update = () => {
     if (!installed() || !phone()) { reset(); return; }
 
-    // Armer un calque de composition GPU même en portrait. Le CSS media-query
-    // paysage peut alors intervenir AVANT le prochain événement JS.
-    root.classList.add('pwa-orientation-armed');
-
+    // Lire les dimensions AVANT d'ajouter les classes CSS, sinon certaines
+    // versions de WebKit peuvent déclencher un recalcul de layout forcé.
     const w = window.innerWidth;
     const h = window.innerHeight;
     const portraitAngle = readOrientation(false);
+    const hasLandscapeAngle = angleCandidates().some(a => a === 90 || a === 270);
+
+    // Armer le calque GPU même en portrait : CSS peut ensuite intervenir
+    // immédiatement lors de la rotation, avant le prochain événement JS.
+    root.classList.add('pwa-orientation-armed');
     let landscape = w > h;
 
     // L'ouverture d'un clavier virtuel peut réduire la hauteur visible
     // sans que l'utilisateur ait physiquement tourné son iPhone.
     // Ne jamais traiter ce cas comme une vraie rotation.
-    if (keyboardOpen() && !last?.landscape &&
-        landscape && (portraitAngle === 0 || portraitAngle === 180)) {
+    if (keyboardOpen() && !last?.landscape && landscape &&
+        !hasLandscapeAngle && (portraitAngle === 0 || portraitAngle === 180)) {
       landscape = false;
     }
 
