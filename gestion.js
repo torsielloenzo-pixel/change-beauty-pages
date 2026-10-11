@@ -338,23 +338,53 @@ async function editModule(item){requireAdmin();if(state.pages.length===0)await f
   await renderModules();
  });
 }
-function editAccount(item){requireAdmin();if(!item?.role)return notify('Ce compte attend son activation initiale.',true);
- modal('Modifier les accès',[
- {name:'role',label:'Rôle',type:'select',value:item.role,options:[['administrateur','Administrateur'],['gerant','Gérant']]},
+function editAccount(item){
+ requireAdmin();if(!item?.id)return notify('Compte introuvable.',true);
+ modal('Modifier un compte',[
+ {name:'display_name',label:'Nom',required:true,value:item.display_name},
+ {name:'email',label:'Adresse e-mail',type:'email',required:true,value:item.email},
+ {name:'phone',label:'Téléphone',type:'tel',value:item.phone},
+ {name:'role',label:'Rôle',type:'select',value:item.role,options:[['administrateur','Administrateur'],['gerant','Gestion'],['collaborateur','Collaborateur']]},
  {name:'active',label:'Compte actif',type:'checkbox',value:item.active}
  ],async f=>{
-  await staffRequest({action:'update',id:item.id,role:val(f,'role'),active:checked(f,'active')});await renderAccounts();
+ const r=await staffRequest({action:'update',id:item.id,display_name:val(f,'display_name'),email:val(f,'email'),
+  phone:val(f,'phone'),role:val(f,'role'),active:checked(f,'active')});
+ await renderAccounts();notify(r.message||'Compte modifié.');
  });
 }
-function invite(){requireAdmin();modal('Inviter un membre',[
- {name:'display_name',label:'Nom d’affichage',required:true},
- {name:'email',label:'Adresse e-mail personnelle de connexion',type:'email',required:true},
- {name:'role',label:'Rôle attribué',type:'select',value:'gerant',options:[['gerant','Gérant'],['administrateur','Administrateur']]}
+function invite(draft){
+ requireAdmin();
+ modal(draft?'Inviter · '+draft.display_name:'Créer / inviter un compte',[
+ {name:'display_name',label:'Nom',required:true,value:draft?.display_name||''},
+ {name:'email',label:'E-mail de connexion',type:'email',required:true,value:draft?.email||''},
+ {name:'phone',label:'Téléphone',type:'tel',value:draft?.phone||''},
+ {name:'role',label:'Rôle',type:'select',value:draft?.requested_role==='staff'?'collaborateur':draft?.requested_role==='owner'?'administrateur':'gerant',
+ options:[['gerant','Gestion'],['collaborateur','Collaborateur'],['administrateur','Administrateur']]}
  ],async f=>{
-  const response=await staffRequest({action:'invite',display_name:val(f,'display_name'),email:val(f,'email'),role:val(f,'role')});await renderAccounts();notify(response.message||'Invitation envoyée');
- });}
-async function staffRequest(body){requireAdmin();await currentIdentity();const {data,error}=await sb.functions.invoke('manage-staff',{body});
- if(error)throw new Error(data?.message||error.message||'Opération impossible');return data||{};
+ const r=await staffRequest({action:'invite',display_name:val(f,'display_name'),email:val(f,'email'),
+ phone:val(f,'phone'),role:val(f,'role')});
+ await renderAccounts();notify(r.message||'Invitation envoyée.');
+ });
+}
+async function staffRequest(body){
+ requireAdmin();await currentIdentity();
+ const {data,error}=await sb.functions.invoke('manage-staff',{body});
+ if(error){
+   let detailed='';
+   try{if(error.context&&typeof error.context.json==='function'){
+     const payload=await error.context.json();
+     detailed=payload?.message||'';
+   }}catch{}
+   throw Error(detailed||data?.message||error.message||'Erreur serveur.');
+ }
+ return data||{};
+}
+async function deleteAccount(item){
+ requireAdmin();
+ if(!item||item.id===user.id)return notify('Suppression de votre propre compte interdite.',true);
+ if(!window.confirm('Supprimer le compte de '+item.display_name+' ? Cette action supprime son accès et conserve les archives de rendez-vous.'))return;
+ try{const r=await staffRequest({action:'delete',id:item.id});await renderAccounts();notify(r.message||'Compte supprimé.');}
+ catch(e){notify(e.message||'Suppression impossible.',true)}
 }
 async function submitModal(event){event.preventDefault();if(!modalHandler)return;const f=event.currentTarget;const btn=$('dialog-save');btn.disabled=true;$('dialog-error').textContent='';try{await modalHandler(f);$('edit-dialog').close();notify('Enregistrement effectué.')}catch(e){$('dialog-error').textContent=e.message||'Enregistrement impossible'}finally{btn.disabled=false}}
 async function savePage(event){event.preventDefault();requireAdmin();await currentIdentity();const f=event.currentTarget;const slug=val(f,'slug');const image=val(f,'hero_image_url');if(image&&!/^https:\/\//i.test(image))return notify('L’image doit utiliser HTTPS.',true);
@@ -376,7 +406,7 @@ function wire(){
  $('new-client').addEventListener('click',()=>editClient(null));$('new-service').addEventListener('click',()=>editService(null));
  $('new-appointment').addEventListener('click',()=>editAppointment(null));$('price-add').addEventListener('click',()=>editPrice(null));$('price-category').addEventListener('change',filterPriceAdmin);
  $('new-module').addEventListener('click',()=>editModule(null));
- $('new-invite').addEventListener('click',invite);
+ $('new-invite').addEventListener('click',()=>invite());
  $('appointment-filter').value=dateLocal();$('appointment-filter').addEventListener('change',renderAppointments);$('appointment-status-filter').addEventListener('change',renderAppointments);$('reload-appointments').addEventListener('click',renderAppointments);
  $('client-search').addEventListener('input',filterClientList);
  $('page-form').addEventListener('submit',savePage);$('page-slug').addEventListener('change',e=>fillPageForm(e.target.value));
@@ -395,6 +425,8 @@ function wire(){
   if(btn.dataset.editModule)editModule(state.modules.find(x=>x.id===btn.dataset.editModule));
    if(btn.dataset.priceEdit)editPrice(state.prices.find(x=>x.id===btn.dataset.priceEdit));
   if(btn.dataset.editAccount)editAccount(state.profiles.find(x=>x.id===btn.dataset.editAccount));
+  if(btn.dataset.pendingInvite)invite(state.pendingInvites.find(x=>x.id===btn.dataset.pendingInvite));
+  if(btn.dataset.deleteAccount)await deleteAccount(state.profiles.find(x=>x.id===btn.dataset.deleteAccount));
   if(btn.dataset.skillService)editSkill(state.services.find(x=>x.id===btn.dataset.skillService));
   if(btn.dataset.pageChoice)fillPageForm(btn.dataset.pageChoice);
  });
