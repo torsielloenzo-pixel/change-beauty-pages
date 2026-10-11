@@ -7,6 +7,7 @@
   bp_website_clicks:['Clics vers le site depuis Google','Fiche établissement'],
   bp_call_clicks:['Clics sur Appeler','Fiche établissement'],
   bp_direction_requests:['Demandes d’itinéraire','Fiche établissement'],
+  site_page_view:['Pages consultées (non uniques)','Site Ch’ange'],
   site_appointment_intent:['Clics Prendre rendez-vous','Site Ch’ange'],
   site_email_click:['Clics sur l’e-mail','Site Ch’ange'],
   site_phone_click:['Clics sur le téléphone','Site Ch’ange'],
@@ -53,7 +54,7 @@
   $('an-chart-source').textContent=metrics[key][1];
   const area=$('an-chart-area');area.replaceChildren();
   if(!sourceHasData){
-   area.append(text('p',key.startsWith('site_')?'Aucune interaction comptabilisée pour le moment. Le suivi débute maintenant.':'Aucun relevé pour cette source. Importez un export CSV pour afficher une évolution réelle.','an-empty'));
+   area.append(text('p',key.startsWith('site_')?'Aucune consultation ou interaction comptabilisée pour le moment. Le suivi débute maintenant.':'Aucun relevé pour cette source. Importez un export CSV pour afficher une évolution réelle.','an-empty'));
    $('an-chart-note').textContent='Aucune série fictive n’est affichée.';return;
   }
   const W=880,H=285,left=55,right=18,top=24,bottom=51;
@@ -88,6 +89,7 @@
   $('an-chart-note').textContent=key.startsWith('sc_')||key.startsWith('bp_')?
     'Source : relevés importés. Pas de connexion Google automatique active.' :
     key==='appointments_created'?'Source : rendez-vous enregistrés dans la base Ch’ange, selon leur date de création.':
+    key==='site_page_view'?'Source : chargements de pages, sans cookie ni identifiant. Ce ne sont pas des visiteurs uniques.':
     'Source : clics enregistrés sur le site, sans identifiant visiteur. Ces clics ne sont pas des contacts aboutis.';
  }
  function renderStats(){
@@ -97,12 +99,13 @@
   const ap=datasets.appointments.filter(a=>(a.created_at||'').slice(0,7)>=from);
   const sc=ex.filter(x=>x.source==='search_console'),bp=ex.filter(x=>x.source==='business_profile');
   const metric=(r,m)=>r.filter(x=>x.metric===m).reduce((n,x)=>n+Number(x.metric_value||0),0);
-  const interactions=site.reduce((n,x)=>n+Number(x.event_count||0),0);
+  const interactions=site.filter(x=>x.event_kind!=='page_view').reduce((n,x)=>n+Number(x.event_count||0),0);
   const sourceCards=[
    ['Clics depuis Google Search',formatCount(metric(sc,'clicks'),sc.length>0),sc.length?'Relevés importés':'Source non connectée'],
    ['Impressions Google',formatCount(metric(sc,'impressions'),sc.length>0),sc.length?'Relevés importés':'Source non connectée'],
    ['Interactions fiche Google',formatCount(bp.reduce((n,x)=>n+Number(x.metric_value||0),0),bp.length>0),bp.length?'Appeler + itinéraires + site':'Source non connectée'],
-   ['Clics de contact sur le site',formatCount(interactions,site.length>0),site.length?'Clics, pas conversions':'Suivi sans donnée pour le moment'],
+   ['Pages consultées',formatCount(site.filter(x=>x.event_kind==='page_view').reduce((n,x)=>n+Number(x.event_count||0),0),site.some(x=>x.event_kind==='page_view')), 'Chargements de pages, non visiteurs uniques'],
+   ['Clics de contact sur le site',formatCount(site.filter(x=>x.event_kind!=='page_view').reduce((n,x)=>n+Number(x.event_count||0),0),site.some(x=>x.event_kind!=='page_view')),'Clics, pas conversions'],
    ['Rendez-vous enregistrés',fr.format(ap.length),'Source : agenda professionnel'],
    ['Rendez-vous créés via le site',fr.format(ap.filter(a=>a.booking_source==='public').length),'Réservation publique non activée']
   ];
