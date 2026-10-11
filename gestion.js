@@ -364,7 +364,8 @@ function invite(draft){
  ],async f=>{
  const r=await staffRequest({action:'invite',display_name:val(f,'display_name'),email:val(f,'email'),
  phone:val(f,'phone'),role:val(f,'role')});
- await renderAccounts();notify(r.message||'Invitation envoyée.');
+ await renderAccounts();notify(r.message||'Invitation enregistrée.');
+ if(r.setup_url){window.prompt('Envoi e-mail indisponible : transmettez ce lien de première connexion en privé à son titulaire.',r.setup_url);}
  });
 }
 async function staffRequest(body){
