@@ -12,10 +12,10 @@ const fmtTime=s=>s?new Date(s).toLocaleString('fr-FR',{day:'2-digit',month:'shor
 const fmtDate=s=>s?new Date(s).toLocaleDateString('fr-FR'):'—';
 const dateLocal=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')};
 const dateInput=s=>{if(!s)return '';const d=new Date(s),p=x=>String(x).padStart(2,'0');return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`};
-const iconPill=(v)=>{const names={confirme:'Confirmé',en_attente:'En attente',termine:'Terminé',annule:'Annulé'};return `<span class="pill ${v==='confirme'?'green':v==='annule'?'red':'grey'}">${safe(names[v]||v)}</span>`};
+const iconPill=(v)=>{const names={confirmed:'Confirmé',pending:'En attente',in_progress:'En cours',completed:'Terminé',cancelled:'Annulé',no_show:'Absent'};return `<span class="pill ${v==='confirmed'?'green':v==='cancelled'?'red':'grey'}">${safe(names[v]||v)}</span>`};
 const configured=/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(conf.url||'') && /^(sb_publishable_|eyJ)/.test(conf.publishableKey||'');
-let sb=null, user=null, profile=null, currentView='dashboard', modalHandler=null;
-let state={clients:[],services:[],appointments:[],profiles:[],pages:[],modules:[]};
+let sb=null, user=null, profile=null, estId=null, currentView='dashboard', modalHandler=null;
+let state={clients:[],services:[],appointments:[],profiles:[],pages:[],modules:[],staff:[],skills:[]};
 const authStatus=m=>{$('login-status').textContent=m||''};
 const notify=(m,isError=false)=>{const v=$('app-alert');v.hidden=false;v.textContent=m;v.style.background=isError?'#fff0e9':'#e8f3e8';v.style.borderColor=isError?'#e2c0b4':'#c1dec2'};
 function showLogin(){user=null;profile=null;$('auth-view').hidden=false;$('app-view').hidden=true;$('login-form').hidden=false;$('password-form').hidden=true;}
@@ -33,6 +33,8 @@ async function boot(){
   if(!sb)return;
   try{
     const {u,p}=await currentIdentity();user=u;profile=p;
+    const {data:e,error:ee}=await sb.from('establishments').select('id').eq('slug','change-beauty-dev').single();
+    if(ee||!e)throw Error('Établissement Ch’ange introuvable.');estId=e.id;
     $('auth-view').hidden=true;$('app-view').hidden=false;
     document.querySelectorAll('.admin-only').forEach(el=>{el.hidden=p.role!=='administrateur'});
     $('account-chip').textContent=(p.display_name||u.email||'Compte')+' · '+(p.role==='administrateur'?'Administrateur':'Gérant');
@@ -52,32 +54,42 @@ async function navigate(view){
     await ({dashboard:renderDashboard,appointments:renderAppointments,clients:renderClients,services:renderServices,site:renderSite,modules:renderModules,accounts:renderAccounts,database:renderDatabase}[view])();
   }catch(e){if(String(e.message||'').includes('autorisé')||String(e.message||'').includes('session')){showLogin();authStatus(e.message)}else notify(e.message||'Chargement impossible',true)}
 }
-async function fetchClients(){state.clients=done(await sb.from('clients').select('*').order('full_name').limit(1000));return state.clients}
-async function fetchServices(){state.services=done(await sb.from('services').select('*').order('sort_order').order('name').limit(500));return state.services}
+async function fetchClients(){
+ const data=done(await sb.from('customers').select('*').order('last_name').limit(1000));
+ state.clients=data.map(c=>({...c,full_name:[c.first_name,c.last_name].filter(Boolean).join(' ')}));return state.clients;
+}
+async function fetchServices(){
+ const data=done(await sb.from('services').select('*').order('name').limit(500));
+ state.services=data.map(v=>({...v,duration_min:v.duration_minutes,price_eur:v.price_cents/100,published:v.is_publicly_bookable}));return state.services;
+}
+async function fetchStaff(){
+ const [people,skills]=await Promise.all([sb.from('staff').select('id,display_name,is_active').eq('establishment_id',estId).order('display_name'),sb.from('staff_skills').select('staff_id,service_id')]);
+ state.staff=done(people).filter(x=>x.is_active);state.skills=done(skills);return state.staff;
+}
 async function fetchAppointments(){
-  const date=$('appointment-filter').value||dateLocal();
-  const after=new Date(date+'T00:00:00');
-  let query=sb.from('appointments').select('*').gte('start_at',after.toISOString()).order('start_at').limit(300);
-  const status=$('appointment-status-filter').value;if(status)query=query.eq('status',status);
-  state.appointments=done(await query);return state.appointments;
+ const date=$('appointment-filter').value||dateLocal();const after=new Date(date+'T00:00:00');
+ let query=sb.from('appointments').select('*').gte('starts_at',after.toISOString()).order('starts_at').limit(300);
+ const status=$('appointment-status-filter').value;if(status)query=query.eq('status',status);
+ const data=done(await query);
+ state.appointments=data.map(a=>({...a,start_at:a.starts_at,end_at:a.ends_at,client_id:a.customer_id,service_label:a.service_name_snapshot,notes:a.internal_notes}));
+ return state.appointments;
 }
 async function renderDashboard(){
-  const now=new Date(),start=new Date(now.getFullYear(),now.getMonth(),now.getDate()),end=new Date(start);end.setDate(end.getDate()+1);
-  const [day,future,clients,services]=await Promise.all([
-    sb.from('appointments').select('id',{count:'exact',head:true}).gte('start_at',start.toISOString()).lt('start_at',end.toISOString()).neq('status','annule'),
-    sb.from('appointments').select('start_at,service_label,status,client_id').gte('start_at',now.toISOString()).neq('status','annule').order('start_at').limit(8),
-    sb.from('clients').select('id',{count:'exact',head:true}),
-    sb.from('services').select('id',{count:'exact',head:true})
-  ]);
-  for(const r of [day,future,clients,services])if(r.error)throw r.error;
-  $('stats').innerHTML=[['Rendez-vous aujourd’hui',day.count],['Rendez-vous à venir',future.data?.length+' affichés'],['Fiches clients',clients.count],['Prestations',services.count]].map(([n,v])=>`<div class="metric"><small>${safe(n)}</small><strong>${safe(v??0)}</strong></div>`).join('');
-  await fetchClients();const byId=new Map(state.clients.map(x=>[x.id,x.full_name]));
-  $('upcoming-appointments').innerHTML=future.data?.length?future.data.map(a=>`<div class="appointment-line"><time>${safe(fmtTime(a.start_at))}</time><div><strong>${safe(a.service_label)}</strong><small>${safe(byId.get(a.client_id)||'Client')}</small></div></div>`).join(''):'<p class="empty">Aucun rendez-vous à venir.</p>';
+ const now=new Date(),start=new Date(now.getFullYear(),now.getMonth(),now.getDate()),end=new Date(start);end.setDate(end.getDate()+1);
+ const [day,future,clients,services]=await Promise.all([
+  sb.from('appointments').select('id',{count:'exact',head:true}).gte('starts_at',start.toISOString()).lt('starts_at',end.toISOString()).neq('status','cancelled'),
+  sb.from('appointments').select('starts_at,service_name_snapshot,status,customer_id').gte('starts_at',now.toISOString()).neq('status','cancelled').order('starts_at').limit(8),
+  sb.from('customers').select('id',{count:'exact',head:true}),
+  sb.from('services').select('id',{count:'exact',head:true})
+ ]);for(const r of [day,future,clients,services])if(r.error)throw r.error;
+ $('stats').innerHTML=[['Rendez-vous aujourd’hui',day.count],['Rendez-vous à venir',future.data?.length+' affichés'],['Fiches clients',clients.count],['Prestations',services.count]].map(([n,v])=>`<div class="metric"><small>${safe(n)}</small><strong>${safe(v??0)}</strong></div>`).join('');
+ await fetchClients();const byId=new Map(state.clients.map(x=>[x.id,x.full_name]));
+ $('upcoming-appointments').innerHTML=future.data?.length?future.data.map(a=>`<div class="appointment-line"><time>${safe(fmtTime(a.starts_at))}</time><div><strong>${safe(a.service_name_snapshot)}</strong><small>${safe(byId.get(a.customer_id)||'Client')}</small></div></div>`).join(''):'<p class="empty">Aucun rendez-vous à venir.</p>';
 }
 async function renderAppointments(){
-  await Promise.all([fetchAppointments(),fetchClients(),fetchServices()]);
-  const byId=new Map(state.clients.map(x=>[x.id,x.full_name]));
-  $('appointments-table').innerHTML=state.appointments.length?state.appointments.map(a=>`<tr><td>${safe(fmtTime(a.start_at))}</td><td><strong>${safe(byId.get(a.client_id)||'Client')}</strong></td><td>${safe(a.service_label)}</td><td>${a.staff_id===user.id?'Moi':a.staff_id?'Membre équipe':'Non attribué'}</td><td>${iconPill(a.status)}</td><td><button class="small-button" data-edit-appointment="${safe(a.id)}">Modifier</button></td></tr>`).join(''):'<tr><td colspan="6" class="empty">Aucun rendez-vous pour ces filtres.</td></tr>';
+ await Promise.all([fetchAppointments(),fetchClients(),fetchServices(),fetchStaff()]);
+ const byId=new Map(state.clients.map(x=>[x.id,x.full_name]));const byStaff=new Map(state.staff.map(x=>[x.id,x.display_name]));
+ $('appointments-table').innerHTML=state.appointments.length?state.appointments.map(a=>`<tr><td>${safe(fmtTime(a.start_at))}</td><td><strong>${safe(byId.get(a.client_id)||'Client')}</strong></td><td>${safe(a.service_label)}</td><td>${safe(byStaff.get(a.staff_id)||'Non attribué')}</td><td>${iconPill(a.status)}</td><td><button class="small-button" data-edit-appointment="${safe(a.id)}">Modifier</button></td></tr>`).join(''):'<tr><td colspan="6" class="empty">Aucun rendez-vous pour ces filtres.</td></tr>';
 }
 async function renderClients(){await fetchClients();filterClientList()}
 function filterClientList(){
@@ -85,7 +97,7 @@ function filterClientList(){
   const clients=state.clients.filter(x=>[x.full_name,x.phone,x.email].some(v=>String(v||'').toLocaleLowerCase('fr').includes(q)));
   $('clients-table').innerHTML=clients.length?clients.map(c=>`<tr><td><strong>${safe(c.full_name)}</strong></td><td>${safe(c.phone)}</td><td>${safe(c.email)}</td><td>${safe(fmtDate(c.created_at))}</td><td><button class="small-button" data-edit-client="${safe(c.id)}">Modifier</button></td></tr>`).join(''):'<tr><td class="empty" colspan="5">Aucun client trouvé.</td></tr>';
 }
-async function renderServices(){await fetchServices();$('services-table').innerHTML=state.services.length?state.services.map(s=>`<tr><td><strong>${safe(s.name)}</strong></td><td>${safe(s.category)}</td><td>${safe(s.duration_min)} min</td><td>${s.price_eur==null?'Sur demande':safe(Number(s.price_eur).toFixed(2)+' €')}</td><td>${s.published?'<span class="pill green">Publié</span>':'<span class="pill grey">Brouillon</span>'}</td><td><button class="small-button" data-edit-service="${safe(s.id)}">Modifier</button></td></tr>`).join(''):'<tr><td class="empty" colspan="6">Aucune prestation enregistrée.</td></tr>'}
+async function renderServices(){await fetchServices();$('services-table').innerHTML=state.services.length?state.services.map(s=>`<tr><td><strong>${safe(s.name)}</strong></td><td>${safe(s.category)}</td><td>${safe(s.duration_min)} min</td><td>${safe(Number(s.price_eur).toFixed(2)+' €')}</td><td>${s.published?'<span class="pill green">Publié</span>':'<span class="pill grey">Brouillon</span>'}</td><td><button class="small-button" data-edit-service="${safe(s.id)}">Modifier</button> <button class="small-button" data-skill-service="${safe(s.id)}">Qualifications</button></td></tr>`).join(''):'<tr><td class="empty" colspan="6">Aucune prestation enregistrée.</td></tr>'}
 async function fetchPages(){requireAdmin();state.pages=done(await sb.from('site_pages').select('*').order('slug'));return state.pages}
 async function renderSite(){await fetchPages();
   $('site-pages-list').innerHTML='<h2>Pages du site</h2>'+state.pages.map(p=>`<button class="page-choice" data-page-choice="${safe(p.slug)}"><strong>${safe(p.name)}</strong><small>${p.visible?'Publiée':'Masquée'}</small></button>`).join('');
@@ -109,7 +121,7 @@ async function renderAccounts(){requireAdmin();state.profiles=done(await sb.from
   $('accounts-table').innerHTML=state.profiles.length?state.profiles.map(p=>`<tr><td><strong>${safe(p.display_name||'Compte')}</strong>${p.id===user.id?' <span class="pill">Vous</span>':''}</td><td>${safe(p.role==='administrateur'?'Administrateur':p.role==='gerant'?'Gérant':'En attente')}</td><td>${p.active?'<span class="pill green">Actif</span>':'<span class="pill red">Désactivé</span>'}</td><td><button class="small-button" data-edit-account="${safe(p.id)}">Modifier</button></td></tr>`).join(''):'<tr><td colspan="4">Aucun compte enregistré.</td></tr>';
 }
 async function renderDatabase(){requireAdmin();
-  const tables=['appointments','clients','services','staff_profiles','site_pages','site_modules'];
+  const tables=['appointments','customers','services','staff_profiles','site_pages','site_modules'];
   const counts=await Promise.all(tables.map(table=>sb.from(table).select('*',{count:'exact',head:true})));
   counts.forEach((x,i)=>{if(x.error)throw Error(tables[i]+': '+x.error.message)});
   $('db-stats').innerHTML=counts.map((x,i)=>`<div class="metric"><small>${safe(tables[i])}</small><strong>${safe(x.count??0)}</strong></div>`).join('');
@@ -130,33 +142,66 @@ const checked=(f,name)=>Boolean(f.elements.namedItem(name)?.checked);
 const requireConfigured=()=>{if(!sb)throw Error('Base Supabase non configurée');};
 async function formSave(table,data,id){requireConfigured();await currentIdentity();let q=id?sb.from(table).update(data).eq('id',id).select():sb.from(table).insert(data).select();return done(await q)}
 function editClient(item){modal(item?'Modifier une fiche client':'Nouvelle fiche client',[
-  {name:'full_name',label:'Nom et prénom',required:true,value:item?.full_name},{name:'phone',label:'Téléphone',type:'tel',value:item?.phone},{name:'email',label:'E-mail',type:'email',value:item?.email}
-],async f=>{await formSave('clients',{full_name:val(f,'full_name'),phone:val(f,'phone'),email:val(f,'email')},item?.id);await renderClients()})}
+ {name:'first_name',label:'Prénom',required:true,value:item?.first_name},{name:'last_name',label:'Nom',value:item?.last_name},
+ {name:'phone',label:'Téléphone',type:'tel',value:item?.phone},{name:'email',label:'E-mail',type:'email',value:item?.email}
+],async f=>{
+ const phone=val(f,'phone'),email=val(f,'email');if(!phone&&!email)throw Error('Téléphone ou e-mail nécessaire pour la fiche client.');
+ await formSave('customers',{establishment_id:estId,first_name:val(f,'first_name'),last_name:val(f,'last_name')||null,phone:phone||null,email:email||null},item?.id);await renderClients();
+});}
 function editService(item){modal(item?'Modifier une prestation':'Nouvelle prestation',[
-  {name:'name',label:'Nom de la prestation',required:true,value:item?.name},{name:'category',label:'Catégorie',required:true,value:item?.category||'Visage'},{name:'duration_min',label:'Durée en minutes',type:'number',required:true,value:item?.duration_min||60,min:5,max:480},{name:'price_eur',label:'Tarif (€) — laisser vide si inconnu',type:'number',step:'0.01',min:0,value:item?.price_eur??''},{name:'description',label:'Description',type:'textarea',value:item?.description},{name:'sort_order',label:'Ordre d’affichage',type:'number',value:item?.sort_order??0},{name:'published',label:'Publier cette prestation',type:'checkbox',value:item?.published||false}
-],async f=>{await formSave('services',{name:val(f,'name'),category:val(f,'category'),duration_min:Number(val(f,'duration_min')),price_eur:val(f,'price_eur')===''?null:Number(val(f,'price_eur')),description:val(f,'description'),sort_order:Number(val(f,'sort_order')||0),published:checked(f,'published')},item?.id);await renderServices()})}
+ {name:'name',label:'Nom de la prestation',required:true,value:item?.name},
+ {name:'category',label:'Catégorie',required:true,value:item?.category||'Visage'},
+ {name:'duration_min',label:'Durée (minutes)',type:'number',required:true,value:item?.duration_min||60,min:5,max:720},
+ {name:'price_eur',label:'Tarif en euros (obligatoire)',type:'number',required:true,step:'0.01',min:0,value:item?.price_eur??''},
+ {name:'description',label:'Description',type:'textarea',value:item?.description},
+ {name:'published',label:'Afficher cette prestation sur le site',type:'checkbox',value:item?.published||false}
+],async f=>{
+ const cents=Math.round(Number(val(f,'price_eur'))*100);
+ if(!Number.isFinite(cents)||cents<0||val(f,'price_eur')==='')throw Error('Indiquez le tarif réel validé de la prestation.');
+ await formSave('services',{establishment_id:estId,name:val(f,'name'),category:val(f,'category'),duration_minutes:Number(val(f,'duration_min')),price_cents:cents,description:val(f,'description'),is_active:true,is_publicly_bookable:checked(f,'published')},item?.id);await renderServices();
+});}
+async function editSkill(item){
+ if(state.staff.length===0)await fetchStaff();
+ if(state.services.length===0)await fetchServices();
+ if(!state.staff.length)return notify('Ajoutez d’abord un compte professionnel actif.',true);
+ modal('Habiliter un membre à réaliser ce soin',[
+ {name:'service_id',label:'Prestation',type:'select',value:item?.id||'',options:state.services.map(x=>[x.id,x.name])},
+ {name:'staff_id',label:'Professionnel',type:'select',options:state.staff.map(x=>[x.id,x.display_name])}
+ ],async f=>{
+ const {error}=await sb.from('staff_skills').insert({establishment_id:estId,service_id:val(f,'service_id'),staff_id:val(f,'staff_id')});
+ if(error)throw Error(error.code==='23505'?'Ce professionnel est déjà habilité pour ce soin.':error.message);await fetchStaff();
+ });
+}
 function editAppointment(item){
- if(state.clients.length===0){notify('Ajoutez d’abord un client dans la rubrique Clientèle.',true);return}
+ if(!state.clients.length)return notify('Ajoutez d’abord un client.',true);
+ if(!state.services.length)return notify('Ajoutez d’abord une prestation.',true);
  const initial=item?.start_at?dateInput(item.start_at):dateInput(new Date(Date.now()+3600000));
+ const available=state.staff.filter(s=>state.skills.some(k=>k.staff_id===s.id&&k.service_id===(item?.service_id||state.services[0].id)));
  modal(item?'Modifier un rendez-vous':'Nouveau rendez-vous',[
   {name:'client_id',label:'Client',type:'select',required:true,value:item?.client_id,options:state.clients.map(x=>[x.id,x.full_name])},
-  {name:'service_id',label:'Prestation',type:'select',value:item?.service_id||'',options:[['','Autre soin']].concat(state.services.map(x=>[x.id,x.name]))},
-  {name:'service_label',label:'Libellé prestation',required:true,value:item?.service_label||''},
+  {name:'service_id',label:'Prestation',type:'select',required:true,value:item?.service_id||state.services[0].id,options:state.services.map(x=>[x.id,x.name])},
+  {name:'staff_id',label:'Professionnel habilité',type:'select',required:true,value:item?.staff_id||'',options:available.map(s=>[s.id,s.display_name])},
   {name:'start_at',label:'Date et heure',type:'datetime-local',required:true,value:initial},
-  {name:'duration_min',label:'Durée (minutes)',type:'number',required:true,value:item?Math.round((new Date(item.end_at)-new Date(item.start_at))/60000):60,min:5,max:480},
-  {name:'status',label:'Statut',type:'select',value:item?.status||'confirme',options:[['confirme','Confirmé'],['en_attente','En attente'],['termine','Terminé'],['annule','Annulé']]},
-  {name:'notes',label:'Notes internes',type:'textarea',value:item?.notes||''}
+  {name:'status',label:'Statut',type:'select',value:item?.status||'confirmed',options:[['pending','En attente'],['confirmed','Confirmé'],['in_progress','En cours'],['completed','Terminé'],['cancelled','Annulé'],['no_show','Absent']]},
+  {name:'notes',label:'Notes internes protégées',type:'textarea',value:item?.notes||''}
  ],async f=>{
-  const date=new Date(val(f,'start_at')),minutes=Number(val(f,'duration_min'));
-  if(!Number.isFinite(date.getTime())||minutes<5||minutes>480)throw Error('Date ou durée invalide');
-  const sid=val(f,'service_id');let label=val(f,'service_label');
-  if(!label&&sid)label=state.services.find(x=>x.id===sid)?.name||'';
-  const data={client_id:val(f,'client_id'),service_id:sid||null,service_label:label,start_at:date.toISOString(),end_at:new Date(date.getTime()+minutes*60000).toISOString(),status:val(f,'status'),notes:val(f,'notes')};
-  if(!item){data.staff_id=user.id;data.created_by=user.id}
+  const start=new Date(val(f,'start_at'));const selected=state.services.find(x=>x.id===val(f,'service_id'));
+  const sid=val(f,'staff_id');if(!selected||!sid||!state.skills.some(x=>x.staff_id===sid&&x.service_id===selected.id))
+   throw Error('Le professionnel doit être habilité à cette prestation (bouton Qualifications).');
+  if(!Number.isFinite(start.getTime()))throw Error('Date du rendez-vous invalide.');
+  const before=selected.preparation_minutes||0,after=selected.cleanup_minutes||0;
+  const duration=selected.duration_minutes,end=new Date(start.getTime()+duration*60000);
+  const data={establishment_id:estId,customer_id:val(f,'client_id'),service_id:selected.id,staff_id:sid,
+   starts_at:start.toISOString(),ends_at:end.toISOString(),occupied_from:new Date(start.getTime()-before*60000).toISOString(),
+   occupied_until:new Date(end.getTime()+after*60000).toISOString(),
+   service_name_snapshot:selected.name,service_price_cents_snapshot:selected.price_cents,
+   service_duration_minutes_snapshot:duration,status:val(f,'status'),internal_notes:val(f,'notes')};
+  if(!item){data.created_by=user.id;data.booking_source='professional';}
   await formSave('appointments',data,item?.id);await renderAppointments();
  });
  const serviceInput=$('f-service_id');serviceInput.addEventListener('change',()=>{
-  const s=state.services.find(x=>x.id===serviceInput.value);if(s){$('f-service_label').value=s.name;$('f-duration_min').value=s.duration_min}
+  const availableStaff=state.staff.filter(s=>state.skills.some(k=>k.staff_id===s.id&&k.service_id===serviceInput.value));
+  $('f-staff_id').innerHTML=availableStaff.map(x=>`<option value="${safe(x.id)}">${safe(x.display_name)}</option>`).join('');
  });
 }
 async function editModule(item){requireAdmin();if(state.pages.length===0)await fetchPages();
@@ -234,6 +279,7 @@ function wire(){
   if(btn.dataset.editAppointment)editAppointment(state.appointments.find(x=>x.id===btn.dataset.editAppointment));
   if(btn.dataset.editModule)editModule(state.modules.find(x=>x.id===btn.dataset.editModule));
   if(btn.dataset.editAccount)editAccount(state.profiles.find(x=>x.id===btn.dataset.editAccount));
+  if(btn.dataset.skillService)editSkill(state.services.find(x=>x.id===btn.dataset.skillService));
   if(btn.dataset.pageChoice)fillPageForm(btn.dataset.pageChoice);
  });
  // Recheck active account on focus and before each sensitive action; RLS is always decisive.

@@ -14,7 +14,7 @@
     const [pages,modules,services]=await Promise.all([
       api('site_pages','select=slug,title,description,visible,hero_image_url&visible=eq.true'),
       api('site_modules','select=page_slug,module_type,title,content,image_url,link_url,link_label,sort_order&published=eq.true&order=sort_order.asc'),
-      api('services','select=name,category,duration_min,price_eur,description&published=eq.true&order=sort_order.asc')
+      api('services','select=name,category,duration_minutes,price_cents,description&is_active=eq.true&is_publicly_bookable=eq.true&order=name.asc')
     ]);
     const allowed=new Set(pages.map(p=>p.slug));
     document.querySelectorAll('[data-cms-page]').forEach(section=>{
@@ -37,7 +37,7 @@
           const article=document.createElement('article');article.className='care-item care-item-dynamic';article.dataset.category=cat;
           const title=document.createElement('h3');title.textContent=item.name;
           const desc=document.createElement('p');desc.textContent=item.description||item.category||'';
-          const meta=document.createElement('small');meta.textContent=(item.duration_min?item.duration_min+' min':'')+(item.price_eur==null?' · Tarif sur demande':' · '+Number(item.price_eur).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}));
+          const meta=document.createElement('small');meta.textContent=(item.duration_minutes?item.duration_minutes+' min':'')+(item.price_cents==null?' · Tarif sur demande':' · '+Number(item.price_cents/100).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}));
           article.append(title,desc,meta);host.append(article);
         }
         document.querySelectorAll('[data-filter]').forEach(btn=>btn.addEventListener('click',()=>{

@@ -1,15 +1,7 @@
-# Ch'ange — aperçu GitHub Pages
+# Ch’ange — vitrine publique et accès professionnel
 
-**Dépôt public : uniquement des fichiers statiques destinés à GitHub Pages.**
+Site statique hébergé sur GitHub Pages. Espace professionnel accessible via `gestion.html`, authentifié par Supabase Auth dans le projet indépendant `change-beauty-dev` (`xhahganhwgygmwuckrak`). Aucune clé secrète n'est embarquée. Les autorisations sont vérifiées par les politiques RLS de la base de données, et la gestion des comptes passe par une Edge Function avec jeton obligatoire.
 
-Ce dépôt ne doit contenir **aucun code source privé**, clé secrète, mot de passe, donnée personnelle ni contenu réel de réservation.
+**Important :** le site public fonctionne, mais l'espace gestion n'est utilisable qu'après attribution vérifiée du premier Administrateur. Les rendez-vous n'ont pas été ouverts à la réservation publique. L'inscription libre n'est pas proposée.
 
-Cette première publication est une **maquette graphique non fonctionnelle** ; les rendez-vous et l’agenda sont **fictifs** et la réservation n’est pas active. Le projet Supabase `change-beauty-dev` n’est pas connecté à cette maquette.
-
-L’application React complète vit dans le dépôt privé distinct `torsielloenzo-pixel/change-beauty-app`. À terme, ne publier ici que les sorties de compilation statiques validées et sans secrets.
-
-Pour activer le site : GitHub → Settings → Pages → Build and deployment → Deploy from a branch → `main` / `(root)`.
-
-Adresse attendue *après activation et déploiement effectif* : https://torsielloenzo-pixel.github.io/change-beauty-pages/
-
-`robots.txt` et la balise `noindex` demandent seulement aux moteurs de recherche de ne pas indexer la maquette ; **ils n’en limitent pas l’accès public**.
+La source professionnelle (fonctions Edge et migrations) reste dans le dépôt privé `change-beauty-app`.
