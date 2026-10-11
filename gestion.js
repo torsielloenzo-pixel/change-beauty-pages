@@ -4,9 +4,9 @@
 'use strict';
 const $=id=>document.getElementById(id);
 const conf=window.CHANGE_SUPABASE||{};
-const allowedViews=['dashboard','appointments','clients','services','site','modules','accounts','database'];
-const adminViews=new Set(['site','modules','accounts','database']);
-const labels={dashboard:'Vue d’ensemble',appointments:'Rendez-vous',clients:'Clientèle',services:'Prestations',site:'Site et pages',modules:'Modules & médias',accounts:'Comptes et accès',database:'Base de données'};
+const allowedViews=['dashboard','appointments','clients','services','tarifs','site','modules','accounts','database'];
+const adminViews=new Set(['tarifs','site','modules','accounts','database']);
+const labels={dashboard:'Vue d’ensemble',appointments:'Rendez-vous',clients:'Clientèle',services:'Prestations',tarifs:'Tarifs',site:'Site et pages',modules:'Modules & médias',accounts:'Comptes et accès',database:'Base de données'};
 const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmtTime=s=>s?new Date(s).toLocaleString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'—';
 const fmtDate=s=>s?new Date(s).toLocaleDateString('fr-FR'):'—';
@@ -15,7 +15,7 @@ const dateInput=s=>{if(!s)return '';const d=new Date(s),p=x=>String(x).padStart(
 const iconPill=(v)=>{const names={confirmed:'Confirmé',pending:'En attente',in_progress:'En cours',completed:'Terminé',cancelled:'Annulé',no_show:'Absent'};return `<span class="pill ${v==='confirmed'?'green':v==='cancelled'?'red':'grey'}">${safe(names[v]||v)}</span>`};
 const configured=/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(conf.url||'') && /^(sb_publishable_|eyJ)/.test(conf.publishableKey||'');
 let sb=null, user=null, profile=null, estId=null, currentView='dashboard', modalHandler=null;
-let state={clients:[],services:[],appointments:[],profiles:[],pages:[],modules:[],staff:[],skills:[]};
+let state={clients:[],services:[],appointments:[],prices:[],profiles:[],pages:[],modules:[],staff:[],skills:[]};
 const authStatus=m=>{$('login-status').textContent=m||''};
 const notify=(m,isError=false)=>{const v=$('app-alert');v.hidden=false;v.textContent=m;v.style.background=isError?'#fff0e9':'#e8f3e8';v.style.borderColor=isError?'#e2c0b4':'#c1dec2'};
 function showLogin(){user=null;profile=null;$('auth-view').hidden=false;$('app-view').hidden=true;$('login-form').hidden=false;$('password-form').hidden=true;}
@@ -54,7 +54,7 @@ async function navigate(view){
   try{
     const id=await currentIdentity();user=id.u;profile=id.p;
     if(adminViews.has(view))requireAdmin();
-    await ({dashboard:renderDashboard,appointments:renderAppointments,clients:renderClients,services:renderServices,site:renderSite,modules:renderModules,accounts:renderAccounts,database:renderDatabase}[view])();
+    await ({dashboard:renderDashboard,appointments:renderAppointments,clients:renderClients,services:renderServices,tarifs:renderTarifs,site:renderSite,modules:renderModules,accounts:renderAccounts,database:renderDatabase}[view])();
   }catch(e){if(String(e.message||'').includes('autorisé')||String(e.message||'').includes('session')){showLogin();authStatus(e.message)}else notify(e.message||'Chargement impossible',true)}
 }
 async function fetchClients(){
@@ -101,6 +101,44 @@ function filterClientList(){
   $('clients-table').innerHTML=clients.length?clients.map(c=>`<tr><td><strong>${safe(c.full_name)}</strong></td><td>${safe(c.phone)}</td><td>${safe(c.email)}</td><td>${safe(fmtDate(c.created_at))}</td><td><button class="small-button" data-edit-client="${safe(c.id)}">Modifier</button></td></tr>`).join(''):'<tr><td class="empty" colspan="5">Aucun client trouvé.</td></tr>';
 }
 async function renderServices(){await fetchServices();$('services-table').innerHTML=state.services.length?state.services.map(s=>`<tr><td><strong>${safe(s.name)}</strong></td><td>${safe(s.category)}</td><td>${safe(s.duration_min)} min</td><td>${safe(Number(s.price_eur).toFixed(2)+' €')}</td><td>${s.published?'<span class="pill green">Publié</span>':'<span class="pill grey">Brouillon</span>'}</td><td><button class="small-button" data-edit-service="${safe(s.id)}">Modifier</button> <button class="small-button" data-skill-service="${safe(s.id)}">Qualifications</button></td></tr>`).join(''):'<tr><td class="empty" colspan="6">Aucune prestation enregistrée.</td></tr>'}
+
+const tariffCats=['Drainage lymphatique','Regard & sourcils','Soins du visage','Beauté des pieds','Gommages corps'];
+const euro=c=>(Number(c)/100).toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
+async function renderTarifs(){
+ requireAdmin();
+ state.prices=done(await sb.from('price_catalog').select('*').order('category').order('display_order').limit(500));
+ const f=$('price-category');const previous=f.value;
+ const cats=[...new Set(state.prices.map(r=>r.category))];
+ f.innerHTML='<option value="">Toutes les catégories</option>'+cats.map(c=>'<option value="'+safe(c)+'">'+safe(c)+'</option>').join('');
+ f.value=cats.includes(previous)?previous:'';
+ filterPriceAdmin();
+}
+function filterPriceAdmin(){
+ const cat=$('price-category').value;
+ const rows=state.prices.filter(p=>!cat||p.category===cat);
+ $('price-admin-rows').innerHTML=rows.length?rows.map(p=>'<tr><td><strong>'+safe(p.title)+'</strong><small style="display:block">'+safe(p.offer_type)+'</small></td><td>'+safe(p.category)+'</td><td>'+safe(p.duration_label||'—')+'</td><td>'+safe(euro(p.price_cents))+'</td><td>'+(p.is_published?'<span class="pill green">Publié</span>':'<span class="pill grey">Masqué</span>')+'</td><td><button type="button" class="small-button" data-price-edit="'+safe(p.id)+'">Modifier</button></td></tr>').join(''):'<tr><td colspan="6" class="empty">Aucun tarif.</td></tr>';
+}
+function editPrice(item){
+ requireAdmin();
+ modal(item?'Modifier le tarif':'Nouveau tarif',[
+ {name:'category',label:'Catégorie',type:'select',value:item?.category||tariffCats[0],options:tariffCats.map(c=>[c,c])},
+ {name:'title',label:'Intitulé',required:true,value:item?.title||''},
+ {name:'offer_type',label:'Type',type:'select',value:item?.offer_type||'Séance',options:[['Séance','Séance'],['Cure','Cure / forfait']]},
+ {name:'duration_label',label:'Durée ou séances',value:item?.duration_label||'',placeholder:'30 min / 5 séances'},
+ {name:'price_eur',label:'Prix en euros',type:'number',step:'0.01',min:0,required:true,value:item?item.price_cents/100:''},
+ {name:'description',label:'Description',type:'textarea',value:item?.description||''},
+ {name:'display_order',label:'Ordre d’affichage',type:'number',value:item?.display_order??100},
+ {name:'is_published',label:'Afficher sur le site',type:'checkbox',value:item?.is_published??true}
+ ],async f=>{
+ const raw=val(f,'price_eur');const cents=Math.round(Number(raw)*100);
+ if(raw===''||!Number.isFinite(cents)||cents<0||cents>10000000)throw Error('Prix invalide.');
+ if(!val(f,'title'))throw Error('Indiquez le nom du soin.');
+ const row={code:item?.code||'new-'+crypto.randomUUID(),category:val(f,'category'),title:val(f,'title'),offer_type:val(f,'offer_type'),duration_label:val(f,'duration_label')||null,price_cents:cents,description:val(f,'description')||null,display_order:Number(val(f,'display_order')||0),is_published:checked(f,'is_published')};
+ await formSave('price_catalog',row,item?.id);
+ await renderTarifs();
+ });
+}
+
 async function fetchPages(){requireAdmin();state.pages=done(await sb.from('site_pages').select('*').order('slug'));return state.pages}
 async function renderSite(){await fetchPages();
   $('site-pages-list').innerHTML='<h2>Pages du site</h2>'+state.pages.map(p=>`<button class="page-choice" data-page-choice="${safe(p.slug)}"><strong>${safe(p.name)}</strong><small>${p.visible?'Publiée':'Masquée'}</small></button>`).join('');
@@ -127,7 +165,7 @@ async function renderAccounts(){requireAdmin();const roles=done(await sb.from('u
   $('accounts-table').innerHTML=state.profiles.length?state.profiles.map(p=>`<tr><td><strong>${safe(p.display_name||'Compte')}</strong>${p.id===user.id?' <span class="pill">Vous</span>':''}</td><td>${safe(p.role==='administrateur'?'Administrateur':p.role==='gerant'?'Gérant':'En attente')}</td><td>${p.active?'<span class="pill green">Actif</span>':'<span class="pill red">Désactivé</span>'}</td><td><button class="small-button" data-edit-account="${safe(p.id)}">Modifier</button></td></tr>`).join(''):'<tr><td colspan="4">Aucun compte enregistré.</td></tr>';
 }
 async function renderDatabase(){requireAdmin();
-  const tables=['appointments','customers','services','staff','user_roles','site_pages','site_modules'];
+  const tables=['appointments','customers','services','price_catalog','staff','user_roles','site_pages','site_modules'];
   const counts=await Promise.all(tables.map(table=>sb.from(table).select('*',{count:'exact',head:true})));
   counts.forEach((x,i)=>{if(x.error)throw Error(tables[i]+': '+x.error.message)});
   $('db-stats').innerHTML=counts.map((x,i)=>`<div class="metric"><small>${safe(tables[i])}</small><strong>${safe(x.count??0)}</strong></div>`).join('');
@@ -270,7 +308,7 @@ function wire(){
  });
  $('logout').addEventListener('click',async()=>{if(sb)await sb.auth.signOut({scope:'global'});showLogin();authStatus('Vous êtes déconnecté.');});
  $('new-client').addEventListener('click',()=>editClient(null));$('new-service').addEventListener('click',()=>editService(null));
- $('new-appointment').addEventListener('click',()=>editAppointment(null));
+ $('new-appointment').addEventListener('click',()=>editAppointment(null));$('price-add').addEventListener('click',()=>editPrice(null));$('price-category').addEventListener('change',filterPriceAdmin);
  $('new-module').addEventListener('click',()=>editModule(null));
  $('new-invite').addEventListener('click',invite);
  $('appointment-filter').value=dateLocal();$('appointment-filter').addEventListener('change',renderAppointments);$('appointment-status-filter').addEventListener('change',renderAppointments);$('reload-appointments').addEventListener('click',renderAppointments);
@@ -284,6 +322,7 @@ function wire(){
   if(btn.dataset.editService)editService(state.services.find(x=>x.id===btn.dataset.editService));
   if(btn.dataset.editAppointment)editAppointment(state.appointments.find(x=>x.id===btn.dataset.editAppointment));
   if(btn.dataset.editModule)editModule(state.modules.find(x=>x.id===btn.dataset.editModule));
+   if(btn.dataset.priceEdit)editPrice(state.prices.find(x=>x.id===btn.dataset.priceEdit));
   if(btn.dataset.editAccount)editAccount(state.profiles.find(x=>x.id===btn.dataset.editAccount));
   if(btn.dataset.skillService)editSkill(state.services.find(x=>x.id===btn.dataset.skillService));
   if(btn.dataset.pageChoice)fillPageForm(btn.dataset.pageChoice);
