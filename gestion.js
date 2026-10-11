@@ -4,6 +4,7 @@
 'use strict';
 const $=id=>document.getElementById(id);
 const conf=window.CHANGE_SUPABASE||{};
+const invitationActivation=new URLSearchParams(location.hash.slice(1)).get('type')==='invite';
 const allowedViews=['dashboard','appointments','clients','services','analytics','tarifs','site','modules','accounts','database'];
 const adminViews=new Set(['tarifs','site','modules','accounts','database']);
 const labels={dashboard:'Vue d’ensemble',appointments:'Rendez-vous',clients:'Clientèle',services:'Prestations',analytics:'Visibilité & résultats',tarifs:'Tarifs',site:'Site et pages',modules:'Modules & médias',accounts:'Comptes et accès',database:'Base de données'};
@@ -436,6 +437,6 @@ function wire(){
 wire();
 if(!configured||!window.supabase?.createClient){$('setup-message').hidden=false;$('login-form').hidden=true;authStatus('Connexion professionnelle indisponible avant configuration de la base Ch’ange.');return}
 sb=window.supabase.createClient(conf.url.replace(/\/$/,''),conf.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'implicit'}});
-sb.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY'){queueMicrotask(showPassword)}else if(event==='SIGNED_OUT'){queueMicrotask(showLogin)}else if(event==='SIGNED_IN'&&user==null){queueMicrotask(boot)}});
-sb.auth.getSession().then(({data})=>{if(data?.session)boot();else showLogin()}).catch(()=>showLogin());
+sb.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY'){queueMicrotask(showPassword)}else if(event==='SIGNED_OUT'){queueMicrotask(showLogin)}else if(event==='SIGNED_IN'&&user==null){queueMicrotask(invitationActivation?showPassword:boot)}});
+sb.auth.getSession().then(({data})=>{if(data?.session){if(invitationActivation)showPassword();else boot();}else showLogin()}).catch(()=>showLogin());
 })();
