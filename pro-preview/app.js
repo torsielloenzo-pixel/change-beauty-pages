@@ -1,6 +1,24 @@
 (() => {
 'use strict';
 const root='/change-beauty-pages/pro-preview/';
+
+// Préférence portrait réservée à l'application installée, pas à Safari ni au site vitrine.
+// iOS peut ignorer screen.orientation.lock : ne pas simuler une rotation ou masquer l'UI.
+function requestInstalledPortrait() {
+  const installed=window.matchMedia?.('(display-mode: standalone)').matches ||
+    window.navigator.standalone===true;
+  if (!installed || typeof screen.orientation?.lock!=='function') return;
+  try {
+    const result=screen.orientation.lock('portrait-primary');
+    if (result && typeof result.catch==='function') result.catch(()=>{});
+  } catch (_) { /* Orientation non modifiable dans ce navigateur. */ }
+}
+requestInstalledPortrait();
+window.addEventListener('pageshow',requestInstalledPortrait);
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible')requestInstalledPortrait();
+});
+
 const $=id=>document.getElementById(id);
 const tabs=[['home','⌂','Accueil'],['agenda','▦','Agenda'],['clients','♡','Clientes'],['services','✳','Soins'],['profile','◯','Profil']];
 const titles={home:"Vue d'ensemble",agenda:"Agenda",clients:"Clientèle",services:"Prestations",profile:"Mon profil"};
