@@ -1,0 +1,116 @@
+/*
+ * Le verrouillage natif iOS des PWA n'est pas disponible de façon fiable.
+ * Portrait virtuel : cadrage portrait réel, compensé par une rotation CSS.
+ * Uniquement html.pwa-virtual-portrait, ajouté par orientation.js lorsque
+ * la PWA installée est tournée. Aucun impact sur Safari ou la vitrine.
+ */
+html.pwa-virtual-portrait,
+html.pwa-virtual-portrait body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+html.pwa-virtual-portrait body {
+  position: fixed;
+  inset: 0;
+}
+html.pwa-virtual-portrait .app {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: var(--pwa-portrait-width);
+  height: var(--pwa-portrait-height);
+  max-width: none;
+  max-height: none;
+  overflow: hidden;
+  transform-origin: center center;
+  transform: translate(-50%, -50%) rotate(var(--pwa-counter-angle));
+}
+html.pwa-virtual-portrait .auth-page {
+  min-height: 100%;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+html.pwa-virtual-portrait .workspace {
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+html.pwa-virtual-portrait .main {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+html.pwa-virtual-portrait .content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+/*
+ * En paysage, les media queries ordinaires voient la LARGEUR PAYSAGE de
+ * l'écran iOS. Imposer donc le layout mobile dans le cadre portrait virtuel.
+ */
+html.pwa-virtual-landscape .auth-page { grid-template-columns: 1fr; }
+html.pwa-virtual-landscape .auth-decor { display: none; }
+html.pwa-virtual-landscape .auth-card { padding: 30px 26px 40px; }
+html.pwa-virtual-landscape .auth-brand { margin-bottom: 48px; }
+html.pwa-virtual-landscape .sidebar { display: none; }
+html.pwa-virtual-landscape .topbar { height: 73px; padding: 0 19px; }
+html.pwa-virtual-landscape .content { padding: 26px 19px 29px; }
+html.pwa-virtual-landscape .bottom-nav {
+  display: flex;
+  flex-shrink: 0;
+  align-items: stretch;
+  justify-content: space-around;
+  padding: 8px 3px 10px;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+}
+html.pwa-virtual-landscape .bottom-nav .nav-item {
+  display: grid;
+  place-items: center;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+  border-radius: 11px;
+  padding: 3px 1px;
+  background: transparent;
+  color: var(--muted);
+}
+html.pwa-virtual-landscape .bottom-nav .nav-item.active {
+  background: var(--soft);
+  color: var(--ink);
+}
+html.pwa-virtual-landscape .bottom-nav .nav-item .ico {
+  font-size: 22px;
+  color: var(--rose);
+  line-height: 1.2;
+}
+html.pwa-virtual-landscape .bottom-nav .nav-item .lab {
+  font-size: 10px;
+  font-weight: 700;
+}
+html.pwa-virtual-landscape .metrics { gap: 8px; }
+html.pwa-virtual-landscape .metric { padding: 13px; }
+html.pwa-virtual-landscape .metric small { font-size: 10px; min-height: 29px; }
+html.pwa-virtual-landscape .metric strong { font-size: 27px; margin-top: 9px; }
+html.pwa-virtual-landscape .section-head h2 { font-size: 23px; }
+html.pwa-virtual-landscape .pill { font-size: 9px; padding: 5px 7px; }
+html.pwa-virtual-landscape .card { padding: 14px 12px; gap: 9px; }
+html.pwa-virtual-landscape .card-time { min-width: 50px; font-size: 12px; }
+html.pwa-virtual-landscape .note-card { padding: 23px; }
+html.pwa-virtual-landscape .note-card p { font-size: 22px; }
+
+/* iPhone étroit : conserver les mêmes ajustements que pour 370px portrait */
+@media (max-height: 370px) and (orientation: landscape) {
+  html.pwa-virtual-landscape .bottom-nav .nav-item .lab { font-size: 9px; }
+  html.pwa-virtual-landscape .topbar { padding: 0 15px; }
+  html.pwa-virtual-landscape .content { padding: 23px 13px 24px; }
+  html.pwa-virtual-landscape .metric { padding: 10px; }
+  html.pwa-virtual-landscape .metric strong { font-size: 25px; }
+}
