@@ -1,2 +1,4 @@
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /gestion.html
+Sitemap: https://torsielloenzo-pixel.github.io/change-beauty-pages/sitemap.xml

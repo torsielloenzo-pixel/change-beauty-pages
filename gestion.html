@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co; img-src 'self' data: https://*.supabase.co; frame-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'"><meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="description" content="Espace professionnel privé Ch’ange">
+<title>Espace professionnel · Ch’ange</title>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./gestion.css">
+</head>
+<body>
+<a class="skip" href="#workspace">Aller au contenu</a>
+<section id="auth-view" class="auth-shell">
+  <div class="auth-picture" role="img" aria-label="Univers douceur et beauté Ch’ange">
+    <div class="auth-picture-caption"><span>INSTITUT DE BEAUTÉ · LE THOR</span><h2>Le soin de chaque détail.</h2><p>Votre espace de travail, pensé avec la même douceur que votre institut.</p></div>
+  </div>
+  <div class="auth-side">
+    <a href="./index.html" class="back-link">← Retour au site</a>
+    <div class="auth-form-panel">
+      <div class="brand">CH’ANGE <small>INSTITUT DE BEAUTÉ</small></div>
+      <div class="eyebrow">ACCÈS RÉSERVÉ</div>
+      <h1>Bienvenue dans votre <em>espace professionnel.</em></h1>
+      <p class="muted">Consultez les rendez-vous et gérez votre institut en toute confidentialité.</p>
+      <div id="setup-message" hidden class="notice"><strong>Connexion en préparation</strong><p>Le projet Supabase dédié à Ch’ange doit d’abord être relié et sécurisé. Aucun compte ni rendez-vous n’est encore activé.</p></div>
+      <form id="login-form" class="form-grid">
+        <label>Adresse e-mail professionnelle<input type="email" name="email" autocomplete="username" required placeholder="vous@exemple.fr"></label>
+        <label>Mot de passe<input type="password" name="password" autocomplete="current-password" required minlength="8" placeholder="Votre mot de passe"></label>
+        <button type="submit" class="primary" id="login-button">Se connecter →</button>
+        <button type="button" class="link-button" id="forgot-button">Mot de passe oublié ?</button>
+      </form>
+      <form id="password-form" class="form-grid" hidden>
+        <h2>Définir votre mot de passe</h2>
+        <p class="muted">Choisissez un mot de passe unique d’au moins 12 caractères.</p>
+        <label>Nouveau mot de passe<input name="new_password" type="password" autocomplete="new-password" required minlength="12"></label>
+        <label>Confirmation<input name="confirm_password" type="password" autocomplete="new-password" required minlength="12"></label>
+        <button type="submit" class="primary">Enregistrer le mot de passe</button>
+      </form>
+      <p role="status" aria-live="polite" id="login-status" class="status"></p>
+      <p class="microcopy">Accès individuel. L’inscription libre est désactivée : seul un administrateur peut inviter un membre de l’équipe.</p>
+    </div>
+  </div>
+</section>
+<section id="app-view" class="app-shell" hidden>
+ <aside class="sidebar">
+  <a class="sidebar-brand" href="./index.html">CH’ANGE <small>INSTITUT DE BEAUTÉ</small></a>
+  <div class="sidebar-label">ESPACE DE TRAVAIL</div>
+  <nav aria-label="Espace professionnel" id="side-nav">
+   <button type="button" data-view="dashboard" class="nav-item is-active">◫ <span>Vue d’ensemble</span></button>
+   <button type="button" data-view="appointments" class="nav-item">▦ <span>Rendez-vous</span></button>
+   <button type="button" data-view="clients" class="nav-item">♡ <span>Clientèle</span></button>
+   <button type="button" data-view="services" class="nav-item">✳ <span>Prestations</span></button>
+   <div class="sidebar-label admin-only" hidden>ÉDITION & ADMINISTRATION</div>
+   <button type="button" data-view="site" class="nav-item admin-only" hidden>◈ <span>Site et pages</span></button>
+   <button type="button" data-view="modules" class="nav-item admin-only" hidden>▤ <span>Modules & médias</span></button>
+   <button type="button" data-view="accounts" class="nav-item admin-only" hidden>♧ <span>Comptes et accès</span></button>
+   <button type="button" data-view="database" class="nav-item admin-only" hidden>▥ <span>Base de données</span></button>
+  </nav>
+  <div class="sidebar-bottom"><a href="./index.html" target="_blank" rel="noopener">↗ Voir le site public</a><button id="logout" type="button">⏻ Se déconnecter</button></div>
+ </aside>
+ <div class="app-main">
+  <header class="topbar"><div class="breadcrumb">CH’ANGE <span>/</span> <strong id="view-breadcrumb">Vue d’ensemble</strong></div><div class="topbar-right"><span class="live-pill">● Espace sécurisé</span><div id="account-chip" class="account-chip"></div></div></header>
+  <main id="workspace" tabindex="-1">
+   <div id="app-alert" role="status" aria-live="polite" class="alert" hidden></div>
+   <section class="panel-view" data-panel="dashboard">
+    <div class="panel-heading"><div><span class="eyebrow">AUJOURD’HUI · CH’ANGE</span><h1>Vue d’ensemble <em>de l’institut.</em></h1><p>Votre activité à jour, directement depuis la base de données.</p></div><button class="primary" data-view="appointments">+ Nouveau rendez-vous</button></div>
+    <div class="stats" id="stats"></div><div class="dash-columns"><div class="surface"><div class="surface-heading"><h2>Les prochains rendez-vous</h2><button class="link-button" data-view="appointments">Voir l’agenda →</button></div><div id="upcoming-appointments"></div></div><div class="surface welcome-note"><span class="eyebrow">VOTRE ESPACE</span><h2>Une gestion aussi douce que votre univers.</h2><p>Vos informations professionnelles restent réservées à l’équipe autorisée. Les mises à jour du site sont distinctes du suivi des rendez-vous.</p></div></div>
+   </section>
+   <section class="panel-view" data-panel="appointments" hidden>
+    <div class="panel-heading"><div><span class="eyebrow">GESTION QUOTIDIENNE</span><h1>Rendez-<em>vous.</em></h1><p>Créer, déplacer, confirmer ou annuler un rendez-vous.</p></div><button class="primary" id="new-appointment">+ Créer un rendez-vous</button></div>
+    <div class="surface"><div class="toolbar"><label>À partir du <input type="date" id="appointment-filter"></label><label>État <select id="appointment-status-filter"><option value="">Tous</option><option value="confirme">Confirmé</option><option value="en_attente">En attente</option><option value="termine">Terminé</option><option value="annule">Annulé</option></select></label><button class="secondary" id="reload-appointments">Actualiser</button></div><div class="table-scroll"><table><thead><tr><th>Début</th><th>Client</th><th>Prestation</th><th>Équipe</th><th>Statut</th><th>Action</th></tr></thead><tbody id="appointments-table"></tbody></table></div></div>
+   </section>
+   <section class="panel-view" data-panel="clients" hidden>
+    <div class="panel-heading"><div><span class="eyebrow">RELATION CLIENTÈLE</span><h1>Votre <em>clientèle.</em></h1><p>Répertoire professionnel confidentiel.</p></div><button class="primary" id="new-client">+ Ajouter un client</button></div><div class="surface"><div class="toolbar"><label>Rechercher <input id="client-search" placeholder="Nom, téléphone ou e-mail"></label></div><div class="table-scroll"><table><thead><tr><th>Nom</th><th>Téléphone</th><th>E-mail</th><th>Ajouté le</th><th>Action</th></tr></thead><tbody id="clients-table"></tbody></table></div></div>
+   </section>
+   <section class="panel-view" data-panel="services" hidden><div class="panel-heading"><div><span class="eyebrow">CARTE DE PRESTATIONS</span><h1>Vos <em>soins.</em></h1><p>Prestations et durées utilisées pour organiser les rendez-vous.</p></div><button class="primary" id="new-service">+ Nouvelle prestation</button></div><div class="surface"><div class="table-scroll"><table><thead><tr><th>Prestation</th><th>Catégorie</th><th>Durée</th><th>Tarif</th><th>Publication</th><th>Action</th></tr></thead><tbody id="services-table"></tbody></table></div></div></section>
+   <section class="panel-view" data-panel="site" hidden><div class="panel-heading"><div><span class="eyebrow">ÉDITION DU SITE</span><h1>Pages et <em>identité visuelle.</em></h1><p>Éditer les titres, descriptions, photographies et la visibilité des pages publiques.</p></div><a class="secondary button-link" href="./index.html" target="_blank" rel="noopener">Ouvrir le site ↗</a></div><div class="editor-grid"><div class="surface" id="site-pages-list"></div><div class="surface"><h2>Édition de la page</h2><form id="page-form" class="form-grid"><label>Page <select id="page-slug" name="slug" required></select></label><label>Titre<input name="title" maxlength="180" required></label><label>Description<textarea name="description" rows="4"></textarea></label><label>URL de photographie (HTTPS)<input name="hero_image_url" type="url" placeholder="https://..."></label><label class="toggle-label"><input type="checkbox" name="visible"> Visible sur le site public</label><button class="primary" type="submit">Enregistrer la page</button></form><div class="preview-card"><h3>Prévisualisation publique</h3><iframe id="page-preview" title="Prévisualisation de la page publique" loading="lazy" sandbox="allow-scripts" src="./index.html#accueil"></iframe></div></div></div></section>
+   <section class="panel-view" data-panel="modules" hidden><div class="panel-heading"><div><span class="eyebrow">COMPOSITION DES PAGES</span><h1>Modules et <em>médias.</em></h1><p>Ajoutez des sections en toute liberté : texte, bannière ou photographie.</p></div><button class="primary" id="new-module">+ Ajouter un module</button></div><div class="surface"><div class="toolbar"><label>Page <select id="module-page-filter"></select></label><button class="secondary" id="reload-modules">Actualiser</button></div><div id="modules-list" class="module-list"></div></div></section>
+   <section class="panel-view" data-panel="accounts" hidden><div class="panel-heading"><div><span class="eyebrow">SÉCURITÉ & ÉQUIPE</span><h1>Comptes et <em>accès.</em></h1><p>Les droits sont appliqués côté serveur. Aucun employé ne peut modifier son propre rôle.</p></div><button class="primary" id="new-invite">+ Inviter un membre</button></div><div class="surface"><div class="table-scroll"><table><thead><tr><th>Utilisateur</th><th>Rôle</th><th>Accès</th><th>Action</th></tr></thead><tbody id="accounts-table"></tbody></table></div></div></section>
+   <section class="panel-view" data-panel="database" hidden><div class="panel-heading"><div><span class="eyebrow">ADMINISTRATION DES DONNÉES</span><h1>Base de <em>données.</em></h1><p>Vue contrôlée des tables métier, accès et historique. Pas d’exécution SQL libre depuis le navigateur.</p></div><button class="secondary" id="reload-database">Actualiser</button></div><div class="stats" id="db-stats"></div><div class="surface"><h2>Journal des modifications</h2><div class="table-scroll"><table><thead><tr><th>Date</th><th>Action</th><th>Table</th><th>Référence</th></tr></thead><tbody id="audit-table"></tbody></table></div></div></section>
+  </main>
+ </div>
+</section>
+<dialog id="edit-dialog"><form id="edit-form" class="form-grid"><div class="dialog-head"><div><span id="dialog-eyebrow" class="eyebrow">ÉDITION</span><h2 id="dialog-title">Modifier</h2></div><button type="button" id="dialog-close" class="icon-button" aria-label="Fermer">×</button></div><div id="dialog-fields" class="form-grid"></div><p id="dialog-error" role="alert" class="form-error"></p><div class="dialog-actions"><button type="button" class="secondary" id="dialog-cancel">Annuler</button><button class="primary" id="dialog-save" type="submit">Enregistrer</button></div></form></dialog>
+<script src="./supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.74.0" defer></script>
+<script src="./gestion.js" defer></script>
+</body></html>
