@@ -26,10 +26,10 @@ async function currentIdentity(){
   const {data:{user:u},error}=await sb.auth.getUser();
   if(error||!u)throw Error('Votre session a expiré. Connectez-vous à nouveau.');
   const {data:r,error:re}=await sb.from('user_roles').select('establishment_id,staff_id,role,is_enabled').eq('user_id',u.id).eq('is_enabled',true).maybeSingle();
-  if(re||!r||!['owner','manager'].includes(r.role)||!r.staff_id)throw Error('Compte non autorisé ou désactivé.');
+  if(re||!r||!['owner','manager','staff'].includes(r.role)||!r.staff_id)throw Error('Compte non autorisé ou désactivé.');
   const {data:s,error:se}=await sb.from('staff').select('display_name,is_active,establishment_id').eq('id',r.staff_id).eq('establishment_id',r.establishment_id).single();
   if(se||!s?.is_active)throw Error('Fiche professionnelle inactive ou introuvable.');
-  const p={id:u.id,display_name:s.display_name,role:r.role==='owner'?'administrateur':'gerant',active:true,establishment_id:r.establishment_id};
+  const p={id:u.id,display_name:s.display_name,role:r.role==='owner'?'administrateur':r.role==='manager'?'gerant':'collaborateur',active:true,establishment_id:r.establishment_id};
   return {u,p};
 }
 async function boot(){
@@ -41,13 +41,16 @@ async function boot(){
     $('auth-view').hidden=true;$('app-view').hidden=false;
     document.querySelectorAll('.admin-only').forEach(el=>{el.hidden=p.role!=='administrateur'});
     document.querySelectorAll('[data-view="analytics"]').forEach(el=>{el.hidden=!['administrateur','gerant'].includes(p.role)});
-    $('account-chip').textContent=(p.display_name||u.email||'Compte')+' · '+(p.role==='administrateur'?'Administrateur':'Gérant');
+    document.querySelectorAll('[data-view="clients"],[data-view="services"]').forEach(el=>{el.hidden=p.role==='collaborateur'});
+    document.querySelectorAll('[data-panel="dashboard"] button[data-view="appointments"],[data-panel="appointments"] #new-appointment').forEach(el=>{el.hidden=p.role==='collaborateur'});
+    $('account-chip').textContent=(p.display_name||u.email||'Compte')+' · '+(p.role==='administrateur'?'Administrateur':p.role==='gerant'?'Gestion':'Collaborateur');
     await navigate(currentView);
   }catch(e){showLogin();authStatus(e.message||'Connexion nécessaire.');}
 }
 async function navigate(view){
   if(!allowedViews.includes(view))view='dashboard';
   if(adminViews.has(view)&&profile?.role!=='administrateur')return notify('Page réservée aux administrateurs.',true);
+  if(profile?.role==='collaborateur'&&!['dashboard','appointments'].includes(view))return notify('Section non autorisée pour les collaborateurs.',true);
   currentView=view;
   document.querySelectorAll('[data-panel]').forEach(el=>{el.hidden=el.dataset.panel!==view});
   document.querySelectorAll('[data-view].nav-item').forEach(el=>el.classList.toggle('is-active',el.dataset.view===view));
@@ -93,7 +96,7 @@ async function renderDashboard(){
 async function renderAppointments(){
  await Promise.all([fetchAppointments(),fetchClients(),fetchServices(),fetchStaff()]);
  const byId=new Map(state.clients.map(x=>[x.id,x.full_name]));const byStaff=new Map(state.staff.map(x=>[x.id,x.display_name]));
- $('appointments-table').innerHTML=state.appointments.length?state.appointments.map(a=>`<tr><td>${safe(fmtTime(a.start_at))}</td><td><strong>${safe(byId.get(a.client_id)||'Client')}</strong></td><td>${safe(a.service_label)}</td><td>${safe(byStaff.get(a.staff_id)||'Non attribué')}</td><td>${iconPill(a.status)}</td><td><button class="small-button" data-edit-appointment="${safe(a.id)}">Modifier</button></td></tr>`).join(''):'<tr><td colspan="6" class="empty">Aucun rendez-vous pour ces filtres.</td></tr>';
+ $('appointments-table').innerHTML=state.appointments.length?state.appointments.map(a=>`<tr><td>${safe(fmtTime(a.start_at))}</td><td><strong>${safe(byId.get(a.client_id)||'Client')}</strong></td><td>${safe(a.service_label)}</td><td>${safe(byStaff.get(a.staff_id)||'Non attribué')}</td><td>${iconPill(a.status)}</td><td>${profile?.role==='collaborateur'?'Consultation seule':`<button class="small-button" data-edit-appointment="${safe(a.id)}">Modifier</button>`}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">Aucun rendez-vous pour ces filtres.</td></tr>';
 }
 async function renderClients(){await fetchClients();filterClientList()}
 function filterClientList(){
@@ -247,6 +250,7 @@ async function editSkill(item){
  });
 }
 function editAppointment(item){
+ if(profile?.role==='collaborateur')return notify('Agenda en consultation seule pour ce rôle.',true);
  if(!state.clients.length)return notify('Ajoutez d’abord un client.',true);
  if(!state.services.length)return notify('Ajoutez d’abord une prestation.',true);
  const initial=item?.start_at?dateInput(item.start_at):dateInput(new Date(Date.now()+3600000));
