@@ -15,7 +15,7 @@ const dateInput=s=>{if(!s)return '';const d=new Date(s),p=x=>String(x).padStart(
 const iconPill=(v)=>{const names={confirmed:'Confirmé',pending:'En attente',in_progress:'En cours',completed:'Terminé',cancelled:'Annulé',no_show:'Absent'};return `<span class="pill ${v==='confirmed'?'green':v==='cancelled'?'red':'grey'}">${safe(names[v]||v)}</span>`};
 const configured=/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(conf.url||'') && /^(sb_publishable_|eyJ)/.test(conf.publishableKey||'');
 let sb=null, user=null, profile=null, estId=null, currentView='dashboard', modalHandler=null;
-let state={clients:[],services:[],appointments:[],prices:[],profiles:[],pages:[],modules:[],staff:[],skills:[]};
+let state={clients:[],services:[],appointments:[],prices:[],profiles:[],pendingInvites:[],pages:[],modules:[],staff:[],skills:[]};
 const authStatus=m=>{$('login-status').textContent=m||''};
 const notify=(m,isError=false)=>{const v=$('app-alert');v.hidden=false;v.textContent=m;v.style.background=isError?'#fff0e9':'#e8f3e8';v.style.borderColor=isError?'#e2c0b4':'#c1dec2'};
 function showLogin(){user=null;profile=null;$('auth-view').hidden=false;$('app-view').hidden=true;$('login-form').hidden=false;$('password-form').hidden=true;}
@@ -177,11 +177,36 @@ async function fetchModules(){state.modules=done(await sb.from('site_modules').s
 function filterModules(){const slug=$('module-page-filter').value;const arr=state.modules.filter(x=>!slug||x.page_slug===slug);
   $('modules-list').innerHTML=arr.length?arr.map(m=>`<div class="module-line"><div><strong>${safe(m.title||'Section sans titre')}</strong><small>${safe(m.page_slug)} · ${safe(m.module_type)} · position ${safe(m.sort_order)} · ${m.published?'Publié':'Brouillon'}</small></div><button class="small-button" data-edit-module="${safe(m.id)}">Éditer</button></div>`).join(''):'<p class="empty">Aucun module enregistré pour cette page.</p>';
 }
-async function renderAccounts(){requireAdmin();const roles=done(await sb.from('user_roles').select('user_id,staff_id,role,is_enabled,created_at').eq('establishment_id',estId).order('created_at'));
-  const staff=done(await sb.from('staff').select('id,display_name,is_active').eq('establishment_id',estId));
-  const byId=new Map(staff.map(x=>[x.id,x]));
-  state.profiles=roles.map(r=>{const s=byId.get(r.staff_id);return {id:r.user_id,display_name:s?.display_name||'Compte',role:r.role==='owner'?'administrateur':r.role==='manager'?'gerant':'inconnu',active:Boolean(r.is_enabled&&s?.is_active),created_at:r.created_at}});
-  $('accounts-table').innerHTML=state.profiles.length?state.profiles.map(p=>`<tr><td><strong>${safe(p.display_name||'Compte')}</strong>${p.id===user.id?' <span class="pill">Vous</span>':''}</td><td>${safe(p.role==='administrateur'?'Administrateur':p.role==='gerant'?'Gérant':'En attente')}</td><td>${p.active?'<span class="pill green">Actif</span>':'<span class="pill red">Désactivé</span>'}</td><td><button class="small-button" data-edit-account="${safe(p.id)}">Modifier</button></td></tr>`).join(''):'<tr><td colspan="4">Aucun compte enregistré.</td></tr>';
+async function renderAccounts(){
+ requireAdmin();
+ const [a,b,c]=await Promise.all([
+  sb.from('user_roles').select('user_id,staff_id,role,is_enabled,created_at').eq('establishment_id',estId).order('created_at'),
+  sb.from('staff').select('id,display_name,email,phone,is_active').eq('establishment_id',estId),
+  sb.from('staff_invitation_requests').select('id,display_name,email,phone,requested_role,state').eq('establishment_id',estId)
+ ]);
+ const roles=done(a),staff=done(b),requests=done(c),byId=new Map(staff.map(x=>[x.id,x]));
+ state.profiles=roles.map(r=>{
+  const st=byId.get(r.staff_id);
+  return {id:r.user_id,display_name:st?.display_name||'Compte',email:st?.email||'',phone:st?.phone||'',
+  role:r.role==='owner'?'administrateur':r.role==='manager'?'gerant':'collaborateur',
+  active:Boolean(r.is_enabled&&st?.is_active),created_at:r.created_at};
+ });
+ const linked=new Set(state.profiles.map(x=>x.email.toLowerCase()).filter(Boolean));
+ state.pendingInvites=requests.filter(x=>!linked.has(x.email.toLowerCase())&&x.state!=='active');
+ const rows=state.profiles.map(p=>'<tr><td><strong>'+safe(p.display_name)+'</strong>'+(p.id===user.id?' <span class="pill">Vous</span>':'')
+  +'<small class="account-contact">'+safe(p.email)+(p.phone?' · '+safe(p.phone):'')+'</small></td>'
+  +'<td>'+(p.role==='administrateur'?'Administrateur':p.role==='gerant'?'Gestion':'Collaborateur')+'</td>'
+  +'<td>'+(p.active?'<span class="pill green">Actif</span>':'<span class="pill red">Désactivé</span>')+'</td>'
+  +'<td><button class="small-button" data-edit-account="'+safe(p.id)+'">Modifier</button> '
+  +(p.id===user.id?'':'<button class="small-button account-danger" data-delete-account="'+safe(p.id)+'">Supprimer</button>')+'</td></tr>');
+ for(const p of state.pendingInvites){
+  rows.push('<tr><td><strong>'+safe(p.display_name)+'</strong><small class="account-contact">'+safe(p.email)
+    +(p.phone?' · '+safe(p.phone):'')+'</small></td><td>'
+    +(p.requested_role==='manager'?'Gestion':p.requested_role==='staff'?'Collaborateur':'Administrateur')
+    +'</td><td><span class="pill grey">À inviter</span></td><td><button class="small-button" data-pending-invite="'
+    +safe(p.id)+'">Envoyer invitation</button></td></tr>');
+ }
+ $('accounts-table').innerHTML=rows.join('')||'<tr><td colspan="4">Aucun compte enregistré.</td></tr>';
 }
 async function renderDatabase(){requireAdmin();
   const tables=['appointments','customers','services','price_catalog','staff','user_roles','site_pages','site_modules'];
