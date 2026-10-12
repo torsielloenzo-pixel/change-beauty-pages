@@ -9,12 +9,15 @@
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./gestion.css?v=20261012b"><link rel="stylesheet" href="./analytics-dashboard.css">
+<link rel="stylesheet" href="./gestion.css?v=20261013-workspace1"><link rel="stylesheet" href="./analytics-dashboard.css">
 
 <style>.service-info{margin-top:8px;font-size:11px;color:#846c61}.service-info summary{cursor:pointer;text-decoration:underline;text-underline-offset:3px}.service-info p{margin-top:8px;line-height:1.65;max-width:420px;white-space:normal}.panel-view[data-panel=services] td .pill{margin:2px 2px 2px 0;white-space:nowrap}.panel-view[data-panel=services] .small-button{margin:2px}.panel-view[data-panel=services] td{vertical-align:top}</style><style>.account-contact{display:block;margin-top:6px;color:#8d7c76;font-size:11px;line-height:1.5}.account-danger{color:#a84b46;border-color:#e9c4be;margin-left:4px}.account-danger:hover{background:#fff0ed}</style></head>
 <body>
+<section id="boot-view" class="boot-shell" role="status" aria-live="polite" aria-label="Ouverture de l’espace professionnel">
+ <div class="boot-brand"><span class="boot-wordmark">Ch’ange</span><span class="boot-subtitle">ESPACE PROFESSIONNEL</span><span class="boot-progress" aria-hidden="true"></span></div>
+</section>
 <a class="skip" href="#workspace">Aller au contenu</a>
-<section id="auth-view" class="auth-shell">
+<section id="auth-view" class="auth-shell" hidden>
   <div class="auth-picture" role="img" aria-label="Univers douceur et beauté Ch’ange">
     <div class="auth-picture-caption"><span>INSTITUT DE BEAUTÉ · LE THOR</span><h2>Le soin de chaque détail.</h2><p>Votre espace de travail, pensé avec la même douceur que votre institut.</p></div>
   </div>
@@ -127,5 +130,5 @@
 <dialog id="edit-dialog"><form id="edit-form" class="form-grid"><div class="dialog-head"><div><span id="dialog-eyebrow" class="eyebrow">ÉDITION</span><h2 id="dialog-title">Modifier</h2></div><button type="button" id="dialog-close" class="icon-button" aria-label="Fermer">×</button></div><div id="dialog-fields" class="form-grid"></div><p id="dialog-error" role="alert" class="form-error"></p><div class="dialog-actions"><button type="button" class="secondary" id="dialog-cancel">Annuler</button><button class="primary" id="dialog-save" type="submit">Enregistrer</button></div></form></dialog>
 <script src="./supabase-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.74.0" defer></script>
-<script src="./analytics-dashboard.js" defer></script><script src="./gestion.js?v=20261012b" defer></script>
+<script src="./analytics-dashboard.js" defer></script><script src="./gestion.js?v=20261013-workspace1" defer></script>
 </body></html>
