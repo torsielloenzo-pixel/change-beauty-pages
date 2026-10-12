@@ -4,7 +4,9 @@
 'use strict';
 const $=id=>document.getElementById(id);
 const conf=window.CHANGE_SUPABASE||{};
-const invitationActivation=new URLSearchParams(location.hash.slice(1)).get('type')==='invite';
+const authLinkType=new URLSearchParams(location.hash.slice(1)).get('type');
+const invitationActivation=authLinkType==='invite';
+let passwordFlow=invitationActivation||authLinkType==='recovery';
 const allowedViews=['dashboard','appointments','clients','services','analytics','tarifs','site','modules','accounts','database'];
 const adminViews=new Set(['tarifs','site','modules','database']);
 const canManageInvitations=()=>['administrateur','gerant'].includes(profile?.role);
@@ -17,11 +19,35 @@ const dateInput=s=>{if(!s)return '';const d=new Date(s),p=x=>String(x).padStart(
 const iconPill=(v)=>{const names={confirmed:'Confirmé',pending:'En attente',in_progress:'En cours',completed:'Terminé',cancelled:'Annulé',no_show:'Absent'};return `<span class="pill ${v==='confirmed'?'green':v==='cancelled'?'red':'grey'}">${safe(names[v]||v)}</span>`};
 const configured=/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(conf.url||'') && /^(sb_publishable_|eyJ)/.test(conf.publishableKey||'');
 let sb=null, user=null, profile=null, estId=null, currentView='dashboard', modalHandler=null;
+let bootPromise=null, authInitialized=false, restoringWorkspace=false;
+const workspaceStoragePrefix='change-pro-workspace-v1:';
+if('scrollRestoration' in history)history.scrollRestoration='manual';
+function workspaceKey(id){return workspaceStoragePrefix+id;}
+function readWorkspace(id){
+ try{
+  const raw=localStorage.getItem(workspaceKey(id));
+  const saved=raw?JSON.parse(raw):null;
+  if(!saved||!allowedViews.includes(saved.view))return null;
+  return {view:saved.view,scrollY:Number.isFinite(saved.scrollY)?Math.max(0,saved.scrollY):0};
+ }catch{return null;}
+}
+function saveWorkspace(){
+ if(!user?.id||!profile||restoringWorkspace)return;
+ try{localStorage.setItem(workspaceKey(user.id),JSON.stringify({view:currentView,scrollY:Math.max(0,Math.round(window.scrollY))}));}catch{}
+}
+function viewAllowed(view,role){
+ if(!allowedViews.includes(view))return false;
+ if(adminViews.has(view)&&role!=='administrateur')return false;
+ if(view==='accounts'&&!['administrateur','gerant'].includes(role))return false;
+ if(role==='collaborateur'&&!['dashboard','appointments'].includes(view))return false;
+ return true;
+}
+function hideBootScreen(){$('boot-view').hidden=true;}
 let state={clients:[],services:[],appointments:[],prices:[],profiles:[],pendingInvites:[],pages:[],modules:[],staff:[],skills:[]};
 const authStatus=m=>{$('login-status').textContent=m||''};
 const notify=(m,isError=false)=>{const v=$('app-alert');v.hidden=false;v.textContent=m;v.style.background=isError?'#fff0e9':'#e8f3e8';v.style.borderColor=isError?'#e2c0b4':'#c1dec2'};
-function showLogin(){user=null;profile=null;$('auth-view').hidden=false;$('app-view').hidden=true;$('login-form').hidden=false;$('password-form').hidden=true;}
-function showPassword(){ $('auth-view').hidden=false;$('app-view').hidden=true;$('login-form').hidden=true;$('password-form').hidden=false;authStatus('Choisissez un nouveau mot de passe pour votre compte.');}
+function showLogin(){restoringWorkspace=false;user=null;profile=null;hideBootScreen();$('auth-view').hidden=false;$('app-view').hidden=true;$('login-form').hidden=false;$('password-form').hidden=true;}
+function showPassword(){restoringWorkspace=false;hideBootScreen();$('auth-view').hidden=false;$('app-view').hidden=true;$('login-form').hidden=true;$('password-form').hidden=false;authStatus('Choisissez un nouveau mot de passe pour votre compte.');}
 function requireAdmin(){if(profile?.role!=='administrateur')throw Error('Opération réservée aux administrateurs');}
 const done=({error,data})=>{if(error)throw error;return data};
 async function currentIdentity(){
@@ -35,35 +61,68 @@ async function currentIdentity(){
   return {u,p};
 }
 async function boot(){
-  if(!sb)return;
+ if(!sb||passwordFlow)return;
+ if(bootPromise)return bootPromise;
+ bootPromise=(async()=>{
+  restoringWorkspace=true;
   try{
-    const {u,p}=await currentIdentity();user=u;profile=p;
-    const {data:e,error:ee}=await sb.from('establishments').select('id').eq('slug','change-beauty-dev').single();
-    if(ee||!e)throw Error('Établissement Ch’ange introuvable.');estId=e.id;
-    $('auth-view').hidden=true;$('app-view').hidden=false;
-    document.querySelectorAll('.admin-only').forEach(el=>{el.hidden=p.role!=='administrateur'});
-    document.querySelectorAll('.invitation-access').forEach(el=>{el.hidden=!['administrateur','gerant'].includes(p.role)});
-    document.querySelectorAll('[data-view="analytics"]').forEach(el=>{el.hidden=!['administrateur','gerant'].includes(p.role)});
-    document.querySelectorAll('[data-view="clients"],[data-view="services"]').forEach(el=>{el.hidden=p.role==='collaborateur'});
-    document.querySelectorAll('[data-panel="dashboard"] button[data-view="appointments"],[data-panel="appointments"] #new-appointment').forEach(el=>{el.hidden=p.role==='collaborateur'});
-    $('account-chip').textContent=(p.display_name||u.email||'Compte')+' · '+(p.role==='administrateur'?'Administrateur':p.role==='gerant'?'Gestion':'Collaborateur');
-    await navigate(currentView);
+   const {u,p}=await currentIdentity();user=u;profile=p;
+   const {data:e,error:ee}=await sb.from('establishments').select('id').eq('slug','change-beauty-dev').single();
+   if(ee||!e)throw Error('Établissement Ch’ange introuvable.');estId=e.id;
+   document.querySelectorAll('.admin-only').forEach(el=>{el.hidden=p.role!=='administrateur'});
+   document.querySelectorAll('.invitation-access').forEach(el=>{el.hidden=!['administrateur','gerant'].includes(p.role)});
+   document.querySelectorAll('[data-view="analytics"]').forEach(el=>{el.hidden=!['administrateur','gerant'].includes(p.role)});
+   document.querySelectorAll('[data-view="clients"],[data-view="services"]').forEach(el=>{el.hidden=p.role==='collaborateur'});
+   document.querySelectorAll('[data-panel="dashboard"] button[data-view="appointments"],[data-panel="appointments"] #new-appointment').forEach(el=>{el.hidden=p.role==='collaborateur'});
+   $('account-chip').textContent=(p.display_name||u.email||'Compte')+' · '+(p.role==='administrateur'?'Administrateur':p.role==='gerant'?'Gestion':'Collaborateur');
+   const previous=readWorkspace(u.id);
+   const restored=previous&&viewAllowed(previous.view,p.role)?previous:null;
+   const target=restored?.view||'dashboard';
+   const loaded=await navigate(target,{initial:true});
+   if(!loaded||!profile)return;
+   // Afficher uniquement la page déjà chargée : aucun flash du hub ni du tableau de bord.
+   $('auth-view').hidden=true;
+   $('app-view').hidden=false;
+   hideBootScreen();
+   const y=restored?.scrollY||0;
+   requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    window.scrollTo({top:y,left:0,behavior:'instant'});
+    restoringWorkspace=false;
+    saveWorkspace();
+   }));
   }catch(e){showLogin();authStatus(e.message||'Connexion nécessaire.');}
+ })();
+ try{return await bootPromise;}finally{bootPromise=null;}
 }
-async function navigate(view){
-  if(!allowedViews.includes(view))view='dashboard';
-  if(adminViews.has(view)&&profile?.role!=='administrateur')return notify('Page réservée aux administrateurs.',true);
-  if(view==='accounts'&&!canManageInvitations())return notify('Gestion des invitations non autorisée.',true);
-  if(profile?.role==='collaborateur'&&!['dashboard','appointments'].includes(view))return notify('Section non autorisée pour les collaborateurs.',true);
-  currentView=view;
-  document.querySelectorAll('[data-panel]').forEach(el=>{el.hidden=el.dataset.panel!==view});
-  document.querySelectorAll('[data-view].nav-item').forEach(el=>el.classList.toggle('is-active',el.dataset.view===view));
-  $('view-breadcrumb').textContent=labels[view];$('app-alert').hidden=true;
-  try{
-    const id=await currentIdentity();user=id.u;profile=id.p;
-    if(adminViews.has(view))requireAdmin();
-    await ({dashboard:renderDashboard,appointments:renderAppointments,clients:renderClients,services:renderServices,analytics:()=>window.CHANGE_ANALYTICS.render(sb,estId,profile),tarifs:renderTarifs,site:renderSite,modules:renderModules,accounts:renderAccounts,database:renderDatabase}[view])();
-  }catch(e){if(String(e.message||'').includes('autorisé')||String(e.message||'').includes('session')){showLogin();authStatus(e.message)}else notify(e.message||'Chargement impossible',true)}
+async function navigate(view,{initial=false}={}){
+ if(!allowedViews.includes(view))view='dashboard';
+ if(!viewAllowed(view,profile?.role)){
+  if(!initial)notify('Section non autorisée pour votre rôle.',true);
+  return false;
+ }
+ if(!initial)saveWorkspace();
+ restoringWorkspace=true;
+ currentView=view;
+ document.querySelectorAll('[data-panel]').forEach(el=>{el.hidden=el.dataset.panel!==view});
+ document.querySelectorAll('[data-view].nav-item').forEach(el=>el.classList.toggle('is-active',el.dataset.view===view));
+ $('view-breadcrumb').textContent=labels[view];$('app-alert').hidden=true;
+ try{
+  const id=await currentIdentity();user=id.u;profile=id.p;
+  if(!viewAllowed(view,profile.role))throw Error('Page non autorisée pour votre rôle.');
+  if(adminViews.has(view))requireAdmin();
+  await ({dashboard:renderDashboard,appointments:renderAppointments,clients:renderClients,services:renderServices,analytics:()=>window.CHANGE_ANALYTICS.render(sb,estId,profile),tarifs:renderTarifs,site:renderSite,modules:renderModules,accounts:renderAccounts,database:renderDatabase}[view])();
+  if(!initial){
+   window.scrollTo({top:0,left:0,behavior:'instant'});
+   restoringWorkspace=false;
+   saveWorkspace();
+  }
+  return true;
+ }catch(e){
+  if(!initial)restoringWorkspace=false;
+  if(String(e.message||'').includes('autorisé')||String(e.message||'').includes('session')){showLogin();authStatus(e.message)}
+  else notify(e.message||'Chargement impossible',true);
+  return false;
+ }
 }
 async function fetchClients(){
  const data=done(await sb.from('customers').select('*').order('last_name').limit(1000));
@@ -449,7 +508,7 @@ function wire(){
   authStatus(error?'Impossible d’envoyer le lien.':'Si cette adresse est autorisée, un e-mail de réinitialisation sera envoyé.');
  });
  $('password-form').addEventListener('submit',async e=>{e.preventDefault();const f=e.currentTarget,p=val(f,'new_password');if(p.length<12||p!==val(f,'confirm_password'))return authStatus('Les mots de passe doivent correspondre et contenir au moins 12 caractères.');
-  const {error}=await sb.auth.updateUser({password:p});if(error)return authStatus(error.message);authStatus('Mot de passe modifié.');await boot();
+  const {error}=await sb.auth.updateUser({password:p});if(error)return authStatus(error.message);authStatus('Mot de passe modifié.');passwordFlow=false;await boot();
  });
  $('logout').addEventListener('click',async()=>{if(sb)await sb.auth.signOut({scope:'global'});showLogin();authStatus('Vous êtes déconnecté.');});
  $('new-client').addEventListener('click',()=>editClient(null));$('new-service').addEventListener('click',()=>editService(null));
@@ -481,12 +540,25 @@ function wire(){
   if(btn.dataset.skillService)editSkill(state.services.find(x=>x.id===btn.dataset.skillService));
   if(btn.dataset.pageChoice)fillPageForm(btn.dataset.pageChoice);
  });
+ window.addEventListener('scroll',saveWorkspace,{passive:true});
+ window.addEventListener('pagehide',saveWorkspace);
  // Recheck active account on focus and before each sensitive action; RLS is always decisive.
  window.addEventListener('focus',async()=>{if(!profile||!sb)return;try{const {p}=await currentIdentity();profile=p;if((adminViews.has(currentView)&&p.role!=='administrateur')||(currentView==='accounts'&&!canManageInvitations()))await navigate('dashboard')}catch{showLogin();authStatus('Votre accès professionnel doit être revérifié.');}});
 }
 wire();
 if(!configured||!window.supabase?.createClient){$('setup-message').hidden=false;$('login-form').hidden=true;authStatus('Connexion professionnelle indisponible avant configuration de la base Ch’ange.');return}
 sb=window.supabase.createClient(conf.url.replace(/\/$/,''),conf.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'implicit'}});
-sb.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY'){queueMicrotask(showPassword)}else if(event==='SIGNED_OUT'){queueMicrotask(showLogin)}else if(event==='SIGNED_IN'&&user==null){queueMicrotask(invitationActivation?showPassword:boot)}});
-sb.auth.getSession().then(({data})=>{if(data?.session){if(invitationActivation)showPassword();else boot();}else showLogin()}).catch(()=>showLogin());
+sb.auth.onAuthStateChange((event)=>{
+ if(event==='PASSWORD_RECOVERY'){passwordFlow=true;queueMicrotask(showPassword);}
+ else if(event==='SIGNED_OUT'){queueMicrotask(showLogin);}
+ else if(event==='SIGNED_IN'&&authInitialized&&user==null){queueMicrotask(()=>passwordFlow?showPassword():boot());}
+});
+// Au rechargement, patienter jusqu'à la restauration effective de la session Supabase.
+// L'écran d'authentification reste masqué durant cette vérification.
+sb.auth.getSession().then(async ({data,error})=>{
+ authInitialized=true;
+ if(error)throw error;
+ if(data?.session){if(passwordFlow)showPassword();else await boot();}
+ else showLogin();
+}).catch(()=>{authInitialized=true;showLogin();});
 })();
