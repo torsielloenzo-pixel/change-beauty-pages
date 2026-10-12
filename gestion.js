@@ -79,7 +79,7 @@ async function boot(){
    const restored=previous&&viewAllowed(previous.view,p.role)?previous:null;
    const target=restored?.view||'dashboard';
    const loaded=await navigate(target,{initial:true});
-   if(!loaded||!profile)return;
+   if(!profile)return;
    // Afficher uniquement la page déjà chargée : aucun flash du hub ni du tableau de bord.
    $('auth-view').hidden=true;
    $('app-view').hidden=false;
@@ -546,7 +546,7 @@ function wire(){
  window.addEventListener('focus',async()=>{if(!profile||!sb)return;try{const {p}=await currentIdentity();profile=p;if((adminViews.has(currentView)&&p.role!=='administrateur')||(currentView==='accounts'&&!canManageInvitations()))await navigate('dashboard')}catch{showLogin();authStatus('Votre accès professionnel doit être revérifié.');}});
 }
 wire();
-if(!configured||!window.supabase?.createClient){$('setup-message').hidden=false;$('login-form').hidden=true;authStatus('Connexion professionnelle indisponible avant configuration de la base Ch’ange.');return}
+if(!configured||!window.supabase?.createClient){showLogin();$('setup-message').hidden=false;$('login-form').hidden=true;authStatus('Connexion professionnelle indisponible avant configuration de la base Ch’ange.');return}
 sb=window.supabase.createClient(conf.url.replace(/\/$/,''),conf.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'implicit'}});
 sb.auth.onAuthStateChange((event)=>{
  if(event==='PASSWORD_RECOVERY'){passwordFlow=true;queueMicrotask(showPassword);}
