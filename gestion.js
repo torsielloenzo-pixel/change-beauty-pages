@@ -353,6 +353,28 @@ function editAccount(item){
  await renderAccounts();notify(r.message||'Compte modifié.');
  });
 }
+function createAccount(){
+ requireAdmin();
+ modal('Créer un compte · sans invitation',[
+  {name:'display_name',label:'Nom du membre',required:true},
+  {name:'email',label:'E-mail de connexion',type:'email',required:true},
+  {name:'phone',label:'Téléphone (facultatif)',type:'tel'},
+  {name:'role',label:'Rôle',type:'select',value:'collaborateur',options:[['collaborateur','Collaborateur'],['gerant','Gestion'],['administrateur','Administrateur']]},
+  {name:'password',label:'Mot de passe initial (12 caractères minimum)',type:'password',required:true,placeholder:'Mot de passe sécurisé'},
+  {name:'password_confirmation',label:'Confirmer le mot de passe',type:'password',required:true,placeholder:'Retapez le mot de passe'}
+ ],async f=>{
+  const password=f.elements.namedItem('password')?.value||'';
+  const confirmation=f.elements.namedItem('password_confirmation')?.value||'';
+  if(password.length<12||password.length>128)throw Error('Le mot de passe doit contenir entre 12 et 128 caractères.');
+  if(password!==confirmation)throw Error('Les deux mots de passe ne correspondent pas.');
+  const result=await staffRequest({action:'create',display_name:val(f,'display_name'),email:val(f,'email'),
+   phone:val(f,'phone'),role:val(f,'role'),password});
+  // Les mots de passe ne sont ni enregistrés dans le navigateur, ni renvoyés par le serveur.
+  f.reset();
+  await renderAccounts();
+  return result.message||'Compte créé sans invitation.';
+ });
+}
 function invite(draft){
  requireAdmin();
  modal(draft?'Inviter · '+draft.display_name:'Créer / inviter un compte',[
@@ -388,7 +410,7 @@ async function deleteAccount(item){
  try{const r=await staffRequest({action:'delete',id:item.id});await renderAccounts();notify(r.message||'Compte supprimé.');}
  catch(e){notify(e.message||'Suppression impossible.',true)}
 }
-async function submitModal(event){event.preventDefault();if(!modalHandler)return;const f=event.currentTarget;const btn=$('dialog-save');btn.disabled=true;$('dialog-error').textContent='';try{await modalHandler(f);$('edit-dialog').close();notify('Enregistrement effectué.')}catch(e){$('dialog-error').textContent=e.message||'Enregistrement impossible'}finally{btn.disabled=false}}
+async function submitModal(event){event.preventDefault();if(!modalHandler)return;const f=event.currentTarget;const btn=$('dialog-save');btn.disabled=true;$('dialog-error').textContent='';try{const result=await modalHandler(f);$('edit-dialog').close();notify(typeof result==='string'?result:'Enregistrement effectué.')}catch(e){$('dialog-error').textContent=e.message||'Enregistrement impossible'}finally{btn.disabled=false}}
 async function savePage(event){event.preventDefault();requireAdmin();await currentIdentity();const f=event.currentTarget;const slug=val(f,'slug');const image=val(f,'hero_image_url');if(image&&!/^https:\/\//i.test(image))return notify('L’image doit utiliser HTTPS.',true);
  try{done(await sb.from('site_pages').update({title:val(f,'title'),description:val(f,'description'),hero_image_url:image,visible:checked(f,'visible')}).eq('slug',slug).select());await renderSite();fillPageForm(slug);notify('Page enregistrée et publiée selon son état de visibilité.');}catch(e){notify(e.message||'Échec de mise à jour',true)}
 }
@@ -408,6 +430,7 @@ function wire(){
  $('new-client').addEventListener('click',()=>editClient(null));$('new-service').addEventListener('click',()=>editService(null));
  $('new-appointment').addEventListener('click',()=>editAppointment(null));$('price-add').addEventListener('click',()=>editPrice(null));$('price-category').addEventListener('change',filterPriceAdmin);
  $('new-module').addEventListener('click',()=>editModule(null));
+ $('new-account').addEventListener('click',()=>createAccount());
  $('new-invite').addEventListener('click',()=>invite());
  $('appointment-filter').value=dateLocal();$('appointment-filter').addEventListener('change',renderAppointments);$('appointment-status-filter').addEventListener('change',renderAppointments);$('reload-appointments').addEventListener('click',renderAppointments);
  $('client-search').addEventListener('input',filterClientList);
