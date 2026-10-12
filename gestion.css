@@ -5,3 +5,13 @@
 .account-actions .small-button{min-height:42px;white-space:nowrap}
 .account-guidance{padding:17px 22px;color:var(--muted);font-size:12px;line-height:1.6;border-top:1px solid var(--line)}
 @media(max-width:700px){.account-actions{justify-content:flex-start;width:100%}.account-actions button{flex:1 1 auto}}
+
+/* Démarrage: aucune interface de connexion tant que la session n'est pas vérifiée. */
+.boot-shell{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--cream);color:var(--dark);padding:32px}
+.boot-brand{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.boot-wordmark{font:clamp(53px,7vw,76px)/1.08 var(--serif);letter-spacing:.015em}
+.boot-subtitle{font:600 10px/1.4 var(--sans);letter-spacing:.28em;color:var(--rose-deep)}
+.boot-progress{display:block;width:72px;height:2px;margin-top:19px;border-radius:10px;overflow:hidden;background:var(--sand);position:relative}
+.boot-progress:after{content:"";display:block;width:38px;height:100%;background:var(--rose-deep);animation:change-boot-progress 1.25s ease-in-out infinite alternate}
+@keyframes change-boot-progress{from{transform:translateX(-100%)}to{transform:translateX(180%)}}
+@media(prefers-reduced-motion:reduce){.boot-progress:after{animation:none;transform:translateX(45%)}}
