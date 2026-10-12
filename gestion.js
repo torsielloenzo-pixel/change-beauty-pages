@@ -6,7 +6,8 @@ const $=id=>document.getElementById(id);
 const conf=window.CHANGE_SUPABASE||{};
 const invitationActivation=new URLSearchParams(location.hash.slice(1)).get('type')==='invite';
 const allowedViews=['dashboard','appointments','clients','services','analytics','tarifs','site','modules','accounts','database'];
-const adminViews=new Set(['tarifs','site','modules','accounts','database']);
+const adminViews=new Set(['tarifs','site','modules','database']);
+const canManageInvitations=()=>['administrateur','gerant'].includes(profile?.role);
 const labels={dashboard:'Vue d’ensemble',appointments:'Rendez-vous',clients:'Clientèle',services:'Prestations',analytics:'Visibilité & résultats',tarifs:'Tarifs',site:'Site et pages',modules:'Modules & médias',accounts:'Comptes et accès',database:'Base de données'};
 const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmtTime=s=>s?new Date(s).toLocaleString('fr-FR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'—';
@@ -41,6 +42,7 @@ async function boot(){
     if(ee||!e)throw Error('Établissement Ch’ange introuvable.');estId=e.id;
     $('auth-view').hidden=true;$('app-view').hidden=false;
     document.querySelectorAll('.admin-only').forEach(el=>{el.hidden=p.role!=='administrateur'});
+    document.querySelectorAll('.invitation-access').forEach(el=>{el.hidden=!['administrateur','gerant'].includes(p.role)});
     document.querySelectorAll('[data-view="analytics"]').forEach(el=>{el.hidden=!['administrateur','gerant'].includes(p.role)});
     document.querySelectorAll('[data-view="clients"],[data-view="services"]').forEach(el=>{el.hidden=p.role==='collaborateur'});
     document.querySelectorAll('[data-panel="dashboard"] button[data-view="appointments"],[data-panel="appointments"] #new-appointment').forEach(el=>{el.hidden=p.role==='collaborateur'});
@@ -51,6 +53,7 @@ async function boot(){
 async function navigate(view){
   if(!allowedViews.includes(view))view='dashboard';
   if(adminViews.has(view)&&profile?.role!=='administrateur')return notify('Page réservée aux administrateurs.',true);
+  if(view==='accounts'&&!canManageInvitations())return notify('Gestion des invitations non autorisée.',true);
   if(profile?.role==='collaborateur'&&!['dashboard','appointments'].includes(view))return notify('Section non autorisée pour les collaborateurs.',true);
   currentView=view;
   document.querySelectorAll('[data-panel]').forEach(el=>{el.hidden=el.dataset.panel!==view});
@@ -179,34 +182,44 @@ function filterModules(){const slug=$('module-page-filter').value;const arr=stat
   $('modules-list').innerHTML=arr.length?arr.map(m=>`<div class="module-line"><div><strong>${safe(m.title||'Section sans titre')}</strong><small>${safe(m.page_slug)} · ${safe(m.module_type)} · position ${safe(m.sort_order)} · ${m.published?'Publié':'Brouillon'}</small></div><button class="small-button" data-edit-module="${safe(m.id)}">Éditer</button></div>`).join(''):'<p class="empty">Aucun module enregistré pour cette page.</p>';
 }
 async function renderAccounts(){
- requireAdmin();
- const [a,b,c]=await Promise.all([
+ if(!canManageInvitations())throw Error('Accès aux invitations non autorisé.');
+ const isAdmin=profile?.role==='administrateur';
+ $('new-account').hidden=!isAdmin;
+ $('new-invite').hidden=!isAdmin;
+ $('account-description').textContent=isAdmin
+  ?'Les administrateurs créent et gèrent les comptes. Les rôles Administrateur et Gestion peuvent annuler les invitations en attente.'
+  :'Vous pouvez annuler les invitations en attente destinées aux rôles Gestion et Collaborateur.';
+ const invitationList=await staffRequest({action:'list_invitations'});
+ state.pendingInvites=Array.isArray(invitationList.invitations)?invitationList.invitations:[];
+ const inviteRows=state.pendingInvites.map(p=>'<tr><td><strong>'+safe(p.display_name)+'</strong><small class="account-contact">'
+  +safe(p.email)+(p.phone?' · '+safe(p.phone):'')+'</small></td><td>'
+  +(p.requested_role==='owner'?'Administrateur':p.requested_role==='manager'?'Gestion':'Collaborateur')
+  +'</td><td><span class="pill grey">'+(p.state==='sent'?'Invitation envoyée':'En attente')+'</span></td>'
+  +'<td>'+(isAdmin&&p.state==='pending'?'<button class="small-button" data-pending-invite="'+safe(p.id)+'">Inviter</button> ':'')
+  +'<button class="small-button account-danger" data-cancel-invite="'+safe(p.id)+'">Annuler l’invitation</button></td></tr>');
+ if(!isAdmin){
+   $('accounts-table').innerHTML=inviteRows.join('')||'<tr><td colspan="4">Aucune invitation en attente.</td></tr>';
+   return;
+ }
+ const [a,b]=await Promise.all([
   sb.from('user_roles').select('user_id,staff_id,role,is_enabled,created_at').eq('establishment_id',estId).order('created_at'),
-  sb.from('staff').select('id,display_name,email,phone,is_active').eq('establishment_id',estId),
-  sb.from('staff_invitation_requests').select('id,display_name,email,phone,requested_role,state').eq('establishment_id',estId)
+  sb.from('staff').select('id,display_name,email,phone,is_active').eq('establishment_id',estId)
  ]);
- const roles=done(a),staff=done(b),requests=done(c),byId=new Map(staff.map(x=>[x.id,x]));
+ const roles=done(a),staff=done(b),byId=new Map(staff.map(x=>[x.id,x]));
  state.profiles=roles.map(r=>{
   const st=byId.get(r.staff_id);
-  return {id:r.user_id,display_name:st?.display_name||'Compte',email:st?.email||'',phone:st?.phone||'',
+  return {id:r.user_id,display_name:st?.display_name||'Compte',email:st?.email||(r.user_id===user?.id?user?.email:'')||'',phone:st?.phone||'',
   role:r.role==='owner'?'administrateur':r.role==='manager'?'gerant':'collaborateur',
   active:Boolean(r.is_enabled&&st?.is_active),created_at:r.created_at};
  });
- const linked=new Set(state.profiles.map(x=>x.email.toLowerCase()).filter(Boolean));
- state.pendingInvites=requests.filter(x=>!linked.has(x.email.toLowerCase())&&x.state!=='active');
- const rows=state.profiles.map(p=>'<tr><td><strong>'+safe(p.display_name)+'</strong>'+(p.id===user.id?' <span class="pill">Vous</span>':'')
+ const pendingEmails=new Set(state.pendingInvites.map(x=>x.email.toLowerCase()));
+ const rows=state.profiles.filter(p=>!pendingEmails.has(p.email.toLowerCase())).map(p=>'<tr><td><strong>'+safe(p.display_name)+'</strong>'+(p.id===user.id?' <span class="pill">Vous</span>':'')
   +'<small class="account-contact">'+safe(p.email)+(p.phone?' · '+safe(p.phone):'')+'</small></td>'
   +'<td>'+(p.role==='administrateur'?'Administrateur':p.role==='gerant'?'Gestion':'Collaborateur')+'</td>'
   +'<td>'+(p.active?'<span class="pill green">Actif</span>':'<span class="pill red">Désactivé</span>')+'</td>'
   +'<td><button class="small-button" data-edit-account="'+safe(p.id)+'">Modifier</button> '
   +(p.id===user.id?'':'<button class="small-button account-danger" data-delete-account="'+safe(p.id)+'">Supprimer</button>')+'</td></tr>');
- for(const p of state.pendingInvites){
-  rows.push('<tr><td><strong>'+safe(p.display_name)+'</strong><small class="account-contact">'+safe(p.email)
-    +(p.phone?' · '+safe(p.phone):'')+'</small></td><td>'
-    +(p.requested_role==='manager'?'Gestion':p.requested_role==='staff'?'Collaborateur':'Administrateur')
-    +'</td><td><span class="pill grey">À inviter</span></td><td><button class="small-button" data-pending-invite="'
-    +safe(p.id)+'">Envoyer invitation</button></td></tr>');
- }
+ rows.push(...inviteRows);
  $('accounts-table').innerHTML=rows.join('')||'<tr><td colspan="4">Aucun compte enregistré.</td></tr>';
 }
 async function renderDatabase(){requireAdmin();
@@ -391,7 +404,10 @@ function invite(draft){
  });
 }
 async function staffRequest(body){
- requireAdmin();await currentIdentity();
+ if(['list_invitations','cancel_invitation'].includes(body?.action)){
+  if(!canManageInvitations())throw Error('Action réservée à Administrateur ou Gestion.');
+ }else requireAdmin();
+ await currentIdentity();
  const {data,error}=await sb.functions.invoke('manage-staff',{body});
  if(error){
    let detailed='';
@@ -402,6 +418,15 @@ async function staffRequest(body){
    throw Error(detailed||data?.message||error.message||'Erreur serveur.');
  }
  return data||{};
+}
+async function cancelInvitation(draft){
+ if(!canManageInvitations()||!draft?.id)return notify('Annulation non autorisée.',true);
+ if(!window.confirm('Annuler la demande d’invitation de '+draft.display_name+' ? Un accès non utilisé lié à cette invitation sera révoqué.'))return;
+ try{
+  const res=await staffRequest({action:'cancel_invitation',id:draft.id});
+  await renderAccounts();
+  notify(res.message||'Invitation annulée.');
+ }catch(err){notify(err.message||'Annulation impossible.',true);}
 }
 async function deleteAccount(item){
  requireAdmin();
@@ -450,13 +475,14 @@ function wire(){
   if(btn.dataset.editModule)editModule(state.modules.find(x=>x.id===btn.dataset.editModule));
    if(btn.dataset.priceEdit)editPrice(state.prices.find(x=>x.id===btn.dataset.priceEdit));
   if(btn.dataset.editAccount)editAccount(state.profiles.find(x=>x.id===btn.dataset.editAccount));
-  if(btn.dataset.pendingInvite)invite(state.pendingInvites.find(x=>x.id===btn.dataset.pendingInvite));
+  if(btn.dataset.pendingInvite&&profile?.role==='administrateur')invite(state.pendingInvites.find(x=>x.id===btn.dataset.pendingInvite));
+  if(btn.dataset.cancelInvite)await cancelInvitation(state.pendingInvites.find(x=>x.id===btn.dataset.cancelInvite));
   if(btn.dataset.deleteAccount)await deleteAccount(state.profiles.find(x=>x.id===btn.dataset.deleteAccount));
   if(btn.dataset.skillService)editSkill(state.services.find(x=>x.id===btn.dataset.skillService));
   if(btn.dataset.pageChoice)fillPageForm(btn.dataset.pageChoice);
  });
  // Recheck active account on focus and before each sensitive action; RLS is always decisive.
- window.addEventListener('focus',async()=>{if(!profile||!sb)return;try{const {p}=await currentIdentity();profile=p;if(adminViews.has(currentView)&&p.role!=='administrateur')await navigate('dashboard')}catch{showLogin();authStatus('Votre accès professionnel doit être revérifié.');}});
+ window.addEventListener('focus',async()=>{if(!profile||!sb)return;try{const {p}=await currentIdentity();profile=p;if((adminViews.has(currentView)&&p.role!=='administrateur')||(currentView==='accounts'&&!canManageInvitations()))await navigate('dashboard')}catch{showLogin();authStatus('Votre accès professionnel doit être revérifié.');}});
 }
 wire();
 if(!configured||!window.supabase?.createClient){$('setup-message').hidden=false;$('login-form').hidden=true;authStatus('Connexion professionnelle indisponible avant configuration de la base Ch’ange.');return}
