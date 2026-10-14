@@ -23,12 +23,36 @@
 .dual-home__dot{display:block;width:9px;height:9px;padding:0;border:1px solid #bf9c91;border-radius:50%;background:transparent}
 .dual-home__dot[aria-current=true]{background:#ae8077}
 .dual-home__divider{position:relative;z-index:4;display:flex;align-items:center;justify-content:center}
-.dual-home__divider:before{content:'';position:absolute;top:-55px;bottom:-50px;left:50%;border-left:1px solid #e3c9b7}
-.dual-home__divider:after{content:'✧';position:absolute;top:43%;font:35px var(--display);color:#bf9f8c;background:#f1e2d5;border-radius:50%;padding:12px}
-.dual-home__botanical{position:absolute;left:50%;top:13%;height:180px;width:45px;transform:translateX(-50%);z-index:2;opacity:.62;background:repeating-linear-gradient(155deg,transparent 0 14px,#b99b7b 15px,#b99b7b 16px,transparent 17px 31px);clip-path:polygon(50% 0,90% 33%,61% 52%,100% 65%,50% 100%,0 65%,39% 52%,10% 33%)}
+
+
+
 .dual-home__empty{display:grid;place-items:center;text-align:center;color:#78675e;background:#eadbd0;width:100%;height:100%;font-size:12px;padding:18px}
 .home-categories .category-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 .home-categories .category-card{height:365px}
-@media(max-width:1150px){.dual-home__grid{padding:40px 20px;grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr)}.dual-home__panel,.dual-home__panel--hair{display:flex;flex-direction:column;align-items:stretch}.dual-home__panel .dual-home__copy{order:0;text-align:left;padding:8px 8px 0}.dual-home__panel--hair .dual-home__copy p:not(.dual-home__sub){margin-left:0}.dual-home__carousel{order:1;height:390px;width:100%}.dual-home__copy h1,.dual-home__copy h2{font-size:clamp(45px,5vw,65px)}.dual-home__copy .dual-home__sub{font-size:34px}.dual-home__photo{inset:18px 18px 44px}.dual-home__divider:before{top:-40px;bottom:-40px}}
-@media(max-width:680px){.dual-home__grid{display:block;padding:26px 18px 40px}.dual-home__panel{display:flex;flex-direction:column;gap:15px}.dual-home__panel .dual-home__copy{align-self:stretch;width:100%;text-align:left;padding:0}.dual-home__copy h1,.dual-home__copy h2{font-size:61px;margin:18px 0 8px}.dual-home__copy .dual-home__sub{font-size:39px}.dual-home__copy p:not(.dual-home__sub){max-width:100%}.dual-home__carousel{height:425px}.dual-home__photo{inset:0 30px 48px}.dual-home__arrow--prev{left:12px}.dual-home__arrow--next{right:12px}.dual-home__divider{height:80px}.dual-home__divider:before{top:8px;bottom:8px}.dual-home__botanical{display:none}.dual-home__divider:after{top:15px}.home-categories .category-grid{grid-template-columns:1fr 1fr}.home-categories .category-card{height:290px}.home-categories .category-card:first-child{grid-column:1/-1;height:340px}}
+@media(max-width:1150px){.dual-home__grid{padding:40px 20px;grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr)}.dual-home__panel,.dual-home__panel--hair{display:flex;flex-direction:column;align-items:stretch}.dual-home__panel .dual-home__copy{order:0;text-align:left;padding:8px 8px 0}.dual-home__panel--hair .dual-home__copy p:not(.dual-home__sub){margin-left:0}.dual-home__carousel{order:1;height:390px;width:100%}.dual-home__copy h1,.dual-home__copy h2{font-size:clamp(45px,5vw,65px)}.dual-home__copy .dual-home__sub{font-size:34px}.dual-home__photo{inset:18px 18px 44px}}
+@media(max-width:680px){.dual-home__grid{display:block;padding:26px 18px 40px}.dual-home__panel{display:flex;flex-direction:column;gap:15px}.dual-home__panel .dual-home__copy{align-self:stretch;width:100%;text-align:left;padding:0}.dual-home__copy h1,.dual-home__copy h2{font-size:61px;margin:18px 0 8px}.dual-home__copy .dual-home__sub{font-size:39px}.dual-home__copy p:not(.dual-home__sub){max-width:100%}.dual-home__carousel{height:425px}.dual-home__photo{inset:0 30px 48px}.dual-home__arrow--prev{left:12px}.dual-home__arrow--next{right:12px}.dual-home__divider{height:80px}.dual-home__divider:before{top:8px;bottom:8px}.home-categories .category-grid{grid-template-columns:1fr 1fr}.home-categories .category-card{height:290px}.home-categories .category-card:first-child{grid-column:1/-1;height:340px}}
 @media(prefers-reduced-motion:reduce){.dual-home *{scroll-behavior:auto!important;transition:none!important}}
+
+/* Décoration végétale centrale, indépendante des photos et des carrousels.
+   SVG vectoriel transparent : reste net sur les grands écrans. */
+.dual-home__divider{isolation:isolate;pointer-events:none}
+.dual-home__divider::before{content:'';position:absolute;top:-55px;bottom:-50px;left:50%;width:1px;background:linear-gradient(to bottom,transparent,#e6d3c2 24%,#d9bba2 75%,transparent);z-index:0}
+.dual-home__botanical{
+ position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+ height:calc(100% + 120px);max-height:670px;width:295px;
+ z-index:2;pointer-events:none;
+ background:url("./home-botanical.svg") center bottom/contain no-repeat;
+ filter:drop-shadow(0 12px 9px rgba(101,75,55,.13));
+}
+/* Double courbe couleur pierre autour des cadres photo. */
+.dual-home__photo{box-shadow:0 0 0 7px #f8f0e7,0 0 0 12px rgba(214,186,160,.42)}
+@media(max-width:1150px){
+ .dual-home__botanical{width:clamp(125px,17vw,210px);height:min(480px,75%);top:59%}
+ .dual-home__divider::before{top:-40px;bottom:-40px}
+}
+@media(max-width:680px){
+ .dual-home__divider{height:146px}
+ .dual-home__divider::before{top:8px;bottom:8px}
+ .dual-home__botanical{display:block;width:112px;height:164px;top:50%;filter:drop-shadow(0 5px 5px rgba(101,75,55,.12))}
+ .dual-home__photo{box-shadow:0 0 0 4px #f8f0e7,0 0 0 7px rgba(214,186,160,.4)}
+}
