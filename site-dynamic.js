@@ -12,7 +12,7 @@
   const safeImage=v=>{try{const u=new URL(v);return u.protocol==='https:'?u.href:null}catch{return null}};
   try {
     const [pages,modules,services]=await Promise.all([
-      api('site_pages','select=slug,title,description,visible,hero_image_url&visible=eq.true'),
+      api('site_pages','select=slug,title,description,visible,hero_image_url,hero_image_settings&visible=eq.true'),
       api('site_modules','select=page_slug,module_type,title,content,image_url,link_url,link_label,sort_order&published=eq.true&order=sort_order.asc'),
       api('services','select=name,category,duration_minutes,price_cents,description&is_active=eq.true&is_publicly_bookable=eq.true&order=name.asc')
     ]);
@@ -25,14 +25,25 @@
       if(title&&page.title)title.textContent=page.title;
       const intro=section.querySelector('.hero-copy p,.inner-intro p,.gift-hero p');
       if(intro&&page.description)intro.textContent=page.description;
-      // Image centrale de l'accueil : utiliser le même champ CMS que les images de page.
-      // Aucun décor ou espace vide n'est affiché tant qu'une photo valide n'est pas chargée.
+      // Image de fond plein écran de l'accueil, derrière Esthétique et Coiffure.
       if(slug==='accueil'){
         const home=section.querySelector('.dual-home');
         const frame=section.querySelector('.dual-home__center-media');
         const img=frame?.querySelector('img');
         const url=safeImage(page.hero_image_url);
+        const cfg=page.hero_image_settings||{};
+        const clamp=(v,lo,hi,def)=>Number.isFinite(Number(v))&&v!==null&&v!==''?Math.min(hi,Math.max(lo,Number(v))):def;
         if(home&&frame&&img&&url){
+          const vars={
+            '--hero-x':clamp(cfg.x,0,100,50)+'%',
+            '--hero-y':clamp(cfg.y,0,100,50)+'%',
+            '--hero-mobile-x':clamp(cfg.mobile_x,0,100,50)+'%',
+            '--hero-mobile-y':clamp(cfg.mobile_y,0,100,50)+'%',
+            '--hero-zoom':String(clamp(cfg.zoom,100,250,100)/100),
+            '--hero-height':clamp(cfg.height,460,1100,700)+'px',
+            '--hero-overlay':String(clamp(cfg.overlay,0,90,50)/100)
+          };
+          Object.entries(vars).forEach(([name,value])=>home.style.setProperty(name,value));
           img.addEventListener('load',()=>{
             frame.hidden=false;
             home.classList.add('dual-home--with-photo');
