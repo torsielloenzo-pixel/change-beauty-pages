@@ -39,7 +39,7 @@
             '--hero-y':clamp(cfg.y,0,100,50)+'%',
             '--hero-mobile-x':clamp(cfg.mobile_x,0,100,50)+'%',
             '--hero-mobile-y':clamp(cfg.mobile_y,0,100,50)+'%',
-            '--hero-zoom':String(clamp(cfg.zoom,100,250,100)/100),
+            '--hero-zoom':String(clamp(cfg.zoom,30,250,100)/100),
             '--hero-height':clamp(cfg.height,460,1100,700)+'px',
             '--hero-overlay':String(clamp(cfg.overlay,0,90,50)/100),
             '--hero-overlay-mid':String(clamp(cfg.overlay,0,90,50)*.84/100)
