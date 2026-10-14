@@ -1,58 +1,239 @@
-/* Accueil partagé : composition originale, sans image de maquette */
-.dual-home{position:relative;isolation:isolate;border-bottom:1px solid var(--stroke);overflow:hidden;background:radial-gradient(ellipse at 50% 65%,#f1e2d5 0%,transparent 33%),var(--bg)}
-.dual-home__grid{display:grid;grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr);max-width:1320px;margin:auto;padding:55px 0 50px;min-height:620px}
-.dual-home__panel{position:relative;display:grid;grid-template-columns:48% 52%;gap:0;min-width:0;align-items:center}
-.dual-home__panel--hair{grid-template-columns:52% 48%}
-.dual-home__copy{z-index:2;position:relative;padding:12px 0 30px 12px;align-self:center}
-.dual-home__panel--hair .dual-home__copy{grid-column:2;grid-row:1;text-align:right;padding:12px 12px 30px 0}
-.dual-home__label{font-size:10px;color:#a7766b;text-transform:uppercase;letter-spacing:.16em;font-weight:700;white-space:nowrap}
-.dual-home__copy h1,.dual-home__copy h2{font:clamp(50px,5vw,83px)/.98 var(--display);letter-spacing:-.04em;margin:25px 0 15px}
-.dual-home__copy .dual-home__sub{font:clamp(30px,3.2vw,50px)/1.07 var(--display);letter-spacing:-.03em;margin:0 0 23px}
-.dual-home__copy em{font-style:italic;color:#b88f85}
-.dual-home__copy p:not(.dual-home__sub){font:13px/1.85 var(--sans);color:#84736c;max-width:270px;margin:0 0 26px}
-.dual-home__panel--hair .dual-home__copy p:not(.dual-home__sub){margin-left:auto}
-.dual-home__copy .btn{gap:18px;padding:16px 17px;font-size:11px;white-space:nowrap}
-.dual-home__carousel{position:relative;min-width:0;height:470px;align-self:center}
-.dual-home__panel--hair .dual-home__carousel{grid-column:1;grid-row:1}
-.dual-home__photo{position:absolute;inset:0 8px 48px;background:linear-gradient(140deg,#dec8b7,#ae8878);border-radius:230px 230px 3px 3px;overflow:hidden}
-.dual-home__photo img{height:100%;width:100%;object-fit:cover}
-.dual-home__photo img:not([src]){visibility:hidden}
-.dual-home__arrow{position:absolute;top:46%;z-index:3;width:44px;height:44px;border:1px solid #dac5b8;border-radius:50%;background:#fff9f4;color:#3d2e2c;display:grid;place-items:center;font-size:26px;box-shadow:0 4px 16px #4a34221c}
-.dual-home__arrow--prev{left:-12px}.dual-home__arrow--next{right:-12px}
-.dual-home__dots{position:absolute;bottom:8px;width:100%;display:flex;justify-content:center;gap:9px}
-.dual-home__dot{display:block;width:9px;height:9px;padding:0;border:1px solid #bf9c91;border-radius:50%;background:transparent}
-.dual-home__dot[aria-current=true]{background:#ae8077}
-.dual-home__divider{position:relative;z-index:4;display:flex;align-items:center;justify-content:center}
-
-
-
-.dual-home__empty{display:grid;place-items:center;text-align:center;color:#78675e;background:#eadbd0;width:100%;height:100%;font-size:12px;padding:18px}
-.home-categories .category-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-.home-categories .category-card{height:365px}
-@media(max-width:1150px){.dual-home__grid{padding:40px 20px;grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr)}.dual-home__panel,.dual-home__panel--hair{display:flex;flex-direction:column;align-items:stretch}.dual-home__panel .dual-home__copy{order:0;text-align:left;padding:8px 8px 0}.dual-home__panel--hair .dual-home__copy p:not(.dual-home__sub){margin-left:0}.dual-home__carousel{order:1;height:390px;width:100%}.dual-home__copy h1,.dual-home__copy h2{font-size:clamp(45px,5vw,65px)}.dual-home__copy .dual-home__sub{font-size:34px}.dual-home__photo{inset:18px 18px 44px}}
-@media(max-width:680px){.dual-home__grid{display:block;padding:26px 18px 40px}.dual-home__panel{display:flex;flex-direction:column;gap:15px}.dual-home__panel .dual-home__copy{align-self:stretch;width:100%;text-align:left;padding:0}.dual-home__copy h1,.dual-home__copy h2{font-size:61px;margin:18px 0 8px}.dual-home__copy .dual-home__sub{font-size:39px}.dual-home__copy p:not(.dual-home__sub){max-width:100%}.dual-home__carousel{height:425px}.dual-home__photo{inset:0 30px 48px}.dual-home__arrow--prev{left:12px}.dual-home__arrow--next{right:12px}.dual-home__divider{height:80px}.dual-home__divider:before{top:8px;bottom:8px}.home-categories .category-grid{grid-template-columns:1fr 1fr}.home-categories .category-card{height:290px}.home-categories .category-card:first-child{grid-column:1/-1;height:340px}}
-@media(prefers-reduced-motion:reduce){.dual-home *{scroll-behavior:auto!important;transition:none!important}}
-
-/* Décoration végétale centrale, indépendante des photos et des carrousels.
-   SVG vectoriel transparent : reste net sur les grands écrans. */
-.dual-home__divider{isolation:isolate;pointer-events:none}
-.dual-home__divider::before{content:'';position:absolute;top:-55px;bottom:-50px;left:50%;width:1px;background:linear-gradient(to bottom,transparent,#e6d3c2 24%,#d9bba2 75%,transparent);z-index:0}
-.dual-home__botanical{
- position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
- height:calc(100% + 120px);max-height:670px;width:295px;
- z-index:2;pointer-events:none;
- background:url("./home-botanical.svg") center bottom/contain no-repeat;
- filter:drop-shadow(0 12px 9px rgba(101,75,55,.13));
+/*
+ * Accueil CH'ANGE — esthétique | coiffure
+ * Reproduction éditoriale du visuel de référence.
+ * Les images restent de vrais carrousels indépendants (home-dual.js).
+ * Les polices sont héritées du site : --display (Italiana) et --sans (DM Sans).
+ */
+.dual-home {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border-bottom:1px solid var(--stroke);
+  background:
+    radial-gradient(ellipse 40% 78% at 50% 56%,rgba(231,210,193,.55),transparent 87%),
+    linear-gradient(90deg,#fbf7f3,#faf5ef 49%,#fbf7f3);
 }
-/* Double courbe couleur pierre autour des cadres photo. */
-.dual-home__photo{box-shadow:0 0 0 7px #f8f0e7,0 0 0 12px rgba(214,186,160,.42)}
-@media(max-width:1150px){
- .dual-home__botanical{width:clamp(125px,17vw,210px);height:min(480px,75%);top:59%}
- .dual-home__divider::before{top:-40px;bottom:-40px}
+.dual-home__grid {
+  --duo-height:645px;
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  width:min(100%,1360px);
+  height:var(--duo-height);
+  padding:0 clamp(28px,3.4vw,50px);
+  margin:0 auto;
 }
-@media(max-width:680px){
- .dual-home__divider{height:146px}
- .dual-home__divider::before{top:8px;bottom:8px}
- .dual-home__botanical{display:block;width:112px;height:164px;top:50%;filter:drop-shadow(0 5px 5px rgba(101,75,55,.12))}
- .dual-home__photo{box-shadow:0 0 0 4px #f8f0e7,0 0 0 7px rgba(214,186,160,.4)}
+.dual-home__panel { position:relative;min-width:0;height:100%; }
+.dual-home__panel--beauty { grid-column:1; }
+.dual-home__panel--hair { grid-column:2; }
+/* Arches en pierre très pâle qui épousent la partie supérieure des photographies. */
+.dual-home__panel::before {
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:48px;
+  width:72%;
+  background:
+    linear-gradient(120deg,rgba(239,225,211,.82),rgba(248,238,226,.3) 46%,rgba(215,183,153,.38));
+  border:1px solid rgba(220,196,173,.58);
+  border-bottom:0;
+  border-radius:310px 310px 0 0;
+  pointer-events:none;
+  z-index:0;
 }
+.dual-home__panel--beauty::before { right:-22px; }
+.dual-home__panel--hair::before { left:-22px; }
+.dual-home__copy {
+  position:absolute;
+  z-index:3;
+  top:71px;
+  left:0;
+  width:min(80%,425px);
+  padding:0;
+  text-align:left;
+  pointer-events:none;
+}
+.dual-home__panel--hair .dual-home__copy {
+  left:auto;
+  right:0;
+  width:min(78%,370px);
+  text-align:right;
+}
+.dual-home__label {
+  color:#b47e72;
+  font:600 10px/1.4 var(--sans);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.dual-home__copy h1,.dual-home__copy h2 {
+  color:var(--ink);
+  font:400 clamp(61px,6.1vw,92px)/.99 var(--display);
+  letter-spacing:-.037em;
+  margin:23px 0 15px;
+  white-space:nowrap;
+}
+.dual-home__copy .dual-home__sub {
+  font:400 clamp(35px,3.9vw,51px)/1.08 var(--display);
+  letter-spacing:-.035em;
+  margin:0 0 22px;
+  color:var(--ink);
+}
+.dual-home__copy em { font-style:italic;color:#b58b80; }
+.dual-home__copy p:not(.dual-home__sub) {
+  font:400 13px/1.85 var(--sans);
+  color:#82736d;
+  max-width:265px;
+  margin:0 0 20px;
+}
+.dual-home__panel--hair .dual-home__copy p:not(.dual-home__sub){margin-left:auto;}
+.dual-home__copy .btn {
+  pointer-events:auto;
+  display:inline-flex;
+  gap:18px;
+  padding:16px 20px;
+  font:600 11px/1.3 var(--sans);
+  white-space:nowrap;
+}
+/* Les photographies restent distinctes du fond décoratif et interchangeables. */
+.dual-home__carousel {
+  position:absolute;
+  z-index:1;
+  left:auto;
+  right:0;
+  top:152px;
+  bottom:32px;
+  width:67%;
+  min-width:0;
+  height:auto;
+}
+.dual-home__panel--hair .dual-home__carousel{
+  right:auto;
+  left:0;
+  top:119px;
+  width:69%;
+}
+.dual-home__photo {
+  position:absolute;
+  inset:0 9px 38px;
+  overflow:hidden;
+  background:linear-gradient(140deg,#e5d2c1,#c6a494);
+  border-radius:52% 52% 0 0 / 34% 34% 0 0;
+  box-shadow:0 0 0 5px #f9f3ec,0 0 0 9px rgba(215,186,159,.35);
+}
+.dual-home__photo img { display:block;width:100%;height:100%;object-fit:cover;object-position:50% 42%; }
+.dual-home__panel--beauty .dual-home__photo img {object-position:center 52%;}
+.dual-home__panel--hair .dual-home__photo img {object-position:50% 34%;}
+.dual-home__photo img:not([src]) {visibility:hidden;}
+.dual-home__photo::after {
+  content:"";position:absolute;inset:auto 0 0;height:8%;
+  pointer-events:none;
+  background:linear-gradient(transparent,rgba(250,246,241,.7));
+}
+.dual-home__arrow {
+  position:absolute;
+  z-index:5;
+  top:73%;
+  display:grid;place-items:center;
+  width:44px;height:44px;
+  border:1px solid #dfc9bd;border-radius:50%;
+  color:var(--ink);
+  background:#fffaf6;
+  box-shadow:0 4px 15px rgba(88,57,43,.15);
+  font:400 27px/1 var(--display);
+  transition:transform .2s,background .2s;
+}
+.dual-home__arrow:hover {transform:scale(1.06);background:#f1e4d9;}
+.dual-home__arrow--prev {left:-8px;}
+.dual-home__arrow--next {right:-8px;}
+.dual-home__dots {
+  position:absolute;
+  inset:auto 0 7px;
+  display:flex;justify-content:center;align-items:center;gap:11px;
+}
+.dual-home__dot {
+  display:block;
+  width:10px;height:10px;padding:0;
+  border:1px solid #c69f94;border-radius:50%;
+  background:transparent;
+}
+.dual-home__dot[aria-current="true"] {background:#b7877f;}
+/* Axe végétal central, par-dessus les bords des deux arches. */
+.dual-home__divider {
+  position:absolute;
+  z-index:4;
+  top:0;bottom:0;left:50%;
+  width:0;
+  pointer-events:none;
+}
+.dual-home__divider::before {
+  content:"";
+  position:absolute;top:0;bottom:0;left:0;width:2px;
+  background:linear-gradient(transparent,rgba(213,183,161,.55) 30%,rgba(203,166,138,.48) 86%,transparent);
+}
+.dual-home__botanical {
+  position:absolute;left:50%;bottom:-17px;
+  transform:translateX(-50%);
+  width:290px;height:700px;
+  background:url("./home-botanical.svg") center bottom/contain no-repeat;
+  filter:drop-shadow(0 10px 8px rgba(100,69,44,.09));
+  pointer-events:none;
+}
+.home-categories .category-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+.home-categories .category-card{height:365px;}
+@media (max-width:1200px) and (min-width:861px) {
+  .dual-home__grid{--duo-height:605px;padding:0 24px;}
+  .dual-home__copy{top:72px;width:82%;}
+  .dual-home__panel--hair .dual-home__copy{width:79%;}
+  .dual-home__copy h1,.dual-home__copy h2{font-size:clamp(57px,6.1vw,76px);}
+  .dual-home__copy .dual-home__sub{font-size:clamp(34px,3.8vw,47px);}
+  .dual-home__carousel{top:162px;width:69%;}
+  .dual-home__panel--hair .dual-home__carousel{top:145px;width:71%;}
+  .dual-home__botanical{width:230px;height:640px;bottom:-12px;}
+}
+@media (max-width:860px) {
+  .dual-home__grid{height:auto;display:flex;flex-direction:column;padding:34px 28px 46px;gap:0;}
+  .dual-home__panel{height:auto;display:grid;grid-template-columns:44% 56%;gap:16px;min-height:430px;align-items:center;}
+  .dual-home__panel--hair{grid-template-columns:56% 44%;}
+  .dual-home__panel::before{top:6%;bottom:35px;width:51%;}
+  .dual-home__panel--beauty::before{right:0;}
+  .dual-home__panel--hair::before{left:0;}
+  .dual-home__copy,.dual-home__panel--hair .dual-home__copy{
+    position:relative;top:auto;left:auto;right:auto;
+    grid-column:1;grid-row:1;width:100%;padding:0;text-align:left;
+  }
+  .dual-home__panel--hair .dual-home__copy{grid-column:2;text-align:right;}
+  .dual-home__copy h1,.dual-home__copy h2{font-size:clamp(48px,7vw,70px);}
+  .dual-home__copy .dual-home__sub{font-size:clamp(31px,4.6vw,42px);}
+  .dual-home__panel--hair .dual-home__copy p:not(.dual-home__sub){margin-left:auto;}
+  .dual-home__carousel,.dual-home__panel--hair .dual-home__carousel{
+    position:relative;top:auto;bottom:auto;left:auto;right:auto;
+    width:100%;height:405px;grid-column:2;grid-row:1;
+  }
+  .dual-home__panel--hair .dual-home__carousel{grid-column:1;}
+  .dual-home__photo{inset:0 16px 38px;}
+  .dual-home__divider{position:relative;left:auto;top:auto;bottom:auto;height:115px;margin:0 auto;}
+  .dual-home__divider::before{top:4px;bottom:4px;}
+  .dual-home__botanical{width:100px;height:145px;bottom:-14px;}
+}
+@media (max-width:600px){
+  .dual-home__grid{padding:26px 18px 38px;}
+  .dual-home__panel,.dual-home__panel--hair{display:flex;flex-direction:column;gap:17px;min-height:0;align-items:stretch;}
+  .dual-home__copy,.dual-home__panel--hair .dual-home__copy{order:0;text-align:left;width:100%;}
+  .dual-home__copy h1,.dual-home__copy h2{font-size:clamp(55px,15vw,76px);margin:19px 0 9px;}
+  .dual-home__copy .dual-home__sub{font-size:clamp(34px,9.2vw,45px);}
+  .dual-home__copy p:not(.dual-home__sub),.dual-home__panel--hair .dual-home__copy p:not(.dual-home__sub){max-width:340px;margin-left:0;}
+  .dual-home__carousel,.dual-home__panel--hair .dual-home__carousel{order:1;flex:none;height:min(112vw,430px);width:100%;}
+  .dual-home__photo{inset:0 24px 40px;}
+  .dual-home__panel::before{top:220px;bottom:36px;width:83%;}
+  .dual-home__panel--beauty::before{right:8%;}
+  .dual-home__panel--hair::before{left:8%;}
+  .dual-home__arrow--prev{left:4px;}
+  .dual-home__arrow--next{right:4px;}
+  .dual-home__divider{height:100px;}
+  .dual-home__botanical{height:150px;width:97px;}
+  .home-categories .category-grid{grid-template-columns:1fr 1fr;}
+  .home-categories .category-card{height:290px;}
+  .home-categories .category-card:first-child{grid-column:1/-1;height:340px;}
+}
+@media (prefers-reduced-motion:reduce){.dual-home *{animation:none!important;transition:none!important;}}
