@@ -279,3 +279,44 @@
 @media(prefers-reduced-motion:reduce){
   .dual-home__center-media img{transition:none!important}
 }
+
+/* Accueil pleine image : pas de cadre crème lors du dézoom. */
+.dual-home--with-photo{
+  background:transparent;
+  border-bottom:0;
+}
+.dual-home--with-photo .dual-home__grid{
+  height:var(--hero-height);
+  min-height:460px;
+  padding-block:0;
+}
+/* Même photo en remplissage continu, derrière le cadrage réduit.
+   Ainsi les réglages de 30 à 99 % ne font jamais réapparaître de marge colorée. */
+.dual-home--with-photo .dual-home__center-media{
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:var(--hero-x) var(--hero-y);
+}
+.dual-home--with-photo.dual-home--underzoom .dual-home__center-media img{
+  -webkit-mask-image:radial-gradient(ellipse farthest-side at center,#000 48%,transparent 100%);
+  mask-image:radial-gradient(ellipse farthest-side at center,#000 48%,transparent 100%);
+}
+/* Le menu reste placé sur la photo ; sa hauteur détermine uniquement
+   l'espace nécessaire aux textes aux petites largeurs. */
+@media(max-width:860px){
+  .dual-home--with-photo .dual-home__grid{
+    height:var(--hero-height);
+    min-height:460px;
+    padding-block:0;
+  }
+}
+@media(max-width:600px){
+  .dual-home--with-photo .dual-home__grid{
+    height:auto;
+    min-height:0;
+    padding-block:42px;
+  }
+  .dual-home--with-photo .dual-home__center-media{
+    background-position:var(--hero-mobile-x) var(--hero-mobile-y);
+  }
+}
