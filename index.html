@@ -62,6 +62,7 @@
 
 </style>
 <link rel="stylesheet" href="./tarifs.css"><link rel="stylesheet" href="./soins-details.css">
+<link rel="stylesheet" href="./home-dual.css?v=1">
 </head>
 <body>
 <a class="skip" href="#main">Aller au contenu</a>
@@ -84,12 +85,42 @@
 </header>
 <main id="main" tabindex="-1">
   <section class="page" data-cms-page="accueil" id="page-accueil" data-page="accueil">
-    <div class="home-hero container">
-      <div class="hero-copy"><div class="overline"><span class="line"></span> INSTITUT DE BEAUTÉ · LE THOR</div><h1 data-cms-heading>Votre beauté,<br><em>notre attention.</em></h1><p>Un instant pour vous. Des gestes délicats, de la douceur et le plaisir de prendre soin de soi dans un univers qui invite à ralentir.</p><div class="hero-actions"><a class="btn btn-dark" href="#tarifs">Découvrir les tarifs <span>↗</span></a><a class="under-link" href="#univers">Entrer dans notre univers <span>→</span></a></div><div class="hero-location"><span class="asterisk">✳</span><span>27 cours Gambetta<br><strong>84250 Le Thor</strong></span></div></div>
-      <div class="hero-visual"><div class="hero-arch"><img data-photo="hero-mains" alt="Des mains délicatement tendues dans une ambiance chaleureuse" fetchpriority="high"></div><div class="round-seal"><span>UN TEMPS<br>POUR SOI</span><b>✧</b></div><div class="hero-photo-note">CH’ANGE <span>—</span> LA BEAUTÉ EN DOUCEUR</div></div>
-    </div>
-    <div class="hairline"></div>
-    <section class="intro-bands container"><p class="section-kicker">PRENEZ LE TEMPS DE VOUS RETROUVER</p><h2>Un lieu pour se sentir <i>bien.</i></h2><p>Chez Ch’ange, chaque parenthèse beauté est une invitation à vous accorder de l’attention. Découvrez nos univers de soins et choisissez le moment qui vous ressemble.</p></section>
+    <section class="dual-home" aria-label="Nos deux univers beauté et coiffure">
+      <div class="dual-home__grid">
+        <article class="dual-home__panel dual-home__panel--beauty">
+          <div class="dual-home__copy">
+            <div class="dual-home__label">— Institut de beauté · Le Thor</div>
+            <h1 data-cms-heading>Esthétique</h1>
+            <p class="dual-home__sub">Révélez votre<br>éclat <em>naturel.</em></p>
+            <p>Des soins experts et personnalisés pour prendre soin de vous et révéler votre beauté naturelle.</p>
+            <a class="btn btn-dark" href="#soins">Découvrir les soins <span>↗</span></a>
+          </div>
+          <div class="dual-home__carousel" data-carousel="esthetique" aria-label="Galerie de l'institut de beauté">
+            <div class="dual-home__photo"><img alt="Soins esthétiques chez Ch’ange" loading="eager"></div>
+            <button class="dual-home__arrow dual-home__arrow--prev" type="button" data-prev aria-label="Photo précédente esthétique">‹</button>
+            <button class="dual-home__arrow dual-home__arrow--next" type="button" data-next aria-label="Photo suivante esthétique">›</button>
+            <div class="dual-home__dots" aria-label="Choisir une photographie esthétique"></div>
+          </div>
+        </article>
+        <div class="dual-home__divider" aria-hidden="true"><div class="dual-home__botanical"></div></div>
+        <article class="dual-home__panel dual-home__panel--hair">
+          <div class="dual-home__copy">
+            <div class="dual-home__label">— Atelier coiffure · Indépendante</div>
+            <h2>Coiffure</h2>
+            <p class="dual-home__sub">Sublimez votre<br>style <em>naturel.</em></p>
+            <p>Coupe, couleur, balayage et soins… Une approche sur mesure pour révéler votre personnalité.</p>
+            <a class="btn btn-dark" href="#contact">Découvrir la coiffure <span>↗</span></a>
+          </div>
+          <div class="dual-home__carousel" data-carousel="coiffure" aria-label="Galerie coiffure">
+            <div class="dual-home__photo"><img alt="Coiffure chez Ch’ange" loading="eager"></div>
+            <button class="dual-home__arrow dual-home__arrow--prev" type="button" data-prev aria-label="Photo précédente coiffure">‹</button>
+            <button class="dual-home__arrow dual-home__arrow--next" type="button" data-next aria-label="Photo suivante coiffure">›</button>
+            <div class="dual-home__dots" aria-label="Choisir une photographie coiffure"></div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="intro-bands container"><p class="section-kicker">PRENEZ LE TEMPS DE VOUS RETROUVER</p><h2>Un lieu pour se sentir <i>bien.</i></h2><p>Deux professionnelles indépendantes, deux univers complémentaires, réunis dans un même lieu pour vous offrir des instants de beauté et de bien-être.</p></section>
     <section class="home-categories container"><div class="section-heading"><div><div class="overline">NOS UNIVERS</div><h2>La beauté à votre <i>rythme.</i></h2></div><a class="text-arrow" href="#soins">Explorer les prestations <span>↗</span></a></div><div class="category-grid">
       <a href="#soins?categorie=visage" class="category-card category-tall"><img data-photo="soin-visage" loading="lazy" alt="Soin du visage et moment de détente"><span class="category-overlay"><small>01 / PRENDRE SOIN</small><strong>Soins du visage</strong><b>↗</b></span></a>
       <a href="#contact" class="category-card"><img data-photo="ongles" loading="lazy" alt="Manucure rose pâle et décor floral devant le fond CH’ANGE"><span class="category-overlay"><small>02 / SE SUBLIMER</small><strong>Beauté des mains</strong><b>↗</b></span></a>
@@ -209,4 +240,4 @@
   window.addEventListener('hashchange',route);route();
 })();
 </script>
-<script src="./supabase-config.js"></script><script src="./site-interactions.js" defer></script><script src="./site-dynamic.js" defer></script><script src="./soins-details.js" defer></script><script src="./tarifs-public.js" defer></script></body></html>
+<script src="./home-dual.js?v=1" defer></script><script src="./supabase-config.js"></script><script src="./site-interactions.js" defer></script><script src="./site-dynamic.js" defer></script><script src="./soins-details.js" defer></script><script src="./tarifs-public.js" defer></script></body></html>
