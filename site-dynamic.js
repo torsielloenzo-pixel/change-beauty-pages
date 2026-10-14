@@ -41,7 +41,8 @@
             '--hero-mobile-y':clamp(cfg.mobile_y,0,100,50)+'%',
             '--hero-zoom':String(clamp(cfg.zoom,100,250,100)/100),
             '--hero-height':clamp(cfg.height,460,1100,700)+'px',
-            '--hero-overlay':String(clamp(cfg.overlay,0,90,50)/100)
+            '--hero-overlay':String(clamp(cfg.overlay,0,90,50)/100),
+            '--hero-overlay-mid':String(clamp(cfg.overlay,0,90,50)*.84/100)
           };
           Object.entries(vars).forEach(([name,value])=>home.style.setProperty(name,value));
           img.addEventListener('load',()=>{
