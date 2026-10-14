@@ -1,239 +1,119 @@
-/*
- * Accueil CH'ANGE — esthétique | coiffure
- * Reproduction éditoriale du visuel de référence.
- * Les images restent de vrais carrousels indépendants (home-dual.js).
- * Les polices sont héritées du site : --display (Italiana) et --sans (DM Sans).
- */
+/* CH’ANGE — accueil minimaliste : deux menus, aucune photographie ou décoration végétale. */
 .dual-home {
-  position:relative;
-  isolation:isolate;
-  overflow:hidden;
+  background:var(--bg);
   border-bottom:1px solid var(--stroke);
-  background:
-    radial-gradient(ellipse 40% 78% at 50% 56%,rgba(231,210,193,.55),transparent 87%),
-    linear-gradient(90deg,#fbf7f3,#faf5ef 49%,#fbf7f3);
 }
 .dual-home__grid {
-  --duo-height:645px;
-  position:relative;
+  width:min(1240px,calc(100% - 112px));
+  margin:0 auto;
+  padding:88px 0 100px;
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  width:min(100%,1360px);
-  height:var(--duo-height);
-  padding:0 clamp(28px,3.4vw,50px);
-  margin:0 auto;
+  gap:clamp(48px,9vw,150px);
 }
-.dual-home__panel { position:relative;min-width:0;height:100%; }
-.dual-home__panel--beauty { grid-column:1; }
-.dual-home__panel--hair { grid-column:2; }
-/* Arches en pierre très pâle qui épousent la partie supérieure des photographies. */
-.dual-home__panel::before {
-  content:"";
-  position:absolute;
-  top:0;
-  bottom:48px;
-  width:72%;
-  background:
-    linear-gradient(120deg,rgba(239,225,211,.82),rgba(248,238,226,.3) 46%,rgba(215,183,153,.38));
-  border:1px solid rgba(220,196,173,.58);
-  border-bottom:0;
-  border-radius:310px 310px 0 0;
-  pointer-events:none;
-  z-index:0;
+.dual-home__panel {
+  min-width:0;
+  display:flex;
+  align-items:center;
 }
-.dual-home__panel--beauty::before { right:-22px; }
-.dual-home__panel--hair::before { left:-22px; }
-.dual-home__copy {
-  position:absolute;
-  z-index:3;
-  top:71px;
-  left:0;
-  width:min(80%,425px);
-  padding:0;
-  text-align:left;
-  pointer-events:none;
-}
-.dual-home__panel--hair .dual-home__copy {
-  left:auto;
-  right:0;
-  width:min(78%,370px);
+.dual-home__panel--hair {
+  justify-content:flex-end;
   text-align:right;
 }
+.dual-home__copy {
+  width:100%;
+  max-width:480px;
+}
+.dual-home__panel--beauty .dual-home__copy {
+  padding-top:20px;
+}
 .dual-home__label {
-  color:#b47e72;
   font:600 10px/1.4 var(--sans);
   letter-spacing:.18em;
   text-transform:uppercase;
-  white-space:nowrap;
+  color:#aa8176;
 }
-.dual-home__copy h1,.dual-home__copy h2 {
+.dual-home__copy h1,
+.dual-home__copy h2 {
+  margin:21px 0 14px;
   color:var(--ink);
-  font:400 clamp(61px,6.1vw,92px)/.99 var(--display);
-  letter-spacing:-.037em;
-  margin:23px 0 15px;
-  white-space:nowrap;
+  font:400 clamp(60px,6vw,87px)/1.04 var(--display);
+  letter-spacing:-.032em;
 }
 .dual-home__copy .dual-home__sub {
-  font:400 clamp(35px,3.9vw,51px)/1.08 var(--display);
-  letter-spacing:-.035em;
-  margin:0 0 22px;
+  margin:0 0 23px;
   color:var(--ink);
+  font:400 clamp(34px,3.8vw,50px)/1.09 var(--display);
+  letter-spacing:-.02em;
 }
-.dual-home__copy em { font-style:italic;color:#b58b80; }
+.dual-home__copy .dual-home__sub em {
+  color:#b88f85;
+  font-style:italic;
+}
 .dual-home__copy p:not(.dual-home__sub) {
-  font:400 13px/1.85 var(--sans);
-  color:#82736d;
-  max-width:265px;
-  margin:0 0 20px;
+  margin:0 0 29px;
+  max-width:355px;
+  color:#80736d;
+  font:400 14px/1.85 var(--sans);
 }
-.dual-home__panel--hair .dual-home__copy p:not(.dual-home__sub){margin-left:auto;}
+.dual-home__panel--hair .dual-home__copy p:not(.dual-home__sub) {
+  margin-left:auto;
+}
 .dual-home__copy .btn {
-  pointer-events:auto;
   display:inline-flex;
-  gap:18px;
-  padding:16px 20px;
-  font:600 11px/1.3 var(--sans);
-  white-space:nowrap;
+  gap:21px;
+  align-items:center;
+  justify-content:center;
+  padding:17px 22px;
+  font:600 12px/1.4 var(--sans);
 }
-/* Les photographies restent distinctes du fond décoratif et interchangeables. */
-.dual-home__carousel {
-  position:absolute;
-  z-index:1;
-  left:auto;
-  right:0;
-  top:152px;
-  bottom:32px;
-  width:67%;
-  min-width:0;
-  height:auto;
-}
-.dual-home__panel--hair .dual-home__carousel{
-  right:auto;
-  left:0;
-  top:119px;
-  width:69%;
-}
-.dual-home__photo {
-  position:absolute;
-  inset:0 9px 38px;
-  overflow:hidden;
-  background:linear-gradient(140deg,#e5d2c1,#c6a494);
-  border-radius:52% 52% 0 0 / 34% 34% 0 0;
-  box-shadow:0 0 0 5px #f9f3ec,0 0 0 9px rgba(215,186,159,.35);
-}
-.dual-home__photo img { display:block;width:100%;height:100%;object-fit:cover;object-position:50% 42%; }
-.dual-home__panel--beauty .dual-home__photo img {object-position:center 52%;}
-.dual-home__panel--hair .dual-home__photo img {object-position:50% 34%;}
-.dual-home__photo img:not([src]) {visibility:hidden;}
-.dual-home__photo::after {
-  content:"";position:absolute;inset:auto 0 0;height:8%;
-  pointer-events:none;
-  background:linear-gradient(transparent,rgba(250,246,241,.7));
-}
-.dual-home__arrow {
-  position:absolute;
-  z-index:5;
-  top:73%;
-  display:grid;place-items:center;
-  width:44px;height:44px;
-  border:1px solid #dfc9bd;border-radius:50%;
-  color:var(--ink);
-  background:#fffaf6;
-  box-shadow:0 4px 15px rgba(88,57,43,.15);
-  font:400 27px/1 var(--display);
-  transition:transform .2s,background .2s;
-}
-.dual-home__arrow:hover {transform:scale(1.06);background:#f1e4d9;}
-.dual-home__arrow--prev {left:-8px;}
-.dual-home__arrow--next {right:-8px;}
-.dual-home__dots {
-  position:absolute;
-  inset:auto 0 7px;
-  display:flex;justify-content:center;align-items:center;gap:11px;
-}
-.dual-home__dot {
-  display:block;
-  width:10px;height:10px;padding:0;
-  border:1px solid #c69f94;border-radius:50%;
-  background:transparent;
-}
-.dual-home__dot[aria-current="true"] {background:#b7877f;}
-/* Axe végétal central, par-dessus les bords des deux arches. */
-.dual-home__divider {
-  position:absolute;
-  z-index:4;
-  top:0;bottom:0;left:50%;
-  width:0;
-  pointer-events:none;
-}
-.dual-home__divider::before {
-  content:"";
-  position:absolute;top:0;bottom:0;left:0;width:2px;
-  background:linear-gradient(transparent,rgba(213,183,161,.55) 30%,rgba(203,166,138,.48) 86%,transparent);
-}
-.dual-home__botanical {
-  position:absolute;left:50%;bottom:-17px;
-  transform:translateX(-50%);
-  width:290px;height:700px;
-  background:url("./home-botanical.svg") center bottom/contain no-repeat;
-  filter:drop-shadow(0 10px 8px rgba(100,69,44,.09));
-  pointer-events:none;
-}
-.home-categories .category-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
-.home-categories .category-card{height:365px;}
-@media (max-width:1200px) and (min-width:861px) {
-  .dual-home__grid{--duo-height:605px;padding:0 24px;}
-  .dual-home__copy{top:72px;width:82%;}
-  .dual-home__panel--hair .dual-home__copy{width:79%;}
-  .dual-home__copy h1,.dual-home__copy h2{font-size:clamp(57px,6.1vw,76px);}
-  .dual-home__copy .dual-home__sub{font-size:clamp(34px,3.8vw,47px);}
-  .dual-home__carousel{top:162px;width:69%;}
-  .dual-home__panel--hair .dual-home__carousel{top:145px;width:71%;}
-  .dual-home__botanical{width:230px;height:640px;bottom:-12px;}
+@media (min-width:861px) {
+  .dual-home__panel--hair {
+    border-left:1px solid var(--stroke);
+    padding-left:clamp(25px,4vw,60px);
+  }
 }
 @media (max-width:860px) {
-  .dual-home__grid{height:auto;display:flex;flex-direction:column;padding:34px 28px 46px;gap:0;}
-  .dual-home__panel{height:auto;display:grid;grid-template-columns:44% 56%;gap:16px;min-height:430px;align-items:center;}
-  .dual-home__panel--hair{grid-template-columns:56% 44%;}
-  .dual-home__panel::before{top:6%;bottom:35px;width:51%;}
-  .dual-home__panel--beauty::before{right:0;}
-  .dual-home__panel--hair::before{left:0;}
-  .dual-home__copy,.dual-home__panel--hair .dual-home__copy{
-    position:relative;top:auto;left:auto;right:auto;
-    grid-column:1;grid-row:1;width:100%;padding:0;text-align:left;
+  .dual-home__grid {
+    width:calc(100% - 64px);
+    gap:52px;
+    padding:62px 0 72px;
   }
-  .dual-home__panel--hair .dual-home__copy{grid-column:2;text-align:right;}
-  .dual-home__copy h1,.dual-home__copy h2{font-size:clamp(48px,7vw,70px);}
-  .dual-home__copy .dual-home__sub{font-size:clamp(31px,4.6vw,42px);}
-  .dual-home__panel--hair .dual-home__copy p:not(.dual-home__sub){margin-left:auto;}
-  .dual-home__carousel,.dual-home__panel--hair .dual-home__carousel{
-    position:relative;top:auto;bottom:auto;left:auto;right:auto;
-    width:100%;height:405px;grid-column:2;grid-row:1;
+  .dual-home__copy h1,
+  .dual-home__copy h2 {font-size:clamp(47px,7vw,66px);}
+  .dual-home__copy .dual-home__sub {font-size:clamp(29px,4.7vw,40px);}
+  .dual-home__panel--beauty .dual-home__copy {padding-top:25px;}
+  .dual-home__copy p:not(.dual-home__sub) {font-size:13px;}
+}
+@media (max-width:600px) {
+  .dual-home__grid {
+    width:calc(100% - 36px);
+    grid-template-columns:1fr;
+    gap:0;
+    padding:42px 0 55px;
   }
-  .dual-home__panel--hair .dual-home__carousel{grid-column:1;}
-  .dual-home__photo{inset:0 16px 38px;}
-  .dual-home__divider{position:relative;left:auto;top:auto;bottom:auto;height:115px;margin:0 auto;}
-  .dual-home__divider::before{top:4px;bottom:4px;}
-  .dual-home__botanical{width:100px;height:145px;bottom:-14px;}
+  .dual-home__panel {
+    align-items:flex-start;
+    justify-content:flex-start;
+    text-align:left;
+  }
+  .dual-home__panel--beauty .dual-home__copy {
+    padding-top:0;
+    padding-bottom:46px;
+  }
+  .dual-home__panel--hair {
+    padding-top:42px;
+    border-top:1px solid var(--stroke);
+  }
+  .dual-home__copy h1,
+  .dual-home__copy h2 {
+    margin:16px 0 12px;
+    font-size:clamp(54px,14vw,73px);
+  }
+  .dual-home__copy .dual-home__sub {
+    font-size:clamp(35px,9vw,45px);
+  }
+  .dual-home__panel--hair .dual-home__copy p:not(.dual-home__sub) {
+    margin-left:0;
+  }
 }
-@media (max-width:600px){
-  .dual-home__grid{padding:26px 18px 38px;}
-  .dual-home__panel,.dual-home__panel--hair{display:flex;flex-direction:column;gap:17px;min-height:0;align-items:stretch;}
-  .dual-home__copy,.dual-home__panel--hair .dual-home__copy{order:0;text-align:left;width:100%;}
-  .dual-home__copy h1,.dual-home__copy h2{font-size:clamp(55px,15vw,76px);margin:19px 0 9px;}
-  .dual-home__copy .dual-home__sub{font-size:clamp(34px,9.2vw,45px);}
-  .dual-home__copy p:not(.dual-home__sub),.dual-home__panel--hair .dual-home__copy p:not(.dual-home__sub){max-width:340px;margin-left:0;}
-  .dual-home__carousel,.dual-home__panel--hair .dual-home__carousel{order:1;flex:none;height:min(112vw,430px);width:100%;}
-  .dual-home__photo{inset:0 24px 40px;}
-  .dual-home__panel::before{top:220px;bottom:36px;width:83%;}
-  .dual-home__panel--beauty::before{right:8%;}
-  .dual-home__panel--hair::before{left:8%;}
-  .dual-home__arrow--prev{left:4px;}
-  .dual-home__arrow--next{right:4px;}
-  .dual-home__divider{height:100px;}
-  .dual-home__botanical{height:150px;width:97px;}
-  .home-categories .category-grid{grid-template-columns:1fr 1fr;}
-  .home-categories .category-card{height:290px;}
-  .home-categories .category-card:first-child{grid-column:1/-1;height:340px;}
-}
-@media (prefers-reduced-motion:reduce){.dual-home *{animation:none!important;transition:none!important;}}
