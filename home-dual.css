@@ -115,3 +115,88 @@
     margin-left:0;
   }
 }
+
+
+/* Photo éditable centrale.
+   Alimentation : site_pages.hero_image_url pour slug accueil.
+   Sans photo, l'accueil conserve la mise en page originale à deux colonnes. */
+.dual-home__center-media[hidden] {display:none!important;}
+.dual-home--with-photo .dual-home__grid {
+  width:min(1360px,calc(100% - 80px));
+  grid-template-columns:minmax(0,1.18fr) minmax(245px,.9fr) minmax(0,1.18fr);
+  gap:clamp(18px,2.6vw,38px);
+  min-height:570px;
+  padding:54px 0;
+  align-items:stretch;
+}
+.dual-home--with-photo .dual-home__panel {
+  align-items:center;
+}
+.dual-home--with-photo .dual-home__panel--beauty .dual-home__copy {
+  padding-top:0;
+}
+.dual-home--with-photo .dual-home__panel--hair {
+  padding-left:0;
+}
+.dual-home__center-media {
+  position:relative;
+  display:block;
+  align-self:stretch;
+  min-width:0;
+  margin:0;
+  overflow:hidden;
+  background:#ece0d6;
+}
+.dual-home__center-media img {
+  display:block;
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:50% 50%;
+}
+@media (min-width:981px) and (max-width:1200px) {
+  .dual-home--with-photo .dual-home__grid {
+    width:calc(100% - 50px);
+    grid-template-columns:minmax(0,1fr) minmax(220px,.85fr) minmax(0,1fr);
+    gap:22px;
+  }
+  .dual-home--with-photo .dual-home__copy h1,
+  .dual-home--with-photo .dual-home__copy h2 {font-size:clamp(52px,5.3vw,70px);}
+  .dual-home--with-photo .dual-home__copy .dual-home__sub {font-size:clamp(30px,3.6vw,43px);}
+  .dual-home--with-photo .dual-home__copy p:not(.dual-home__sub) {font-size:12px;}
+}
+@media (max-width:980px) {
+  .dual-home--with-photo .dual-home__grid {
+    display:grid;
+    grid-template-columns:1fr;
+    width:min(600px,calc(100% - 48px));
+    gap:0;
+    min-height:0;
+    padding:46px 0 62px;
+  }
+  .dual-home--with-photo .dual-home__panel {
+    justify-content:flex-start;
+    text-align:left;
+  }
+  .dual-home--with-photo .dual-home__panel--beauty .dual-home__copy {
+    padding:0 0 38px;
+  }
+  .dual-home--with-photo .dual-home__center-media {
+    width:100%;
+    height:auto;
+    min-height:0;
+    aspect-ratio:1/1;
+    margin:0 0 40px;
+  }
+  .dual-home--with-photo .dual-home__panel--hair {
+    padding:0;
+  }
+  .dual-home--with-photo .dual-home__panel--hair .dual-home__copy p:not(.dual-home__sub) {
+    margin-left:0;
+  }
+  .dual-home--with-photo .dual-home__copy h1,
+  .dual-home--with-photo .dual-home__copy h2 {font-size:clamp(53px,10vw,74px);}
+  .dual-home--with-photo .dual-home__copy .dual-home__sub {font-size:clamp(35px,6vw,46px);}
+}
