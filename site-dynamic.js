@@ -34,9 +34,10 @@
         const cfg=page.hero_image_settings||{};
         const clamp=(v,lo,hi,def)=>Number.isFinite(Number(v))&&v!==null&&v!==''?Math.min(hi,Math.max(lo,Number(v))):def;
         if(home&&frame&&img&&url){
-          // Le même visuel couvre la totalité de la zone en arrière-plan
-          // lorsque le zoom avant-plan est inférieur à 100 %.
-          frame.style.backgroundImage='url('+JSON.stringify(url)+')';
+          // Le deuxième calque reste facultatif : Administrateur / Accueil.
+          // Désactivé par défaut pour les anciennes pages et nouveaux imports.
+          const showBackdrop=cfg.background_fill===true && clamp(cfg.zoom,30,250,100)<100;
+          frame.style.backgroundImage=showBackdrop?'url('+JSON.stringify(url)+')':'';
           const vars={
             '--hero-x':clamp(cfg.x,0,100,50)+'%',
             '--hero-y':clamp(cfg.y,0,100,50)+'%',
@@ -51,7 +52,7 @@
           img.addEventListener('load',()=>{
             frame.hidden=false;
             home.classList.add('dual-home--with-photo');
-            home.classList.toggle('dual-home--underzoom',clamp(cfg.zoom,30,250,100)<100);
+            home.classList.toggle('dual-home--underzoom',showBackdrop);
           },{once:true});
           img.addEventListener('error',()=>{
             frame.hidden=true;
