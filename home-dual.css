@@ -69,7 +69,6 @@
 }
 @media (min-width:861px) {
   .dual-home__panel--hair {
-    border-left:1px solid var(--stroke);
     padding-left:clamp(25px,4vw,60px);
   }
 }
@@ -103,7 +102,6 @@
   }
   .dual-home__panel--hair {
     padding-top:42px;
-    border-top:1px solid var(--stroke);
   }
   .dual-home__copy h1,
   .dual-home__copy h2 {
