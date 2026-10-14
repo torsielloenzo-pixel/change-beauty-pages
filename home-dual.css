@@ -25,7 +25,7 @@
   max-width:480px;
 }
 .dual-home__panel--beauty .dual-home__copy {
-  padding-top:20px;
+  padding-top:0;
 }
 .dual-home__label {
   font:600 10px/1.4 var(--sans);
@@ -81,7 +81,7 @@
   .dual-home__copy h1,
   .dual-home__copy h2 {font-size:clamp(47px,7vw,66px);}
   .dual-home__copy .dual-home__sub {font-size:clamp(29px,4.7vw,40px);}
-  .dual-home__panel--beauty .dual-home__copy {padding-top:25px;}
+  .dual-home__panel--beauty .dual-home__copy {padding-top:0;}
   .dual-home__copy p:not(.dual-home__sub) {font-size:13px;}
 }
 @media (max-width:600px) {
@@ -117,6 +117,70 @@
 }
 
 
+
+/*
+ * Les deux menus partagent exactement les mêmes lignes verticales sur desktop :
+ * légende, titre, accroche, description, bouton.
+ * Pas d'ajustement sur la photographie de fond ni sur ses paramètres.
+ */
+@media(min-width:601px) {
+  .dual-home__panel {align-items:center;}
+  .dual-home__copy {
+    display:grid;
+    grid-template-rows:22px 106px 125px minmax(130px,auto) 56px;
+    align-items:start;
+    padding-top:0;
+    padding-bottom:0;
+  }
+  .dual-home__copy .dual-home__label {
+    align-self:start;
+    margin:0;
+    line-height:22px;
+    white-space:normal;
+  }
+  .dual-home__copy h1,
+  .dual-home__copy h2 {
+    align-self:start;
+    margin:15px 0 0;
+  }
+  .dual-home__copy .dual-home__sub {
+    align-self:start;
+    margin:0;
+  }
+  .dual-home__copy p:not(.dual-home__sub) {
+    align-self:start;
+    margin:0;
+  }
+  .dual-home__copy .btn {
+    align-self:start;
+    justify-self:start;
+    min-height:52px;
+  }
+  .dual-home__panel--hair .dual-home__copy .btn {
+    justify-self:end;
+  }
+}
+@media(min-width:601px) and (max-width:860px){
+  .dual-home__copy {
+    grid-template-rows:22px 83px 112px minmax(160px,auto) 56px;
+  }
+  .dual-home__copy h1,
+  .dual-home__copy h2 {margin-top:12px;}
+}
+/* Sur téléphone, on conserve les deux menus empilés et leur rythme commun. */
+@media(max-width:600px){
+  .dual-home__copy {
+    display:grid;
+    grid-template-rows:auto auto auto auto auto;
+    align-content:start;
+  }
+  .dual-home__copy .dual-home__label {
+    line-height:1.5;
+    margin:0;
+  }
+  .dual-home__copy .btn{justify-self:start;}
+  .dual-home__panel--hair .dual-home__copy .btn{justify-self:start;}
+}
 
 /*
  * Image d'accueil en arrière-plan pleine largeur.
