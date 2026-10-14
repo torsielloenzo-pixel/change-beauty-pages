@@ -25,6 +25,25 @@
       if(title&&page.title)title.textContent=page.title;
       const intro=section.querySelector('.hero-copy p,.inner-intro p,.gift-hero p');
       if(intro&&page.description)intro.textContent=page.description;
+      // Image centrale de l'accueil : utiliser le même champ CMS que les images de page.
+      // Aucun décor ou espace vide n'est affiché tant qu'une photo valide n'est pas chargée.
+      if(slug==='accueil'){
+        const home=section.querySelector('.dual-home');
+        const frame=section.querySelector('.dual-home__center-media');
+        const img=frame?.querySelector('img');
+        const url=safeImage(page.hero_image_url);
+        if(home&&frame&&img&&url){
+          img.addEventListener('load',()=>{
+            frame.hidden=false;
+            home.classList.add('dual-home--with-photo');
+          },{once:true});
+          img.addEventListener('error',()=>{
+            frame.hidden=true;
+            home.classList.remove('dual-home--with-photo');
+          },{once:true});
+          img.src=url;
+        }
+      }
       const picture=section.querySelector('.hero-visual img,.universe-grid img,.gift-hero img');
       const photo=safeImage(page.hero_image_url);
       if(picture&&photo){picture.src=photo;picture.removeAttribute('srcset');picture.alt=page.title||'Ch’ange'}
