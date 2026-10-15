@@ -84,15 +84,15 @@
   </nav>
   <nav class="desktop-menu change-home-nav" aria-label="Navigation d’accueil">
     <a href="#accueil" data-nav="accueil">Accueil</a>
-    <a href="#soins" data-nav="soins">Esthétique</a>
-    <a href="#contact" data-nav="contact">Coiffure</a>
+    <a href="#esthetique" data-nav="esthetique">Esthétique</a>
+    <a href="#coiffure" data-nav="coiffure">Coiffure</a>
     <a href="#univers" data-nav="univers">À propos</a>
     <a href="#tarifs" data-nav="tarifs">Tarifs</a>
     <a href="#contact" data-nav="contact">Contact</a>
   </nav>
   <div class="header-actions"><a class="nav-reserve" href="mailto:change.institut@outlook.com?subject=Demande%20de%20rendez-vous%20-%20Ch%27ange">Prendre rendez-vous <span aria-hidden="true">→</span></a><button class="mobile-toggle" id="mobile-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Ouvrir le menu">☰</button></div>
   <nav id="mobile-menu" class="mobile-menu" aria-label="Navigation mobile" hidden>
-    <a href="#accueil">Accueil</a><a href="#soins">Les soins</a><a href="#tarifs">Tarifs</a><a href="#univers">L’institut</a><a href="#galerie">Galerie</a><a href="#cadeaux">Cartes cadeaux</a><a href="#contact">Contact</a>
+    <a href="#accueil">Accueil</a><a href="#esthetique">Esthétique</a><a href="#coiffure">Coiffure</a><a href="#soins">Les soins</a><a href="#tarifs">Tarifs</a><a href="#univers">L’institut</a><a href="#galerie">Galerie</a><a href="#cadeaux">Cartes cadeaux</a><a href="#contact">Contact</a>
   </nav>
 </header>
 <main id="main" tabindex="-1">
@@ -107,7 +107,7 @@
             <h1>CH’ANGE</h1>
             <div class="dual-home__label">ESTHÉTIQUE</div>
             <p>Des soins sur mesure<br>pour révéler votre beauté<br>naturelle.</p>
-            <a class="btn btn-dark" href="#soins">DÉCOUVRIR L’ESTHÉTIQUE <span aria-hidden="true">→</span></a>
+            <a class="btn btn-dark" href="#esthetique">DÉCOUVRIR L’ESTHÉTIQUE <span aria-hidden="true">→</span></a>
           </div>
         </article>
         <div class="dual-home__center">
@@ -119,7 +119,7 @@
             <h2>NAMAJE</h2>
             <div class="dual-home__label">COIFFURE</div>
             <p>Des cheveux sublimés,<br>une signature unique.</p>
-            <a class="btn btn-dark" href="#contact">DÉCOUVRIR LA COIFFURE <span aria-hidden="true">→</span></a>
+            <a class="btn btn-dark" href="#coiffure">DÉCOUVRIR LA COIFFURE <span aria-hidden="true">→</span></a>
           </div>
         </article>
         <button type="button" class="dual-home__scroll" id="change-hero-scroll" aria-label="Défiler vers la présentation de l’institut">SCROLLEZ POUR EXPLORER</button>
@@ -142,6 +142,70 @@
     <section class="action-panel container"><div><small>UNE PARENTHÈSE RIEN QU’À VOUS</small><h2>Et si votre prochain moment<br>de douceur commençait ici ?</h2></div><a class="btn btn-light" href="#contact">Nous contacter <span>↗</span></a></section>
   <div id="cms-modules-accueil" class="container cms-modules" aria-live="polite"></div>
 </section>
+
+  <section class="page" data-cms-page="esthetique" id="page-esthetique" data-page="esthetique" hidden>
+    <section class="dual-home" aria-label="Univers Esthétique CH’ANGE">
+      <figure class="dual-home__center-media" hidden aria-hidden="true"><img alt="" loading="eager" decoding="async"></figure>
+      <div class="dual-home__grid">
+        <article class="dual-home__panel dual-home__panel--beauty">
+          <div class="dual-home__copy">
+            <h1>CH’ANGE</h1>
+            <div class="dual-home__label">ESTHÉTIQUE</div>
+            <p>Des soins sur mesure<br>pour révéler votre beauté<br>naturelle.</p>
+            <a class="btn btn-dark" href="#tarifs">DÉCOUVRIR LES TARIFS <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <button class="dual-home__scroll" type="button" data-hero-scroll aria-label="Découvrir la présentation">SCROLLEZ POUR EXPLORER</button>
+        <ul class="dual-home__services" aria-label="Nos univers de prestations">
+          <li>SOINS VISAGE<br>ET CORPS</li><li>ÉPILATION<br>ET BIEN-ÊTRE</li>
+          <li>COUPE &amp; BRUSHING<br>SUR MESURE</li><li>COLORATION<br>ET SOINS CAPILLAIRES</li>
+        </ul>
+      </div>
+    </section>
+    <section class="intro-bands container"><p class="section-kicker">PRENEZ LE TEMPS DE VOUS RETROUVER</p><h2>Un lieu pour se sentir <i>bien.</i></h2><p>Chez Ch’ange, chaque parenthèse beauté est une invitation à vous accorder de l’attention. Découvrez nos univers de soins et choisissez le moment qui vous ressemble.</p></section>
+    <section class="home-categories container"><div class="section-heading"><div><div class="overline">NOS UNIVERS</div><h2>La beauté à votre <i>rythme.</i></h2></div><a class="text-arrow" href="#soins">Explorer les prestations <span>↗</span></a></div><div class="category-grid">
+      <a href="#soins?categorie=visage" class="category-card category-tall"><img data-photo="soin-visage" loading="lazy" alt="Soin du visage et moment de détente"><span class="category-overlay"><small>01 / PRENDRE SOIN</small><strong>Soins du visage</strong><b>↗</b></span></a>
+      <a href="#contact" class="category-card"><img data-photo="ongles" loading="lazy" alt="Manucure rose pâle et décor floral devant le fond CH’ANGE"><span class="category-overlay"><small>02 / SE SUBLIMER</small><strong>Beauté des mains</strong><b>↗</b></span></a>
+      <a href="#cadeaux" class="category-card"><img data-photo="ambiance-spa" loading="lazy" alt="Serviettes et produits disposés pour un rituel de détente"><span class="category-overlay"><small>03 / FAIRE PLAISIR</small><strong>Offrir une pause</strong><b>↗</b></span></a>
+    </div></section>
+    <section class="split-feature"><div class="feature-photo"><img data-photo="portrait" loading="lazy" alt="Portrait aux cheveux ondulés devant le fond aux couleurs de Ch’ange"></div><div class="feature-content"><div class="overline">L'ESPRIT CH’ANGE</div><h2>La douceur se<br>trouve dans les <i>détails.</i></h2><p>Des instants simples, une ambiance apaisante, une attention personnelle : entrez dans l’univers Ch’ange.</p><a class="btn btn-outline" href="#univers">Découvrir l’institut <span>↗</span></a></div></section>
+    <section class="testimonial-block container"><span class="ornament">✧</span><div class="overline">VOS MOTS</div><blockquote>« Un moment suspendu entre les douces mains d’Ange. »</blockquote><p>Extrait d’un avis partagé dans les visuels de l’institut</p></section>
+    <section class="action-panel container"><div><small>UNE PARENTHÈSE RIEN QU’À VOUS</small><h2>Et si votre prochain moment<br>de douceur commençait ici ?</h2></div><a class="btn btn-light" href="#contact">Nous contacter <span>↗</span></a></section>
+
+    <div id="cms-modules-esthetique" class="container cms-modules" aria-live="polite"></div>
+  </section>
+
+  <section class="page" data-cms-page="coiffure" id="page-coiffure" data-page="coiffure" hidden>
+    <section class="dual-home" aria-label="Univers Coiffure NAMAJE">
+      <figure class="dual-home__center-media" hidden aria-hidden="true"><img alt="" loading="eager" decoding="async"></figure>
+      <div class="dual-home__grid">
+        <article class="dual-home__panel dual-home__panel--hair">
+          <div class="dual-home__copy">
+            <h2>NAMAJE</h2>
+            <div class="dual-home__label">COIFFURE</div>
+            <p>Des cheveux sublimés,<br>une signature unique.</p>
+            <a class="btn btn-dark" href="#tarifs">DÉCOUVRIR LES TARIFS <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <button class="dual-home__scroll" type="button" data-hero-scroll aria-label="Découvrir la présentation">SCROLLEZ POUR EXPLORER</button>
+        <ul class="dual-home__services" aria-label="Nos univers de prestations">
+          <li>SOINS VISAGE<br>ET CORPS</li><li>ÉPILATION<br>ET BIEN-ÊTRE</li>
+          <li>COUPE &amp; BRUSHING<br>SUR MESURE</li><li>COLORATION<br>ET SOINS CAPILLAIRES</li>
+        </ul>
+      </div>
+    </section>
+    <section class="intro-bands container"><p class="section-kicker">PRENEZ LE TEMPS DE VOUS RETROUVER</p><h2>Un lieu pour se sentir <i>bien.</i></h2><p>Chez Ch’ange, chaque parenthèse beauté est une invitation à vous accorder de l’attention. Découvrez nos univers de soins et choisissez le moment qui vous ressemble.</p></section>
+    <section class="home-categories container"><div class="section-heading"><div><div class="overline">NOS UNIVERS</div><h2>La beauté à votre <i>rythme.</i></h2></div><a class="text-arrow" href="#soins">Explorer les prestations <span>↗</span></a></div><div class="category-grid">
+      <a href="#soins?categorie=visage" class="category-card category-tall"><img data-photo="soin-visage" loading="lazy" alt="Soin du visage et moment de détente"><span class="category-overlay"><small>01 / PRENDRE SOIN</small><strong>Soins du visage</strong><b>↗</b></span></a>
+      <a href="#contact" class="category-card"><img data-photo="ongles" loading="lazy" alt="Manucure rose pâle et décor floral devant le fond CH’ANGE"><span class="category-overlay"><small>02 / SE SUBLIMER</small><strong>Beauté des mains</strong><b>↗</b></span></a>
+      <a href="#cadeaux" class="category-card"><img data-photo="ambiance-spa" loading="lazy" alt="Serviettes et produits disposés pour un rituel de détente"><span class="category-overlay"><small>03 / FAIRE PLAISIR</small><strong>Offrir une pause</strong><b>↗</b></span></a>
+    </div></section>
+    <section class="split-feature"><div class="feature-photo"><img data-photo="portrait" loading="lazy" alt="Portrait aux cheveux ondulés devant le fond aux couleurs de Ch’ange"></div><div class="feature-content"><div class="overline">L'ESPRIT CH’ANGE</div><h2>La douceur se<br>trouve dans les <i>détails.</i></h2><p>Des instants simples, une ambiance apaisante, une attention personnelle : entrez dans l’univers Ch’ange.</p><a class="btn btn-outline" href="#univers">Découvrir l’institut <span>↗</span></a></div></section>
+    <section class="testimonial-block container"><span class="ornament">✧</span><div class="overline">VOS MOTS</div><blockquote>« Un moment suspendu entre les douces mains d’Ange. »</blockquote><p>Extrait d’un avis partagé dans les visuels de l’institut</p></section>
+    <section class="action-panel container"><div><small>UNE PARENTHÈSE RIEN QU’À VOUS</small><h2>Et si votre prochain moment<br>de douceur commençait ici ?</h2></div><a class="btn btn-light" href="#contact">Nous contacter <span>↗</span></a></section>
+
+    <div id="cms-modules-coiffure" class="container cms-modules" aria-live="polite"></div>
+  </section>
 
   <section class="page" data-cms-page="tarifs" id="page-tarifs" data-page="tarifs" hidden>
 <div class="container price-heading"><span class="overline">CH’ANGE · INSTITUT DE BEAUTÉ</span><h1 data-cms-heading>La carte de <i>nos tarifs.</i></h1><p>Soins du visage, du corps, beauté du regard et rituels : retrouvez les prestations et les cures de l’institut, classées par catégorie.</p><span id="price-total" class="section-kicker" aria-live="polite"></span></div>
@@ -210,11 +274,11 @@
     const hash=decodeURIComponent(location.hash.slice(1)||'accueil');
     const [name,query]=hash.split('?');
     const active=pages.some(el=>el.dataset.page===name)?name:'accueil';
-    document.body.classList.toggle('change-home-layout',active==='accueil');
+    document.body.classList.toggle('change-home-layout',['accueil','esthetique','coiffure'].includes(active));
     pages.forEach(el=>{el.hidden=el.dataset.page!==active;});
     nav.forEach(a=>{const selected=a.dataset.nav===active;a.classList.toggle('active',selected);if(selected)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
     if(active==='soins'){const params=new URLSearchParams(query||'');filterCare(params.get('categorie')||'tout');}
-    document.title=(active==='accueil'?'Ch’ange':({soins:'Les soins',tarifs:'Tarifs',univers:'L’institut',galerie:'Galerie',cadeaux:'Cartes cadeaux',contact:'Contact'}[active]+' — Ch’ange'))+' · Institut de beauté au Thor';
+    document.title=(active==='accueil'?'Ch’ange':({esthetique:'Esthétique · CH’ANGE',coiffure:'Coiffure · NAMAJE',soins:'Les soins',tarifs:'Tarifs',univers:'L’institut',galerie:'Galerie',cadeaux:'Cartes cadeaux',contact:'Contact'}[active]+' — Ch’ange'))+' · Institut de beauté au Thor';
     closeMobileMenu();
     mobile.querySelectorAll('a').forEach(a=>{
       const selected=a.getAttribute('href')==='#'+active;
@@ -235,12 +299,12 @@
     toggle.setAttribute('aria-expanded',String(open));
     toggle.setAttribute('aria-label',open?'Fermer le menu':'Ouvrir le menu');
   }
-  document.getElementById('change-hero-scroll')?.addEventListener('click',()=>{
-    document.querySelector('#page-accueil .intro-bands')?.scrollIntoView({
+  document.querySelectorAll('#change-hero-scroll,[data-hero-scroll]').forEach(control=>control.addEventListener('click',()=>{
+    control.closest('.page')?.querySelector('.intro-bands')?.scrollIntoView({
       behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',
       block:'start'
     });
-  });
+  }));
   filters.forEach(btn=>btn.addEventListener('click',()=>filterCare(btn.dataset.filter)));
   toggle?.addEventListener('click',()=>setMobileMenuOpen(mobile.hidden));
   mobile?.addEventListener('click',e=>{if(e.target.closest('a'))closeMobileMenu();});
