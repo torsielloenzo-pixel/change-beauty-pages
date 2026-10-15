@@ -1,0 +1,31 @@
+name: CH'ANGE — Design public
+on:
+  push:
+    paths:
+      - 'design-public.js'
+      - 'design-public.css'
+      - 'site-dynamic.js'
+      - 'index.html'
+      - '.github/workflows/change-design-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Vérifier les scripts du design public
+        run: |
+          node --check design-public.js
+          node --check site-dynamic.js
+      - name: Vérifier les ressources de l'accueil
+        run: |
+          test -s design-public.css
+          grep -q 'design-public.js' index.html
+          grep -q 'design-public.css' index.html
+          grep -q 'CHANGE_DESIGN_PUBLIC?.apply' site-dynamic.js
