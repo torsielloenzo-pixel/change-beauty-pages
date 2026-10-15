@@ -5,6 +5,9 @@ on:
       - 'design-public.js'
       - 'design-public.css'
       - 'home-reference.css'
+      - 'home-canvas.css'
+      - 'home-canvas.js'
+      - 'tests/home-canvas.test.cjs'
       - 'site-dynamic.js'
       - 'index.html'
       - '.github/workflows/change-design-ci.yml'
@@ -24,10 +27,13 @@ jobs:
         run: |
           node --check design-public.js
           node --check site-dynamic.js
+          node --check home-canvas.js
+          node --test tests/home-canvas.test.cjs
       - name: Vérifier les ressources de l'accueil
         run: |
           test -s design-public.css
           test -s home-reference.css
+          test -s home-canvas.css
           grep -q 'home-reference.css' index.html
           grep -q 'dual-home__center' index.html
           grep -q 'dual-home__services' index.html
