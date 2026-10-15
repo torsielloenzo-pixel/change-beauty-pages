@@ -4,17 +4,24 @@
   const wordmark=document.querySelector('.site-header > a.wordmark');
   if(!wordmark)return;
   // On garde le texte original dans le flux : il constitue le gabarit.
+  const subtitle=wordmark.querySelector(':scope > small');
+  const titleSlot=document.createElement('span');
+  titleSlot.className='change-brand-title';
   const textSlot=document.createElement('span');
   textSlot.className='change-brand-text';
-  while(wordmark.firstChild)textSlot.appendChild(wordmark.firstChild);
-  wordmark.appendChild(textSlot);
+  // Le petit « INSTITUT DE BEAUTÉ » reste inchangé sous le mot CH’ANGE.
+  while(wordmark.firstChild&&wordmark.firstChild!==subtitle){
+    textSlot.appendChild(wordmark.firstChild);
+  }
+  titleSlot.appendChild(textSlot);
+  wordmark.insertBefore(titleSlot,subtitle||null);
   wordmark.classList.add('change-brand-wordmark');
   const image=document.createElement('img');
   image.className='change-brand-image';
-  image.alt='CH’ANGE — Institut de beauté';
+  image.alt='CH’ANGE';
   image.decoding='async';
   image.hidden=true;
-  wordmark.appendChild(image);
+  titleSlot.appendChild(image);
 
   const validSrc=(url,preview)=>{
     if(typeof url!=='string'||!url||url.length>8*1024*1024)return '';
@@ -25,7 +32,7 @@
     }catch{return ''}
   };
   function setText(){
-    wordmark.classList.remove('change-brand-mode-image');
+    titleSlot.classList.remove('change-brand-mode-image');
     image.hidden=true;
     image.removeAttribute('src');
   }
@@ -43,13 +50,13 @@
     image.onload=()=>{
       if(latest!==key)return;
       image.hidden=false;
-      wordmark.classList.add('change-brand-mode-image');
+      titleSlot.classList.add('change-brand-mode-image');
     };
     image.hidden=true;
     image.src=src;
     if(image.complete&&image.naturalWidth>0){
       image.hidden=false;
-      wordmark.classList.add('change-brand-mode-image');
+      titleSlot.classList.add('change-brand-mode-image');
     }
   }
   window.CHANGE_HEADER_BRAND={apply};
