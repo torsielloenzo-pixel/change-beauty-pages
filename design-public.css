@@ -4,7 +4,7 @@
 .change-stage-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--stage-x,50%) var(--stage-y,50%);transform:scale(var(--stage-zoom,1));transform-origin:center;opacity:var(--stage-opacity,1)}
 .change-stage-veil{position:absolute;inset:0;background:rgba(250,246,241,var(--stage-veil,.25))}
 .change-editor-layer{position:absolute;display:block;width:var(--layer-width,30%);max-width:none;height:auto;left:var(--layer-x,50%);top:var(--layer-y,50%);transform:translate(-50%,-50%) rotate(var(--layer-rotate,0deg));opacity:var(--layer-opacity,1);object-fit:contain;pointer-events:none}
-body.change-stage-active .preview-bar{position:relative;z-index:31;background:rgba(74,54,53,var(--topbar-opacity,.12));}
+body.change-stage-active .preview-bar{position:relative;z-index:31;background:rgba(74,54,53,var(--topbar-opacity,.6));}
 body.change-stage-active .site-header{background:rgba(250,246,241,var(--header-opacity,.08));backdrop-filter:none;border-color:transparent;transition:background .2s ease}
 body.change-stage-active.change-stage-scrolled .site-header{background:rgba(250,246,241,.96);backdrop-filter:blur(14px);border-bottom-color:rgba(93,69,62,.12)}
 body.change-stage-active #page-accueil{position:relative;z-index:1;background:transparent}
@@ -37,6 +37,6 @@ body.change-editor-preview #page-accueil .home-categories{pointer-events:auto}
 
 /* Pages intérieures : transparence indépendante sans étendre l'image d'accueil. */
 body.change-page-header-active .site-header{background:rgba(250,246,241,var(--header-opacity,.08));backdrop-filter:none}
-body.change-page-header-active .preview-bar{background:rgba(74,54,53,var(--topbar-opacity,.12))}
+body.change-page-header-active .preview-bar{background:rgba(74,54,53,var(--topbar-opacity,.6))}
 body.change-page-header-active .inner-intro{background:rgba(250,246,241,var(--intro-opacity,0))}
 .page.change-page-with-layers>.change-page-design-canvas{z-index:4}
