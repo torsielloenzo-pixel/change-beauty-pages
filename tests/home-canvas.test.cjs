@@ -30,7 +30,11 @@ function makeFixture(width,{touch=false}={}){
   };
   const documentMock={
     documentElement:root,body:{classList:classes},
-    querySelector(selector){assert.equal(selector,'#page-accueil .dual-home');return viewport;},
+    querySelector(selector){
+      if(selector==='#page-accueil .dual-home')return viewport;
+      if(['#page-esthetique .dual-home','#page-coiffure .dual-home'].includes(selector))return null;
+      throw Error('Sélecteur inattendu : '+selector);
+    },
     getElementById(id){assert.equal(id,'change-landing-stage');return stage;}
   };
   vm.runInNewContext(source,{
