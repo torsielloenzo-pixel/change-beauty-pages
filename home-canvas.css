@@ -224,3 +224,92 @@ body.change-home-layout #page-accueil .dual-home__scroll{
     object-position:var(--stage-x,50%) var(--stage-y,50%)!important;
   }
 }
+
+
+/*
+ * Alignement strict CH'ANGE ↔ NAMAJE.
+ * Les deux panneaux partagent les mêmes quatre rangées, indépendamment
+ * du nombre de lignes de description. Les boutons gardent largeur/hauteur identiques.
+ * Toutes les valeurs sont dans le canevas, donc se redimensionnent avec la photo.
+ */
+body.change-home-layout #page-accueil .dual-home__panel--beauty .dual-home__copy,
+body.change-home-layout #page-accueil .dual-home__panel--hair .dual-home__copy{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:103px 47px 120px 62px!important;
+  align-content:start!important;
+  align-items:start!important;
+  gap:0!important;
+  height:332px!important;
+}
+body.change-home-layout #page-accueil .dual-home__panel--beauty .dual-home__copy{
+  justify-items:start!important;
+}
+body.change-home-layout #page-accueil .dual-home__panel--hair .dual-home__copy{
+  justify-items:end!important;
+}
+body.change-home-layout #page-accueil .dual-home__panel--beauty .dual-home__copy > h1,
+body.change-home-layout #page-accueil .dual-home__panel--hair .dual-home__copy > h2{
+  grid-row:1!important;
+  margin:0!important;
+  align-self:start!important;
+  line-height:1.04!important;
+  white-space:nowrap;
+}
+body.change-home-layout #page-accueil .dual-home__panel--beauty .dual-home__label,
+body.change-home-layout #page-accueil .dual-home__panel--hair .dual-home__label{
+  grid-row:2!important;
+  align-self:start!important;
+  margin:0!important;
+  line-height:1.45!important;
+}
+body.change-home-layout #page-accueil .dual-home__panel--beauty .dual-home__copy > p:not(.dual-home__sub),
+body.change-home-layout #page-accueil .dual-home__panel--hair .dual-home__copy > p:not(.dual-home__sub){
+  grid-row:3!important;
+  align-self:start!important;
+  margin:0!important;
+  width:375px!important;
+  max-width:375px!important;
+  line-height:1.43!important;
+}
+body.change-home-layout #page-accueil .dual-home__panel--beauty .dual-home__copy > .btn,
+body.change-home-layout #page-accueil .dual-home__panel--hair .dual-home__copy > .btn{
+  grid-row:4!important;
+  align-self:start!important;
+  box-sizing:border-box!important;
+  width:340px!important;
+  min-width:340px!important;
+  max-width:340px!important;
+  height:62px!important;
+  min-height:62px!important;
+  max-height:62px!important;
+  margin:0!important;
+  justify-content:space-between!important;
+  white-space:nowrap!important;
+}
+body.change-home-layout #page-accueil .dual-home__panel--beauty .dual-home__copy > .btn{
+  justify-self:start!important;
+}
+body.change-home-layout #page-accueil .dual-home__panel--hair .dual-home__copy > .btn{
+  justify-self:end!important;
+}
+/* Le canevas portrait reste empilé mais les rangées des deux univers y sont identiques. */
+@media(max-width:699px){
+  body.change-home-layout.home-canvas-mobile #page-accueil .dual-home__panel--beauty .dual-home__copy,
+  body.change-home-layout.home-canvas-mobile #page-accueil .dual-home__panel--hair .dual-home__copy{
+    grid-template-rows:78px 38px 116px 53px!important;
+    height:285px!important;
+  }
+  body.change-home-layout.home-canvas-mobile #page-accueil .dual-home__panel--beauty .dual-home__copy > p:not(.dual-home__sub),
+  body.change-home-layout.home-canvas-mobile #page-accueil .dual-home__panel--hair .dual-home__copy > p:not(.dual-home__sub){
+    width:320px!important;
+    max-width:320px!important;
+  }
+  body.change-home-layout.home-canvas-mobile #page-accueil .dual-home__panel--beauty .dual-home__copy > .btn,
+  body.change-home-layout.home-canvas-mobile #page-accueil .dual-home__panel--hair .dual-home__copy > .btn{
+    height:53px!important;
+    min-height:53px!important;
+    max-height:53px!important;
+    width:340px!important;
+  }
+}
