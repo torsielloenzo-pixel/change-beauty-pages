@@ -81,3 +81,13 @@ test('Le fond et les contenus sont montés sous le même repère de transformati
  assert.match(main,/home-canvas\.js/);
  assert.match(main,/intro-bands container/);
 });
+
+
+test('CH’ANGE et NAMAJE : mêmes rangées titre, spécialité, description et bouton',()=>{
+ const css=fs.readFileSync(path.join(__dirname,'../home-canvas.css'),'utf8');
+ const shared=/\.dual-home__panel--beauty \.dual-home__copy,\s*body\.change-home-layout #page-accueil \.dual-home__panel--hair \.dual-home__copy\s*\{[^}]*grid-template-rows:103px 47px 120px 62px!important/;
+ assert.match(css,shared);
+ assert.match(css,/\.dual-home__panel--beauty \.dual-home__copy > \.btn,\s*body\.change-home-layout #page-accueil \.dual-home__panel--hair \.dual-home__copy > \.btn\s*\{[^}]*width:340px!important;[^}]*height:62px!important/s);
+ assert.match(css,/\.dual-home__panel--beauty \.dual-home__copy > p:not\(\.dual-home__sub\),\s*body\.change-home-layout #page-accueil \.dual-home__panel--hair \.dual-home__copy > p:not\(\.dual-home__sub\)\s*\{[^}]*grid-row:3!important/s);
+ assert.match(css,/\.home-canvas-mobile[^}]*grid-template-rows:78px 38px 116px 53px!important/s);
+});
