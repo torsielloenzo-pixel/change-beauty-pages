@@ -64,6 +64,7 @@
 <link rel="stylesheet" href="./tarifs.css"><link rel="stylesheet" href="./soins-details.css">
 <link rel="stylesheet" href="./home-dual.css?v=10">
 <link rel="stylesheet" href="./design-public.css?v=4">
+<link rel="stylesheet" href="./home-reference.css?v=1">
 </head>
 <body>
 <a class="skip" href="#main">Aller au contenu</a>
@@ -79,36 +80,53 @@
     <a href="#cadeaux" data-nav="cadeaux">Cartes cadeaux</a>
     <a href="#contact" data-nav="contact">Contact</a>
   </nav>
-  <div class="header-actions"><a class="nav-reserve" href="mailto:change.institut@outlook.com?subject=Demande%20de%20rendez-vous%20-%20Ch%27ange">Prendre rendez-vous <span aria-hidden="true">↗</span></a><button class="mobile-toggle" id="mobile-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Ouvrir le menu">☰</button></div>
+  <nav class="desktop-menu change-home-nav" aria-label="Navigation d’accueil">
+    <a href="#accueil" data-nav="accueil">Accueil</a>
+    <a href="#soins" data-nav="soins">Esthétique</a>
+    <a href="#contact" data-nav="contact">Coiffure</a>
+    <a href="#univers" data-nav="univers">À propos</a>
+    <a href="#tarifs" data-nav="tarifs">Tarifs</a>
+    <a href="#contact" data-nav="contact">Contact</a>
+  </nav>
+  <div class="header-actions"><a class="nav-reserve" href="mailto:change.institut@outlook.com?subject=Demande%20de%20rendez-vous%20-%20Ch%27ange">Prendre rendez-vous <span aria-hidden="true">→</span></a><button class="mobile-toggle" id="mobile-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Ouvrir le menu">☰</button></div>
   <nav id="mobile-menu" class="mobile-menu" aria-label="Navigation mobile" hidden>
     <a href="#accueil">Accueil</a><a href="#soins">Les soins</a><a href="#tarifs">Tarifs</a><a href="#univers">L’institut</a><a href="#galerie">Galerie</a><a href="#cadeaux">Cartes cadeaux</a><a href="#contact">Contact</a>
   </nav>
 </header>
 <main id="main" tabindex="-1">
   <section class="page" data-cms-page="accueil" id="page-accueil" data-page="accueil">
-    <section class="dual-home" aria-label="Les deux univers de Ch’ange">
+    <section class="dual-home" aria-label="Ch’ange et Namaje, deux univers réunis">
       <figure class="dual-home__center-media" hidden aria-hidden="true">
         <img alt="" loading="eager" decoding="async">
       </figure>
       <div class="dual-home__grid">
         <article class="dual-home__panel dual-home__panel--beauty">
           <div class="dual-home__copy">
-            <div class="dual-home__label">— Institut de beauté · Le Thor</div>
-            <h1>Esthétique</h1>
-            <p class="dual-home__sub">Révélez votre<br>éclat <em>naturel.</em></p>
-            <p>Des soins experts et personnalisés pour prendre soin de vous et révéler votre beauté naturelle.</p>
-            <a class="btn btn-dark" href="#soins">CH'ANGE <span aria-hidden="true">↗</span></a>
+            <h1>CH’ANGE</h1>
+            <div class="dual-home__label">ESTHÉTIQUE</div>
+            <p>Des soins sur mesure<br>pour révéler votre beauté<br>naturelle.</p>
+            <a class="btn btn-dark" href="#soins">DÉCOUVRIR L’ESTHÉTIQUE <span aria-hidden="true">→</span></a>
           </div>
         </article>
+        <div class="dual-home__center">
+          <h2>Deux univers<br>Une même vision</h2>
+          <p>Beauté · Bien-être · Confiance</p>
+        </div>
         <article class="dual-home__panel dual-home__panel--hair">
           <div class="dual-home__copy">
-            <div class="dual-home__label">— Atelier coiffure · Indépendante</div>
-            <h2>Coiffure</h2>
-            <p class="dual-home__sub">Sublimez votre<br>style <em>naturel.</em></p>
-            <p>Coupe, couleur, balayage et soins… Une approche sur mesure pour révéler votre personnalité.</p>
-            <a class="btn btn-dark" href="#contact">NAMAJE <span aria-hidden="true">↗</span></a>
+            <h2>NAMAJE</h2>
+            <div class="dual-home__label">COIFFURE</div>
+            <p>Des cheveux sublimés,<br>une signature unique.</p>
+            <a class="btn btn-dark" href="#contact">DÉCOUVRIR LA COIFFURE <span aria-hidden="true">→</span></a>
           </div>
         </article>
+        <button type="button" class="dual-home__scroll" id="change-hero-scroll" aria-label="Défiler vers la présentation de l’institut">SCROLLEZ POUR EXPLORER</button>
+        <ul class="dual-home__services" aria-label="Quatre univers de prestations">
+          <li>SOINS VISAGE<br>ET CORPS</li>
+          <li>ÉPILATION<br>ET BIEN-ÊTRE</li>
+          <li>COUPE &amp; BRUSHING<br>SUR MESURE</li>
+          <li>COLORATION<br>ET SOINS CAPILLAIRES</li>
+        </ul>
       </div>
     </section>
     <section class="intro-bands container"><p class="section-kicker">PRENEZ LE TEMPS DE VOUS RETROUVER</p><h2>Un lieu pour se sentir <i>bien.</i></h2><p>Chez Ch’ange, chaque parenthèse beauté est une invitation à vous accorder de l’attention. Découvrez nos univers de soins et choisissez le moment qui vous ressemble.</p></section>
@@ -190,6 +208,7 @@
     const hash=decodeURIComponent(location.hash.slice(1)||'accueil');
     const [name,query]=hash.split('?');
     const active=pages.some(el=>el.dataset.page===name)?name:'accueil';
+    document.body.classList.toggle('change-home-layout',active==='accueil');
     pages.forEach(el=>{el.hidden=el.dataset.page!==active;});
     nav.forEach(a=>{const selected=a.dataset.nav===active;a.classList.toggle('active',selected);if(selected)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
     if(active==='soins'){const params=new URLSearchParams(query||'');filterCare(params.get('categorie')||'tout');}
@@ -214,6 +233,12 @@
     toggle.setAttribute('aria-expanded',String(open));
     toggle.setAttribute('aria-label',open?'Fermer le menu':'Ouvrir le menu');
   }
+  document.getElementById('change-hero-scroll')?.addEventListener('click',()=>{
+    document.querySelector('#page-accueil .intro-bands')?.scrollIntoView({
+      behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',
+      block:'start'
+    });
+  });
   filters.forEach(btn=>btn.addEventListener('click',()=>filterCare(btn.dataset.filter)));
   toggle?.addEventListener('click',()=>setMobileMenuOpen(mobile.hidden));
   mobile?.addEventListener('click',e=>{if(e.target.closest('a'))closeMobileMenu();});
