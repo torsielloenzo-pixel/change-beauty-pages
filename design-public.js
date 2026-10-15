@@ -95,7 +95,7 @@
    const onHome=slug==='accueil';
    const customHeader=!onHome&&(Object.prototype.hasOwnProperty.call(d,'header_opacity')||Object.prototype.hasOwnProperty.call(d,'topbar_opacity'));
    document.body.classList.toggle('change-page-header-active',customHeader);
-   root.style.setProperty('--topbar-opacity',number(d.topbar_opacity,0,100,12)/100);
+   root.style.setProperty('--topbar-opacity',number(d.topbar_opacity,0,100,60)/100);
    root.style.setProperty('--header-opacity',number(d.header_opacity,0,100,8)/100);
    root.style.setProperty('--intro-opacity',number(d.intro_opacity,0,100,0)/100);
    const primary=imageUrl(page.hero_image_url,!!page.__preview);
