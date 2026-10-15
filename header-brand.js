@@ -4,21 +4,21 @@
   const wordmark=document.querySelector('.site-header > a.wordmark');
   if(!wordmark)return;
   // On garde le texte original dans le flux : il constitue le gabarit.
-  const subtitle=wordmark.querySelector(':scope > small');
   const titleSlot=document.createElement('span');
   titleSlot.className='change-brand-title';
   const textSlot=document.createElement('span');
   textSlot.className='change-brand-text';
-  // Le petit « INSTITUT DE BEAUTÉ » reste inchangé sous le mot CH’ANGE.
-  while(wordmark.firstChild&&wordmark.firstChild!==subtitle){
+  // CH’ANGE ET « INSTITUT DE BEAUTÉ » partagent le même gabarit.
+  // Les deux restent dans le flux pour conserver exactement leur encombrement.
+  while(wordmark.firstChild){
     textSlot.appendChild(wordmark.firstChild);
   }
   titleSlot.appendChild(textSlot);
-  wordmark.insertBefore(titleSlot,subtitle||null);
+  wordmark.appendChild(titleSlot);
   wordmark.classList.add('change-brand-wordmark');
   const image=document.createElement('img');
   image.className='change-brand-image';
-  image.alt='CH’ANGE';
+  image.alt='CH’ANGE — Institut de beauté';
   image.decoding='async';
   image.hidden=true;
   titleSlot.appendChild(image);
