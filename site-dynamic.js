@@ -25,8 +25,8 @@
       if(title&&page.title)title.textContent=page.title;
       const intro=section.querySelector('.hero-copy p,.inner-intro p,.gift-hero p');
       if(intro&&page.description)intro.textContent=page.description;
-      // Image de fond plein écran de l'accueil, derrière Esthétique et Coiffure.
-      if(slug==='accueil'){
+      // Trois scènes indépendantes, même moteur de fond et même géométrie.
+      if(['accueil','esthetique','coiffure'].includes(slug)){
         const home=section.querySelector('.dual-home');
         const frame=section.querySelector('.dual-home__center-media');
         const img=frame?.querySelector('img');
