@@ -80,18 +80,20 @@ test('Le fond et les contenus sont montés sous le même repère de transformati
  const css=fs.readFileSync(path.join(__dirname,'../home-canvas.css'),'utf8');
  const main=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
  assert.match(css,/transform:scale\(var\(--home-canvas-scale,1\)\)/);
- assert.match(css,/#change-landing-stage/);
+ assert.match(css,/\.change-landing-stage/);
  assert.match(main,/home-canvas\.css/);
  assert.match(main,/home-canvas\.js/);
  assert.match(main,/intro-bands container/);
 });
 
 
-test('CH’ANGE et NAMAJE : mêmes rangées titre, spécialité, description et bouton',()=>{
+test('CH’ANGE et NAMAJE : mêmes rangées et boutons sur les trois scènes',()=>{
  const css=fs.readFileSync(path.join(__dirname,'../home-canvas.css'),'utf8');
- const shared=/\.dual-home__panel--beauty \.dual-home__copy,\s*body\.change-home-layout #page-accueil \.dual-home__panel--hair \.dual-home__copy\s*\{[^}]*grid-template-rows:103px 47px 120px 62px!important/;
- assert.match(css,shared);
- assert.match(css,/\.dual-home__panel--beauty \.dual-home__copy > \.btn,\s*body\.change-home-layout #page-accueil \.dual-home__panel--hair \.dual-home__copy > \.btn\s*\{[^}]*width:340px!important;[^}]*height:62px!important/s);
- assert.match(css,/\.dual-home__panel--beauty \.dual-home__copy > p:not\(\.dual-home__sub\),\s*body\.change-home-layout #page-accueil \.dual-home__panel--hair \.dual-home__copy > p:not\(\.dual-home__sub\)\s*\{[^}]*grid-row:3!important/s);
- assert.match(css,/\.home-canvas-mobile[^}]*grid-template-rows:78px 38px 116px 53px!important/s);
+ assert.match(css,/grid-template-rows:103px 47px 120px 62px!important/);
+ assert.match(css,/grid-template-rows:78px 38px 116px 53px!important/);
+ assert.match(css,/grid-row:3!important/);
+ assert.match(css,/grid-row:4!important/);
+ assert.match(css,/width:340px!important/);
+ assert.match(css,/height:62px!important/);
+ for(const slug of ['page-accueil','page-esthetique','page-coiffure'])assert.ok(css.includes('#'+slug));
 });
