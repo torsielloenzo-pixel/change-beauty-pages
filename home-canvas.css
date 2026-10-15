@@ -11,7 +11,7 @@ body.change-home-layout #page-accueil .dual-home{
   isolation:isolate!important;background:#eee1d4!important;
 }
 body.change-home-layout #page-accueil .dual-home__grid{
-  position:absolute!important;left:0!important;top:0!important;
+  position:absolute!important;left:var(--home-canvas-offset-x,0px)!important;top:0!important;
   display:block!important;overflow:hidden!important;
   width:1536px!important;max-width:none!important;
   height:1024px!important;min-height:0!important;
@@ -102,7 +102,7 @@ body.change-home-layout #page-accueil .dual-home__services li{
 /* Même coefficient que la photographie pour les éléments de navigation. */
 body.change-home-layout .site-header,
 body.change-home-layout.change-stage-scrolled .site-header{
-  position:fixed!important;left:0!important;right:auto!important;top:0!important;
+  position:fixed!important;left:var(--home-canvas-offset-x,0px)!important;right:auto!important;top:0!important;
   width:1536px!important;height:116px!important;min-height:0!important;
   padding:0 60px!important;gap:32px!important;
   transform:scale(var(--home-canvas-scale,1))!important;
@@ -224,3 +224,7 @@ body.change-home-layout #page-accueil .dual-home__scroll{
     object-position:var(--stage-x,50%) var(--stage-y,50%)!important;
   }
 }
+
+/* Le canevas peut être centré en largeur sur les écrans plus larges que hauts.
+ * La marge crème n'est PAS une photo recadrée : le visuel de référence reste entier. */
+body.change-home-layout:not(.home-canvas-mobile) #page-accueil .dual-home{background:#e9d8cb!important}
