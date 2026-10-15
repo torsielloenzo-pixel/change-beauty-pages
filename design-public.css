@@ -23,3 +23,8 @@ body.change-stage-active #page-accueil .dual-home__grid{position:relative;z-inde
  #change-landing-stage .change-stage-photo{object-position:var(--stage-mobile-x,50%) var(--stage-mobile-y,50%)}
  .change-editor-layer{width:var(--layer-mobile-width,var(--layer-width,30%))}
 }
+
+/* Interaction réservée au brouillon intégré dans la fenêtre de l'éditeur. */
+body.change-editor-preview .change-editor-layer{pointer-events:auto;cursor:grab;touch-action:none}
+body.change-editor-preview .change-editor-layer:hover{outline:2px dashed rgba(116,72,62,.85);outline-offset:4px}
+body.change-editor-preview .change-editor-layer:active{cursor:grabbing}
