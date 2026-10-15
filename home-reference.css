@@ -223,3 +223,9 @@ body.change-home-layout #page-accueil .home-categories{position:relative;z-index
   body.change-home-layout #page-accueil .intro-bands{padding:63px 20px 72px!important;min-height:0}
   body.change-home-layout #page-accueil .intro-bands h2{font-size:42px}
 }
+
+/* Les nouveaux textes du centre et les catégories restent sélectionnables en aperçu administrateur. */
+body.change-editor-preview #page-accueil .dual-home__center,
+body.change-editor-preview #page-accueil .dual-home__services,
+body.change-editor-preview #page-accueil .dual-home__scroll{pointer-events:auto}
+body.change-home-layout #page-accueil .intro-bands{scroll-margin-top:90px}
