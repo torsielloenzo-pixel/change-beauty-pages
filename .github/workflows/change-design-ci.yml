@@ -4,6 +4,7 @@ on:
     paths:
       - 'design-public.js'
       - 'design-public.css'
+      - 'home-reference.css'
       - 'site-dynamic.js'
       - 'index.html'
       - '.github/workflows/change-design-ci.yml'
@@ -26,6 +27,12 @@ jobs:
       - name: Vérifier les ressources de l'accueil
         run: |
           test -s design-public.css
+          test -s home-reference.css
+          grep -q 'home-reference.css' index.html
+          grep -q 'dual-home__center' index.html
+          grep -q 'dual-home__services' index.html
+          grep -q 'change-home-layout' index.html
+          grep -q 'home.getBoundingClientRect().bottom' design-public.js
           grep -q 'design-public.js' index.html
           grep -q 'design-public.css' index.html
           grep -q 'CHANGE_DESIGN_PUBLIC?.apply' site-dynamic.js
