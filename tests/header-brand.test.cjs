@@ -65,6 +65,9 @@ test('CSS : le texte garde la place du logo et l image est strictement ajustée'
  assert.match(css,/\.change-brand-text/);
  assert.match(css,/visibility:hidden/);
  assert.match(css,/position:absolute/);
- assert.match(css,/object-fit:cover/);
+ assert.match(css,/object-fit:fill/);
+ assert.doesNotMatch(css,/object-fit:cover/);
+ assert.match(css,/width:100%/);
+ assert.match(css,/height:100%/);
  assert.doesNotMatch(css,/\.site-header\s*\{[^}]*height/);
 });
