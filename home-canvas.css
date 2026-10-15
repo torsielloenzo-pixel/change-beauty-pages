@@ -54,20 +54,20 @@ body.change-home-layout #page-accueil .dual-home__panel--hair .dual-home__copy{
 }
 body.change-home-layout #page-accueil .dual-home__copy h1,
 body.change-home-layout #page-accueil .dual-home__copy h2{
-  font-size:76px!important;line-height:1.04!important;
+  font-size:var(--home-editor-font-size,76px)!important;line-height:1.04!important;
   margin:0 0 22px!important;letter-spacing:-.045em;
 }
 body.change-home-layout #page-accueil .dual-home__label{
-  font-size:17px!important;line-height:1.45!important;
+  font-size:var(--home-editor-font-size,17px)!important;line-height:1.45!important;
   margin:0 0 20px!important;letter-spacing:.22em!important;
 }
 body.change-home-layout #page-accueil .dual-home__copy>p:not(.dual-home__sub){
-  font-size:20px!important;line-height:1.43!important;
+  font-size:var(--home-editor-font-size,20px)!important;line-height:1.43!important;
   width:375px!important;max-width:375px!important;
   margin:0 0 32px!important;
 }
 body.change-home-layout #page-accueil .dual-home__copy .btn{
-  font-size:15px!important;min-height:62px!important;line-height:1.25!important;
+  font-size:var(--home-editor-font-size,15px)!important;min-height:62px!important;line-height:1.25!important;
   padding:16px 29px!important;gap:18px!important;
 }
 body.change-home-layout #page-accueil .dual-home__center{
@@ -77,11 +77,11 @@ body.change-home-layout #page-accueil .dual-home__center{
   margin:0!important;padding:0!important;
 }
 body.change-home-layout #page-accueil .dual-home__center h2{
-  font-size:56px!important;line-height:1.0!important;letter-spacing:-.03em!important;
+  font-size:var(--home-editor-font-size,56px)!important;line-height:1.0!important;letter-spacing:-.03em!important;
   margin:0 0 30px!important;
 }
 body.change-home-layout #page-accueil .dual-home__center p{
-  font-size:18px!important;line-height:1.5!important;letter-spacing:.11em!important;margin:0!important;
+  font-size:var(--home-editor-font-size,18px)!important;line-height:1.5!important;letter-spacing:.11em!important;margin:0!important;
 }
 body.change-home-layout #page-accueil .dual-home__scroll{
   position:absolute!important;left:50%!important;top:805px!important;
@@ -97,7 +97,7 @@ body.change-home-layout #page-accueil .dual-home__services{
   gap:32px!important;margin:0!important;padding:0!important;
 }
 body.change-home-layout #page-accueil .dual-home__services li{
-  font-size:15px!important;line-height:1.5!important;letter-spacing:.13em!important;
+  font-size:var(--home-editor-font-size,15px)!important;line-height:1.5!important;letter-spacing:.13em!important;
 }
 /* Même coefficient que la photographie pour les éléments de navigation. */
 body.change-home-layout .site-header,
@@ -152,38 +152,38 @@ body.change-home-layout #page-accueil .dual-home__scroll{
   }
   body.change-home-layout #page-accueil .dual-home__copy h1,
   body.change-home-layout #page-accueil .dual-home__copy h2{
-    font-size:65px!important;margin:0 0 11px!important;
+    font-size:var(--home-editor-font-size,65px)!important;margin:0 0 11px!important;
   }
   body.change-home-layout #page-accueil .dual-home__label{
-    font-size:14px!important;margin:0 0 12px!important;
+    font-size:var(--home-editor-font-size,14px)!important;margin:0 0 12px!important;
   }
   body.change-home-layout #page-accueil .dual-home__copy>p:not(.dual-home__sub){
-    font-size:18px!important;width:320px!important;max-width:320px!important;
+    font-size:var(--home-editor-font-size,18px)!important;width:320px!important;max-width:320px!important;
     margin:0 0 18px!important;
   }
   body.change-home-layout #page-accueil .dual-home__copy .btn{
-    font-size:13px!important;min-height:53px!important;padding:12px 18px!important;
+    font-size:var(--home-editor-font-size,13px)!important;min-height:53px!important;padding:12px 18px!important;
   }
   body.change-home-layout #page-accueil .dual-home__center{
     left:50%!important;top:485px!important;width:390px!important;
     align-self:auto!important;margin:0!important;transform:translateX(-50%)!important;
   }
   body.change-home-layout #page-accueil .dual-home__center h2{
-    font-size:48px!important;line-height:1.02!important;margin:0 0 13px!important;
+    font-size:var(--home-editor-font-size,48px)!important;line-height:1.02!important;margin:0 0 13px!important;
   }
   body.change-home-layout #page-accueil .dual-home__center p{
-    font-size:14px!important;letter-spacing:.1em!important;
+    font-size:var(--home-editor-font-size,14px)!important;letter-spacing:.1em!important;
   }
   body.change-home-layout #page-accueil .dual-home__scroll{
     left:50%!important;top:1000px!important;
-    font-size:13px!important;margin:0!important;
+    font-size:var(--home-editor-font-size,13px)!important;margin:0!important;
   }
   body.change-home-layout #page-accueil .dual-home__services{
     top:1092px!important;left:20px!important;right:20px!important;
     grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:22px 12px!important;
   }
   body.change-home-layout #page-accueil .dual-home__services li{
-    font-size:14px!important;line-height:1.35!important;letter-spacing:.07em!important;
+    font-size:var(--home-editor-font-size,14px)!important;line-height:1.35!important;letter-spacing:.07em!important;
   }
   body.change-home-layout .site-header,
   body.change-home-layout.change-stage-scrolled .site-header{
