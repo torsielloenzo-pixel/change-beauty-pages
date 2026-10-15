@@ -7,6 +7,9 @@ on:
       - 'home-reference.css'
       - 'home-canvas.css'
       - 'home-canvas.js'
+      - 'header-brand.js'
+      - 'header-brand.css'
+      - 'tests/header-brand.test.cjs'
       - 'tests/home-canvas.test.cjs'
       - 'site-dynamic.js'
       - 'index.html'
@@ -28,12 +31,17 @@ jobs:
           node --check design-public.js
           node --check site-dynamic.js
           node --check home-canvas.js
+          node --check header-brand.js
+          node --test tests/header-brand.test.cjs
           node --test tests/home-canvas.test.cjs
       - name: Vérifier les ressources de l'accueil
         run: |
           test -s design-public.css
           test -s home-reference.css
           test -s home-canvas.css
+          test -s header-brand.css
+          grep -q 'header-brand.js' index.html
+          grep -q 'header-brand.css' index.html
           grep -q 'home-reference.css' index.html
           grep -q 'dual-home__center' index.html
           grep -q 'dual-home__services' index.html
