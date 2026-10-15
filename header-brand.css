@@ -35,7 +35,9 @@
   max-width:100%;
   max-height:100%;
   display:block;
-  object-fit:cover;
+  /* Toute l'image reste visible ET occupe tout le cadre original.
+     Sans recadrage : une source de ratio différent sera légèrement étirée. */
+  object-fit:fill;
   object-position:center;
   border:0;
   border-radius:0;
