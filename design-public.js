@@ -101,10 +101,10 @@
      const img=stage.querySelector('.change-stage-photo');
      img.hidden=!primary;
      if(primary)img.src=primary;else img.removeAttribute('src');
-     stage.style.setProperty('--stage-x',number(cfg.x,0,100,50)+'%');
-     stage.style.setProperty('--stage-y',number(cfg.y,0,100,50)+'%');
-     stage.style.setProperty('--stage-mobile-x',number(cfg.mobile_x,0,100,50)+'%');
-     stage.style.setProperty('--stage-mobile-y',number(cfg.mobile_y,0,100,50)+'%');
+     stage.style.setProperty('--stage-x',number(d.image_x??cfg.x,0,100,50)+'%');
+     stage.style.setProperty('--stage-y',number(d.image_y??cfg.y,0,100,50)+'%');
+     stage.style.setProperty('--stage-mobile-x',number(d.image_mobile_x??cfg.mobile_x,0,100,50)+'%');
+     stage.style.setProperty('--stage-mobile-y',number(d.image_mobile_y??cfg.mobile_y,0,100,50)+'%');
      stage.style.setProperty('--stage-zoom',number(d.image_scale??cfg.zoom,30,250,100)/100);
      stage.style.setProperty('--stage-opacity',number(d.image_opacity,0,100,100)/100);
      stage.style.setProperty('--stage-veil',number(d.veil??cfg.overlay,0,100,25)/100);
@@ -118,6 +118,9 @@
  }
  function apply(page){
    if(!page||typeof page.slug!=='string')return;
+   // Un rafraîchissement des données publiées ne doit pas écraser un brouillon reçu en iframe.
+   const previous=pages.get(page.slug);
+   if(isPreview&&previous?.__preview&&!page.__preview)page=previous;
    pages.set(page.slug,page);
    const design=page.hero_image_settings?.design||{};
    updateText(page.slug,design);
