@@ -93,6 +93,11 @@
    if(!page)return;
    const cfg=page.hero_image_settings||{},d=cfg.design||{};
    const onHome=slug==='accueil';
+   const customHeader=!onHome&&(Object.prototype.hasOwnProperty.call(d,'header_opacity')||Object.prototype.hasOwnProperty.call(d,'topbar_opacity'));
+   document.body.classList.toggle('change-page-header-active',customHeader);
+   root.style.setProperty('--topbar-opacity',number(d.topbar_opacity,0,100,12)/100);
+   root.style.setProperty('--header-opacity',number(d.header_opacity,0,100,8)/100);
+   root.style.setProperty('--intro-opacity',number(d.intro_opacity,0,100,0)/100);
    const primary=imageUrl(page.hero_image_url,!!page.__preview);
    const show=onHome&&(d.stage_enabled!==false)&&(!!primary||(Array.isArray(d.layers)&&d.layers.some(x=>imageUrl(x?.url,!!page.__preview))));
    stage.hidden=!show;
@@ -110,9 +115,6 @@
      stage.style.setProperty('--stage-veil',number(d.veil??cfg.overlay,0,100,25)/100);
      img.style.objectFit=d.image_fit==='contain'?'contain':'cover';
      renderLayers(stage.querySelector('.change-stage-layers'),d.layers,!!page.__preview);
-     root.style.setProperty('--topbar-opacity',number(d.topbar_opacity,0,100,12)/100);
-     root.style.setProperty('--header-opacity',number(d.header_opacity,0,100,8)/100);
-     root.style.setProperty('--intro-opacity',number(d.intro_opacity,0,100,0)/100);
      measure();
    }
  }
