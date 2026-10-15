@@ -145,6 +145,8 @@
    if(isPreview&&previous?.__preview&&!page.__preview)page=previous;
    pages.set(page.slug,page);
    const design=page.hero_image_settings?.design||{};
+   // Le logo d'en-tête est global mais son choix est enregistré sur « Accueil ».
+   if(page.slug==='accueil')window.CHANGE_HEADER_BRAND?.apply(design,!!page.__preview);
    updateText(page.slug,design);
    const region=document.querySelector('[data-cms-page="'+page.slug+'"]');
    if(region&&page.slug!=='accueil'){
