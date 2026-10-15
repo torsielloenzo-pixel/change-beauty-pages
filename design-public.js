@@ -30,6 +30,13 @@
    hair_sub:'.dual-home__panel--hair .dual-home__sub',
    hair_description:'.dual-home__panel--hair .dual-home__copy > p:not(.dual-home__sub)',
    hair_button:'.dual-home__panel--hair .btn',
+   center_title:'.dual-home__center h2',
+   center_description:'.dual-home__center p',
+   scroll_hint:'.dual-home__scroll',
+   hero_service_1:'.dual-home__services li:nth-child(1)',
+   hero_service_2:'.dual-home__services li:nth-child(2)',
+   hero_service_3:'.dual-home__services li:nth-child(3)',
+   hero_service_4:'.dual-home__services li:nth-child(4)',
    intro_kicker:'.intro-bands .section-kicker',
    intro_title:'.intro-bands h2',
    intro_description:'.intro-bands > p:last-child',
@@ -52,7 +59,7 @@
        if(key.endsWith('_button')){
          const label=document.createTextNode(item.text+' ');
          el.replaceChildren(label);
-         const arrow=document.createElement('span');arrow.setAttribute('aria-hidden','true');arrow.textContent='↗';el.append(arrow);
+         const arrow=document.createElement('span');arrow.setAttribute('aria-hidden','true');arrow.textContent='→';el.append(arrow);
        }else el.textContent=item.text;
        el.style.whiteSpace='pre-line';
      }
@@ -82,9 +89,14 @@
    }
  }
  function measure(){
-   const intro=document.querySelector('#page-accueil .intro-bands');
-   if(intro){const end=intro.getBoundingClientRect().bottom+window.scrollY;stage.style.height=Math.max(0,Math.round(end))+'px';}
-   document.body.classList.toggle('change-stage-scrolled',window.scrollY>Math.max(120,(stage.offsetHeight||800)-150));
+   // Le fond s'arrête au bas du hero : la section d'introduction est séparée.
+   const home=document.querySelector('#page-accueil .dual-home');
+   const active=document.body.classList.contains('change-home-layout');
+   if(home&&active&&!stage.hidden){
+     const end=home.getBoundingClientRect().bottom+window.scrollY;
+     stage.style.height=Math.max(0,Math.round(end))+'px';
+   }
+   document.body.classList.toggle('change-stage-scrolled',active&&window.scrollY>42);
  }
  function activate(){
    const raw=(location.hash||'#accueil').slice(1).split('?')[0];
@@ -102,6 +114,8 @@
    const show=onHome&&(d.stage_enabled!==false)&&(!!primary||(Array.isArray(d.layers)&&d.layers.some(x=>imageUrl(x?.url,!!page.__preview))));
    stage.hidden=!show;
    document.body.classList.toggle('change-stage-active',show);
+   document.body.classList.remove('change-stage-scrolled');
+   if(!show)stage.style.height='0px';
    if(show){
      const img=stage.querySelector('.change-stage-photo');
      img.hidden=!primary;
