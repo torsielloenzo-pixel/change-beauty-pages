@@ -3,10 +3,22 @@
  'use strict';
  const stage=document.createElement('div');
  stage.id='change-landing-stage';
+ stage.className='change-landing-stage';
  stage.hidden=true;
  stage.setAttribute('aria-hidden','true');
  stage.innerHTML='<img class="change-stage-photo" alt=""><div class="change-stage-veil"></div><div class="change-stage-layers"></div>';
  document.body.prepend(stage);
+ const sceneSlugs=new Set(['accueil','esthetique','coiffure']);
+ const stages=new Map([['accueil',stage]]);
+ for(const slug of ['esthetique','coiffure']){
+   const grid=document.querySelector('#page-'+slug+' .dual-home__grid');
+   if(!grid)continue;
+   const scene=stage.cloneNode(true);
+   scene.id='change-landing-stage-'+slug;
+   scene.hidden=true;
+   grid.prepend(scene);
+   stages.set(slug,scene);
+ }
  const pages=new Map(), original=new WeakMap();
  const root=document.documentElement;
  const number=(v,min,max,d)=>{const n=Number(v);return v!==''&&v!==null&&v!==undefined&&Number.isFinite(n)?Math.max(min,Math.min(max,n)):d};
@@ -95,14 +107,37 @@
    }
  }
  function measure(){
-   // Le fond s'arrête au bas du hero : la section d'introduction est séparée.
-   const home=document.querySelector('#page-accueil .dual-home');
-   const active=document.body.classList.contains('change-home-layout');
-   if(home&&active&&!stage.hidden){
-     const end=home.getBoundingClientRect().bottom+window.scrollY;
-     stage.style.height=Math.max(0,Math.round(end))+'px';
+   const slug=(location.hash||'#accueil').slice(1).split('?')[0];
+   const active=sceneSlugs.has(slug)&&document.body.classList.contains('change-home-layout');
+   const currentStage=stages.get(slug);
+   if(active&&currentStage&&!currentStage.hidden){
+     currentStage.style.height='100%';
    }
    document.body.classList.toggle('change-stage-scrolled',active&&window.scrollY>42);
+ }
+ function renderScene(page){
+   if(!sceneSlugs.has(page.slug))return;
+   const currentStage=stages.get(page.slug);
+   if(!currentStage)return;
+   const cfg=page.hero_image_settings||{},d=cfg.design||{};
+   const primary=imageUrl(page.hero_image_url,!!page.__preview);
+   const show=d.stage_enabled!==false&&(!!primary||(Array.isArray(d.layers)&&d.layers.some(x=>imageUrl(x?.url,!!page.__preview))));
+   currentStage.hidden=!show;
+   if(!show)return;
+   const img=currentStage.querySelector('.change-stage-photo');
+   img.hidden=!primary;
+   if(primary&&img.src!==primary)img.src=primary;
+   else if(!primary)img.removeAttribute('src');
+   currentStage.style.setProperty('--stage-x',number(d.image_x??cfg.x,0,100,50)+'%');
+   currentStage.style.setProperty('--stage-y',number(d.image_y??cfg.y,0,100,50)+'%');
+   currentStage.style.setProperty('--stage-mobile-x',number(d.image_mobile_x??cfg.mobile_x,0,100,50)+'%');
+   currentStage.style.setProperty('--stage-mobile-y',number(d.image_mobile_y??cfg.mobile_y,0,100,50)+'%');
+   currentStage.style.setProperty('--stage-zoom',number(d.image_scale,30,250,100)/100);
+   currentStage.style.setProperty('--stage-opacity',number(d.image_opacity,0,100,100)/100);
+   currentStage.style.setProperty('--stage-veil',number(d.veil??cfg.overlay,0,100,25)/100);
+   img.style.objectFit=d.image_fit==='contain'?'contain':'cover';
+   renderLayers(currentStage.querySelector('.change-stage-layers'),d.layers,!!page.__preview);
+   currentStage.style.height='100%';
  }
  function activate(){
    const raw=(location.hash||'#accueil').slice(1).split('?')[0];
@@ -110,33 +145,16 @@
    const page=pages.get(slug);
    if(!page)return;
    const cfg=page.hero_image_settings||{},d=cfg.design||{};
-   const onHome=slug==='accueil';
-   const customHeader=!onHome&&(Object.prototype.hasOwnProperty.call(d,'header_opacity')||Object.prototype.hasOwnProperty.call(d,'topbar_opacity'));
+   const isScene=sceneSlugs.has(slug);
+   const customHeader=!isScene&&(Object.prototype.hasOwnProperty.call(d,'header_opacity')||Object.prototype.hasOwnProperty.call(d,'topbar_opacity'));
    document.body.classList.toggle('change-page-header-active',customHeader);
-   root.style.setProperty('--topbar-opacity',number(d.topbar_opacity,0,100,60)/100);
-   root.style.setProperty('--header-opacity',number(d.header_opacity,0,100,8)/100);
+   const headerDesign=isScene?(pages.get('accueil')?.hero_image_settings?.design||{}):d;
+   root.style.setProperty('--topbar-opacity',number(headerDesign.topbar_opacity,0,100,60)/100);
+   root.style.setProperty('--header-opacity',number(headerDesign.header_opacity,0,100,8)/100);
    root.style.setProperty('--intro-opacity',number(d.intro_opacity,0,100,0)/100);
-   const primary=imageUrl(page.hero_image_url,!!page.__preview);
-   const show=onHome&&(d.stage_enabled!==false)&&(!!primary||(Array.isArray(d.layers)&&d.layers.some(x=>imageUrl(x?.url,!!page.__preview))));
-   stage.hidden=!show;
-   document.body.classList.toggle('change-stage-active',show);
-   document.body.classList.remove('change-stage-scrolled');
-   if(!show)stage.style.height='0px';
-   if(show){
-     const img=stage.querySelector('.change-stage-photo');
-     img.hidden=!primary;
-     if(primary)img.src=primary;else img.removeAttribute('src');
-     stage.style.setProperty('--stage-x',number(d.image_x??cfg.x,0,100,50)+'%');
-     stage.style.setProperty('--stage-y',number(d.image_y??cfg.y,0,100,50)+'%');
-     stage.style.setProperty('--stage-mobile-x',number(d.image_mobile_x??cfg.mobile_x,0,100,50)+'%');
-     stage.style.setProperty('--stage-mobile-y',number(d.image_mobile_y??cfg.mobile_y,0,100,50)+'%');
-     stage.style.setProperty('--stage-zoom',number(d.image_scale,30,250,100)/100);
-     stage.style.setProperty('--stage-opacity',number(d.image_opacity,0,100,100)/100);
-     stage.style.setProperty('--stage-veil',number(d.veil??cfg.overlay,0,100,25)/100);
-     img.style.objectFit=d.image_fit==='contain'?'contain':'cover';
-     renderLayers(stage.querySelector('.change-stage-layers'),d.layers,!!page.__preview);
-     measure();
-   }
+   const currentStage=stages.get(slug);
+   document.body.classList.toggle('change-stage-active',isScene&&!!currentStage&&!currentStage.hidden);
+   measure();
  }
  function apply(page){
    if(!page||typeof page.slug!=='string')return;
@@ -148,8 +166,9 @@
    // Le logo d'en-tête est global mais son choix est enregistré sur « Accueil ».
    if(page.slug==='accueil')window.CHANGE_HEADER_BRAND?.apply(design,!!page.__preview);
    updateText(page.slug,design);
+   if(sceneSlugs.has(page.slug))renderScene(page);
    const region=document.querySelector('[data-cms-page="'+page.slug+'"]');
-   if(region&&page.slug!=='accueil'){
+   if(region&&!sceneSlugs.has(page.slug)){
      if(page.__preview){
        const photo=imageUrl(page.hero_image_url,true);
        const picture=region.querySelector('.hero-visual img,.universe-grid img,.gift-hero img');
@@ -169,20 +188,20 @@
    window.addEventListener('message',event=>{
      if(event.origin!=='https://pro.institut-change.fr'||event.source!==window.parent)return;
      const payload=event.data;
-     if(!payload||payload.type!=='change-editor-preview'||!['accueil','soins','tarifs','univers','galerie','cadeaux','contact'].includes(payload.slug))return;
+     if(!payload||payload.type!=='change-editor-preview'||!['accueil','esthetique','coiffure','soins','tarifs','univers','galerie','cadeaux','contact'].includes(payload.slug))return;
      const prev=pages.get(payload.slug)||{slug:payload.slug,hero_image_url:''};
      if(!payload.design||typeof payload.design!=='object')return;
      const settings={...(prev.hero_image_settings||{}),...payload.legacy,design:payload.design};
      const next={...prev,hero_image_settings:settings,hero_image_url:payload.image_url||prev.hero_image_url,__preview:true};
      apply(next);
-     if(payload.slug==='accueil'&&location.hash!=='#accueil')location.hash='#accueil';
+     if(location.hash!=='#'+payload.slug)location.hash='#'+payload.slug;
    });
    document.body.classList.add('change-editor-preview');
    let drag=null;
    document.addEventListener('pointerdown',event=>{
      const layer=event.target.closest('.change-editor-layer');
      if(!layer||event.button!==0)return;
-     const host=layer.closest('#change-landing-stage,.change-page-design-canvas');
+     const host=layer.closest('.change-landing-stage,.change-page-design-canvas');
      if(!host)return;
      event.preventDefault();
      drag={layer,host,index:Number(layer.dataset.changeLayerIndex),pointerId:event.pointerId};
