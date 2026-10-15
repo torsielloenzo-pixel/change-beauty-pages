@@ -34,3 +34,9 @@ body.change-editor-preview #page-accueil .dual-home__copy,
 body.change-editor-preview #page-accueil .intro-bands h2,
 body.change-editor-preview #page-accueil .intro-bands p,
 body.change-editor-preview #page-accueil .home-categories{pointer-events:auto}
+
+/* Pages intérieures : transparence indépendante sans étendre l'image d'accueil. */
+body.change-page-header-active .site-header{background:rgba(250,246,241,var(--header-opacity,.08));backdrop-filter:none}
+body.change-page-header-active .preview-bar{background:rgba(74,54,53,var(--topbar-opacity,.12))}
+body.change-page-header-active .inner-intro{background:rgba(250,246,241,var(--intro-opacity,0))}
+.page.change-page-with-layers>.change-page-design-canvas{z-index:4}
