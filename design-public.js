@@ -64,7 +64,13 @@
        el.style.whiteSpace='pre-line';
      }
      if(typefaces[item.font])el.style.fontFamily=typefaces[item.font];
-     if(item.size!==undefined)el.style.fontSize=number(item.size,9,110,22)+'px';
+     if(item.size!==undefined){
+       const fontSize=number(item.size,9,110,22)+'px';
+       el.style.fontSize=fontSize;
+       // Le canevas applique cette variable avant sa transformation :
+       // une taille éditée est proportionnelle à l'image, même au redimensionnement.
+       el.style.setProperty('--home-editor-font-size',fontSize);
+     }
      if(/^#[0-9a-f]{6}$/i.test(item.color||''))el.style.color=item.color;
      if(item.opacity!==undefined)el.style.opacity=String(number(item.opacity,0,100,100)/100);
      if(item.weight!==undefined)el.style.fontWeight=String(number(item.weight,300,800,400));
