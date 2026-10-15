@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CH'ANGE × NAMAJE — Bêta · Desktop</title>
+<meta name="robots" content="noindex,nofollow">\n<meta name="description" content="Atelier de reconstruction de la maquette CH'ANGE × NAMAJE desktop. Référence exacte et calques éditables.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"></head>
+<body>
+<header class="workbar">
+  <div class="workbrand"><div class="brand-icon">C<span>&</span>N</div><div><strong>Atelier CH'ANGE × NAMAJE</strong><small>VERSION BÊTA · SITE PUBLIC</small></div></div>
+  <div class="barbuttons"><span class="chip" id="viewChip">Référence originale</span><button class="ghost" id="resetBtn" type="button">Réinitialiser</button><button id="controlsBtn" type="button" aria-expanded="true" aria-controls="controlPanel">Réglages <span aria-hidden="true">⚙</span></button></div>
+</header>
+<div class="workspace">
+ <main class="canvas-area">
+   <section class="section-title"><div><span class="kicker">MAQUETTE DE RÉFÉRENCE</span><h1>Beauté &amp; Coiffure</h1><p>La maquette reste identique en dehors des photographies et textes personnalisés. Les photographies importées remplacent les zones dédiées, en conservant les réglages de cadrage.</p></div>
+   <div class="viewport-size">750 × 496 px <span>·</span> Desktop</div></section>
+   <div class="canvas-surround"><div id="stageWrap" class="stage-wrap"><div id="stage" class="stage" role="region" aria-label="Maquette CH'ANGE et NAMAJE desktop">
+    <img src="assets/original-750x496.png" alt="Maquette originale CH'ANGE et NAMAJE" draggable="false" class="original-art" id="originalArt">
+    <div id="photoLeft" class="photo-replacement left-photo" aria-hidden="true"><img id="leftImg" alt=""></div>
+    <div id="photoRight" class="photo-replacement right-photo" aria-hidden="true"><img id="rightImg" alt=""></div>
+    <div id="textOverlay" aria-hidden="true"></div>
+    <div id="interactiveAreas" class="hotspots" aria-label="Liens configurables de la maquette">
+     <a class="hotspot" data-link="brand" style="left:29px;top:10px;width:137px;height:48px" aria-label="CH'ANGE — accueil"></a>
+     <a class="hotspot" data-link="nav0" style="left:211px;top:20px;width:44px;height:20px" aria-label="Accueil"></a>
+     <a class="hotspot" data-link="nav1" style="left:260px;top:20px;width:53px;height:20px" aria-label="Esthétique"></a>
+     <a class="hotspot" data-link="nav2" style="left:316px;top:20px;width:59px;height:20px" aria-label="Coiffure"></a>
+     <a class="hotspot" data-link="nav3" style="left:373px;top:20px;width:62px;height:20px" aria-label="À propos"></a>
+     <a class="hotspot" data-link="nav4" style="left:437px;top:20px;width:48px;height:20px" aria-label="Tarifs"></a>
+     <a class="hotspot" data-link="nav5" style="left:492px;top:20px;width:62px;height:20px" aria-label="Contact"></a>
+     <a class="hotspot" data-link="booking" style="left:597px;top:16px;width:129px;height:30px" aria-label="Prendre rendez-vous"></a>
+     <a class="hotspot" data-link="leftButton" style="left:40px;top:348px;width:176px;height:35px" aria-label="Découvrir l'esthétique"></a>
+     <a class="hotspot" data-link="rightButton" style="left:536px;top:349px;width:173px;height:35px" aria-label="Découvrir la coiffure"></a>
+    </div>
+    <img src="assets/original-750x496.png" alt="" class="reference-overlay" id="referenceOverlay" draggable="false">
+    <div class="guides" id="guides" aria-hidden="true"><span class="guide-label">Canevas fixe : 750 × 496</span><i class="vline"></i><i class="hline"></i></div>
+   </div></div></div>
+   <div class="underbar"><span><span class="dot"></span><strong id="modeStatus">Affichage original, pixels inchangés</strong></span><div><button class="textbutton" id="showGuides" type="button">Afficher les guides</button><button class="textbutton" id="compareBtn" type="button">Comparer</button></div></div>
+   <div class="compare-panel" id="comparePanel" hidden><label for="compareRange">Référence superposée <strong id="comparePct">50 %</strong></label><input type="range" id="compareRange" min="0" max="100" value="50"><p>À 100 %, tu vois uniquement l'image originale. À 0 %, tu vois les éléments remplacés sur la composition. Aucun écart n'est simulé.</p></div>
+   <div class="info-cards"><div><strong>01. Image maître</strong><p>Rendu original affiché tel quel, sans déformation ni recomposition.</p></div><div><strong>02. Photographies</strong><p>Remplacement par masques fixes. Les zones photo sont limitées aux portraits ; les textes et boutons restent protégés.</p></div><div><strong>03. Contenus</strong><p>Textes et URL modifiables. Les textes édités sont recréés indépendamment de l'image.</p></div></div>
+ </main>
+ <aside id="controlPanel" class="control-panel"><div class="panelhead"><div><span class="kicker">CONFIGURATION</span><h2>Personnalisation</h2></div><button class="close" id="hidePanel" title="Masquer les réglages" aria-label="Masquer les réglages">×</button></div>
+  <div class="notice">Les nouvelles images remplacent les portraits : les textes restent au premier plan et ne sont plus entourés de blocs issus de l’ancienne photographie. Les raccords photographiques demeurent approximatifs, car la maquette est une image aplatie.</div>
+  <details open><summary>01 — Photographies <span>2 emplacements</span></summary><div class="details-body">
+   <div class="edit-group"><label class="group-title" for="photoUploadLeft">CH'ANGE · Esthétique</label><div class="file-row"><input type="file" id="photoUploadLeft" accept="image/jpeg,image/png,image/webp,image/avif"><button type="button" data-remove="left" class="small-btn">Restaurer</button></div><div class="photo-ack" id="leftPhotoAck" role="status">Photo d’origine conservée</div><div class="controls-two"><label>Zoom <output id="leftZoomVal">100 %</output><input id="leftZoom" type="range" min="90" max="220" value="100"></label><label>Position X <output id="leftXVal">50 %</output><input id="leftX" type="range" min="0" max="100" value="50"></label><label>Position Y <output id="leftYVal">50 %</output><input id="leftY" type="range" min="0" max="100" value="50"></label></div></div>
+   <div class="edit-group"><label class="group-title" for="photoUploadRight">NAMAJE · Coiffure</label><div class="file-row"><input type="file" id="photoUploadRight" accept="image/jpeg,image/png,image/webp,image/avif"><button type="button" data-remove="right" class="small-btn">Restaurer</button></div><div class="photo-ack" id="rightPhotoAck" role="status">Photo d’origine conservée</div><div class="controls-two"><label>Zoom <output id="rightZoomVal">100 %</output><input id="rightZoom" type="range" min="90" max="220" value="100"></label><label>Position X <output id="rightXVal">50 %</output><input id="rightX" type="range" min="0" max="100" value="50"></label><label>Position Y <output id="rightYVal">50 %</output><input id="rightY" type="range" min="0" max="100" value="50"></label></div></div>
+  </div></details>
+  <details><summary>02 — Textes <span>Éléments éditables</span></summary><div class="details-body" id="textSettings"></div></details>
+  <details><summary>03 — Navigation <span>Libellés & liens</span></summary><div class="details-body" id="navSettings"></div></details>
+  <details><summary>04 — Export & import <span>Configuration JSON</span></summary><div class="details-body"><button id="exportBtn" type="button" class="wide-btn">Exporter la configuration</button><label class="import-label">Importer une configuration<input id="importInput" type="file" accept="application/json,.json"></label><small>Le JSON exporté peut inclure les photographies importées en base64 et devenir volumineux. Il ne modifie aucun site.</small></div></details>
+  <div class="panelbottom"><strong>Page Bêta · Prévisualisation publique</strong><p>Les réglages réalisés ici restent locaux à ce navigateur ; utilise l’export JSON pour les conserver.</p></div>
+ </aside>
+</div>
+<script src="app.js"></script>
+</body></html>

@@ -1,0 +1,1 @@
+Page Bêta autonome pour institut-change.fr/beta/. Les liens et textes proviennent du JSON fourni. Les photos se règlent localement ; aucun enregistrement serveur. Ne pas modifier l'accueil public.\n
