@@ -9,9 +9,12 @@
   const canvas=viewport?.querySelector('.dual-home__grid');
   const stage=document.getElementById('change-landing-stage');
   if(!viewport||!canvas)return;
+  const scenes=[viewport,
+    document.querySelector('#page-esthetique .dual-home'),
+    document.querySelector('#page-coiffure .dual-home')
+  ].filter(Boolean);
 
-  // L'image et les calques doivent être dans le MÊME repère transformé que les textes.
-  // Ne pas dupliquer la photo et ne pas l'ancrer au body.
+  // Chaque page possède une photographie indépendante, insérée derrière SON texte.
   if(stage&&stage.parentNode!==canvas)canvas.prepend(stage);
 
   const root=document.documentElement;
@@ -30,7 +33,7 @@
     lastWidth=available;lastMode=mode;
     const scale=available/designWidth;
     root.style.setProperty('--home-canvas-scale',String(scale));
-    viewport.style.setProperty('--home-canvas-height',(designHeight*scale)+'px');
+    for(const hero of scenes)hero.style.setProperty('--home-canvas-height',(designHeight*scale)+'px');
     root.dataset.homeCanvas=mode;
 
     // Moteur de fond/éditeur : la mesure se fait après ajustement de la scène.
