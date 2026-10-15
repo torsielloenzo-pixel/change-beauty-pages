@@ -62,6 +62,7 @@
           img.src=url;
         }
       }
+      window.CHANGE_DESIGN_PUBLIC?.apply(page);
       const picture=section.querySelector('.hero-visual img,.universe-grid img,.gift-hero img');
       const photo=safeImage(page.hero_image_url);
       if(picture&&photo){picture.src=photo;picture.removeAttribute('srcset');picture.alt=page.title||'Ch’ange'}
