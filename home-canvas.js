@@ -18,7 +18,10 @@
   let lastWidth=0,lastMode='',scheduled=false;
   function resize(){
     scheduled=false;
-    const mobile=window.matchMedia('(max-width:699px)').matches;
+    // Les fenêtres desktop gardent STRICTEMENT le même cadrage, même réduites.
+    // Seul un vrai périphérique tactile étroit utilise le canevas portrait dédié.
+    const mobile=window.matchMedia('(max-width:699px) and (pointer:coarse)').matches;
+    document.body.classList.toggle('home-canvas-mobile',mobile);
     const mode=mobile?'mobile':'desktop';
     const designWidth=mobile?430:1536;
     const designHeight=mobile?1280:1024;
