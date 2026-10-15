@@ -28,14 +28,16 @@ function boot(){
  vm.runInNewContext(source,{document:doc,window:win,URL,console});
  return {anchor,originalText,subtitle,api:win.CHANGE_HEADER_BRAND};
 }
-test('Le sous-titre original reste dans le flux, l image seulement dans le cadre CH’ANGE',()=>{
+test('CH’ANGE et INSTITUT DE BEAUTÉ forment le même bloc remplacé par l’image',()=>{
  const x=boot();
- assert.equal(x.anchor.children[1],x.subtitle);
  const slot=x.anchor.children[0];
+ assert.equal(x.anchor.children.length,1);
  assert.equal(slot.className,'change-brand-title');
+ assert.equal(slot.children[0].className,'change-brand-text');
  assert.equal(slot.children[0].children[0],x.originalText);
+ assert.equal(slot.children[0].children[1],x.subtitle);
  assert.equal(slot.children[1].className,'change-brand-image');
- assert.equal(x.anchor.children.length,2);
+ assert.equal(x.subtitle.parentNode,slot.children[0]);
 });
 test('Texte par défaut, et image après son chargement seulement',()=>{
  const x=boot(),slot=x.anchor.children[0],img=slot.children[1];
@@ -45,10 +47,12 @@ test('Texte par défaut, et image après son chargement seulement',()=>{
  img.onload();
  assert.equal(img.hidden,false);
  assert.equal(slot.classList.contains('change-brand-mode-image'),true);
+ // Le sous-titre est inclus dans le bloc que la CSS masque simultanément.
+ assert.equal(x.subtitle.parentNode,slot.children[0]);
  x.api.apply({header_logo:{mode:'text'}});
  assert.equal(img.hidden,true);
  assert.equal(slot.classList.contains('change-brand-mode-image'),false);
- assert.equal(x.anchor.children[1],x.subtitle);
+ assert.equal(x.subtitle.parentNode,slot.children[0]);
 });
 test('URL non sécurisée refusée, données locales autorisées seulement en aperçu',()=>{
  const x=boot(),img=x.anchor.children[0].children[1];
@@ -59,10 +63,11 @@ test('URL non sécurisée refusée, données locales autorisées seulement en ap
  x.api.apply({header_logo:{mode:'image',url:'data:image/png;base64,AAAA'}},true);
  assert.match(img.src,/^data:image\/png;base64,/);
 });
-test('CSS : le texte garde la place du logo et l image est strictement ajustée',()=>{
+test('CSS : les deux textes gardent le cadre global, l’image occupe 100 % du bloc',()=>{
  const css=fs.readFileSync(path.join(__dirname,'../header-brand.css'),'utf8');
  assert.match(css,/\.change-brand-title/);
  assert.match(css,/\.change-brand-text/);
+ assert.match(css,/\.change-brand-title\.change-brand-mode-image \.change-brand-text/);
  assert.match(css,/visibility:hidden/);
  assert.match(css,/position:absolute/);
  assert.match(css,/object-fit:fill/);
