@@ -28,3 +28,9 @@ body.change-stage-active #page-accueil .dual-home__grid{position:relative;z-inde
 body.change-editor-preview .change-editor-layer{pointer-events:auto;cursor:grab;touch-action:none}
 body.change-editor-preview .change-editor-layer:hover{outline:2px dashed rgba(116,72,62,.85);outline-offset:4px}
 body.change-editor-preview .change-editor-layer:active{cursor:grabbing}
+
+body.change-editor-preview #page-accueil{pointer-events:none}
+body.change-editor-preview #page-accueil .dual-home__copy,
+body.change-editor-preview #page-accueil .intro-bands h2,
+body.change-editor-preview #page-accueil .intro-bands p,
+body.change-editor-preview #page-accueil .home-categories{pointer-events:auto}
