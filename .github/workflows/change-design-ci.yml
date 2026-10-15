@@ -11,6 +11,7 @@ on:
       - 'header-brand.css'
       - 'tests/header-brand.test.cjs'
       - 'tests/home-canvas.test.cjs'
+      - 'tests/three-universes.test.cjs'
       - 'site-dynamic.js'
       - 'index.html'
       - '.github/workflows/change-design-ci.yml'
@@ -34,6 +35,7 @@ jobs:
           node --check header-brand.js
           node --test tests/header-brand.test.cjs
           node --test tests/home-canvas.test.cjs
+          node --test tests/three-universes.test.cjs
       - name: Vérifier les ressources de l'accueil
         run: |
           test -s design-public.css
@@ -46,7 +48,9 @@ jobs:
           grep -q 'dual-home__center' index.html
           grep -q 'dual-home__services' index.html
           grep -q 'change-home-layout' index.html
-          grep -q 'home.getBoundingClientRect().bottom' design-public.js
+          grep -q 'renderScene(page)' design-public.js
+          grep -q 'page-esthetique' home-canvas.css
+          grep -q 'page-coiffure' home-canvas.css
           grep -q 'design-public.js' index.html
           grep -q 'design-public.css' index.html
           grep -q 'CHANGE_DESIGN_PUBLIC?.apply' site-dynamic.js
