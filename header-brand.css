@@ -1,4 +1,4 @@
-/* Le texte CH’ANGE fixe exactement la taille du logo. Le sous-titre reste visible. */
+/* Le bloc CH’ANGE + INSTITUT DE BEAUTÉ fixe le gabarit complet du logo. Les deux textes disparaissent ensemble en mode image. */
 .site-header .change-brand-wordmark{
   display:inline-block;
   vertical-align:middle;
