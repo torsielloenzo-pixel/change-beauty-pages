@@ -126,6 +126,11 @@
    updateText(page.slug,design);
    const region=document.querySelector('[data-cms-page="'+page.slug+'"]');
    if(region&&page.slug!=='accueil'){
+     if(page.__preview){
+       const photo=imageUrl(page.hero_image_url,true);
+       const picture=region.querySelector('.hero-visual img,.universe-grid img,.gift-hero img');
+       if(photo&&picture){picture.src=photo;picture.removeAttribute('srcset');}
+     }
      let canvas=region.querySelector('.change-page-design-canvas');
      if(!canvas){canvas=document.createElement('div');canvas.className='change-page-design-canvas';region.prepend(canvas);}
      region.classList.toggle('change-page-with-layers',Array.isArray(design.layers)&&design.layers.length>0);
