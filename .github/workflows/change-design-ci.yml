@@ -13,6 +13,8 @@ on:
       - 'tests/home-canvas.test.cjs'
       - 'tests/three-universes.test.cjs'
       - 'tests/aesthetic-parity.test.cjs'
+      - 'tests/scene-superposition.test.cjs'
+      - 'scene-superposition.css'
       - 'site-dynamic.js'
       - 'index.html'
       - '.github/workflows/change-design-ci.yml'
@@ -38,11 +40,13 @@ jobs:
           node --test tests/home-canvas.test.cjs
           node --test tests/three-universes.test.cjs
           node --test tests/aesthetic-parity.test.cjs
+          node --test tests/scene-superposition.test.cjs
       - name: Vérifier les ressources de l'accueil
         run: |
           test -s design-public.css
           test -s home-reference.css
           test -s home-canvas.css
+          test -s scene-superposition.css
           test -s header-brand.css
           grep -q 'header-brand.js' index.html
           grep -q 'header-brand.css' index.html
