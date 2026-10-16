@@ -500,3 +500,240 @@ body.change-home-layout.home-canvas-mobile #page-esthetique .esthetique-service-
     transition:none!important;
   }
 }
+
+
+/*
+ * NAMAJE — cartes des prestations sur la page Coiffure uniquement.
+ * L'ensemble est à GAUCHE, dans un calque au même ratio que le canevas de fond.
+ * Le panneau de texte NAMAJE à droite reste strictement inchangé.
+ */
+body.change-home-layout #page-coiffure .coiffure-service-menu{
+  position:absolute;top:0;left:0;z-index:8;
+  width:1536px;height:1024px;pointer-events:none;
+  transform:scale(var(--home-canvas-scale,1));
+  transform-origin:top left;
+  font-family:var(--sans);
+}
+#page-coiffure .coiffure-service-menu__panel{
+  position:absolute;top:166px;left:80px;
+  width:650px;max-width:none;
+  color:#382720;text-align:left;pointer-events:auto;
+}
+#page-coiffure .coiffure-service-menu__kicker{
+  display:flex;align-items:center;justify-content:flex-start;gap:14px;
+  margin:0 0 9px;font:700 12px/1.35 var(--sans);
+  letter-spacing:.25em;text-transform:uppercase;color:#392821;
+  text-shadow:0 1px 12px rgba(255,247,237,.68);
+}
+#page-coiffure .coiffure-service-menu__kicker:before,
+#page-coiffure .coiffure-service-menu__kicker:after{
+  content:"";width:49px;height:1px;background:currentColor;opacity:.65;
+}
+#page-coiffure .coiffure-service-menu__title{
+  margin:0 0 14px;color:#31211c;
+  font:400 60px/1.01 var(--display);
+  letter-spacing:-.028em;
+  text-shadow:0 1px 18px rgba(255,249,241,.5);
+}
+#page-coiffure .coiffure-service-menu__intro{
+  margin:0 0 22px;max-width:625px;
+  color:#392b26;font:500 17px/1.44 var(--sans);
+  text-shadow:0 1px 12px rgba(255,249,241,.54);
+}
+#page-coiffure .coiffure-service-menu__cards{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+#page-coiffure .coiffure-service-card{
+  display:block;position:relative;isolation:isolate;
+  width:100%;height:174px;padding:0;
+  min-width:0;overflow:hidden;border-radius:15px;
+  border:1px solid rgba(255,247,239,.68);
+  text-align:left;background:#6c483a;color:#fff9f4;
+  box-shadow:0 6px 18px rgba(43,21,14,.22);
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+#page-coiffure .coiffure-service-card:before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(30,15,11,.07) 0%,rgba(30,15,11,.18) 47%,rgba(26,14,10,.83) 100%);
+}
+#page-coiffure .coiffure-service-card img{
+  position:absolute;inset:0;display:block;
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  filter:saturate(.82) sepia(.15);
+  transition:transform .45s ease;
+}
+#page-coiffure .coiffure-service-card__icon{
+  position:absolute;top:14px;left:14px;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  width:47px;height:47px;border-radius:50%;
+  background:rgba(255,250,245,.95);color:#6a4c3e;
+  box-shadow:0 2px 9px rgba(30,17,13,.16);
+}
+#page-coiffure .coiffure-service-card__icon svg{
+  display:block;width:26px;height:26px;
+  fill:none;stroke:currentColor;stroke-width:1.5;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+#page-coiffure .coiffure-service-card__content{
+  position:absolute;z-index:2;left:15px;right:52px;bottom:15px;
+  display:flex;flex-direction:column;gap:4px;
+}
+#page-coiffure .coiffure-service-card__name{
+  font:600 20px/1.17 var(--sans);letter-spacing:-.018em;
+  text-shadow:0 1px 5px rgba(12,8,6,.38);
+}
+#page-coiffure .coiffure-service-card__detail{
+  color:#fff1e7;font:500 11px/1.35 var(--sans);
+  white-space:nowrap;text-shadow:0 1px 5px rgba(12,8,6,.4);
+}
+#page-coiffure .coiffure-service-card__arrow{
+  position:absolute;right:13px;bottom:12px;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  width:40px;height:40px;border-radius:50%;
+  background:#fffaf5;color:#49352f;font:400 24px/1 var(--sans);
+  transition:transform .22s ease,background .22s ease;
+}
+#page-coiffure .coiffure-service-card:hover,
+#page-coiffure .coiffure-service-card:focus-visible{
+  transform:translateY(-3px);
+  border-color:#fff9f1;box-shadow:0 14px 27px rgba(38,18,13,.34);
+}
+#page-coiffure .coiffure-service-card:hover img,
+#page-coiffure .coiffure-service-card:focus-visible img{transform:scale(1.055)}
+#page-coiffure .coiffure-service-card:hover .coiffure-service-card__arrow,
+#page-coiffure .coiffure-service-card:focus-visible .coiffure-service-card__arrow{
+  transform:translateX(3px);background:white;
+}
+#page-coiffure .coiffure-service-card:focus-visible{
+  outline:3px solid #fffaf4;outline-offset:3px;
+}
+#page-coiffure .coiffure-service-menu__cta{
+  display:inline-flex;align-items:center;justify-content:space-between;
+  gap:35px;min-width:296px;min-height:56px;margin-top:23px;
+  padding:14px 24px;border-radius:999px;
+  border:1px solid rgba(112,80,63,.25);background:rgba(255,248,241,.94);
+  color:#32231d;box-shadow:0 4px 0 rgba(87,55,42,.12),0 6px 16px rgba(41,22,16,.13);
+  font:700 13px/1.35 var(--sans);letter-spacing:.015em;
+  transition:transform .2s ease,background .2s ease;
+}
+#page-coiffure .coiffure-service-menu__cta span{
+  font-size:25px;font-weight:400;line-height:1;
+}
+#page-coiffure .coiffure-service-menu__cta:hover{
+  transform:translateY(-2px);background:#fffefa;
+}
+#page-coiffure .coiffure-service-menu__cta:focus-visible{
+  outline:3px solid #aa7865;outline-offset:3px;
+}
+/* Fenêtre de détails autonome, clavier/Escape et lecture mobile compris. */
+#page-coiffure .coiffure-service-menu__dialog{
+  pointer-events:auto;box-sizing:border-box;
+  padding:0;border:1px solid #e3cdbf;border-radius:23px;
+  width:min(540px,calc(100vw - 36px));
+  max-width:calc(100vw - 36px);
+  max-height:calc(100dvh - 36px);
+  overflow:auto;background:#faf4ec;color:#39271f;
+  box-shadow:0 30px 85px rgba(29,14,10,.28);
+  transform:none;
+}
+#page-coiffure .coiffure-service-menu__dialog::backdrop{
+  background:rgba(27,15,11,.62);
+  backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
+}
+#page-coiffure .coiffure-service-menu__dialog-body{
+  position:relative;padding:45px 38px 36px;
+  text-align:left;
+}
+#page-coiffure .coiffure-service-menu__close{
+  position:absolute;top:17px;right:17px;
+  display:flex;align-items:center;justify-content:center;
+  width:39px;height:39px;border:1px solid #dfcabe;
+  border-radius:50%;background:#fffaf5;color:#513a30;
+  font:400 28px/1 var(--sans);cursor:pointer;
+}
+#page-coiffure .coiffure-service-menu__dialog-kicker{
+  margin:0 0 14px;color:#9b6f5c;
+  font:700 11px/1.4 var(--sans);letter-spacing:.18em;
+}
+#page-coiffure .coiffure-service-menu__dialog h2{
+  margin:0 0 20px;color:#34231e;
+  font:400 45px/1.08 var(--display);
+}
+#page-coiffure .coiffure-service-menu__dialog-text{
+  color:#605149;font:400 16px/1.7 var(--sans);
+}
+#page-coiffure .coiffure-service-menu__dialog-note{
+  color:#886d5d;font:600 12px/1.5 var(--sans);margin:16px 0 25px;
+}
+#page-coiffure .coiffure-service-menu__dialog-contact{
+  display:inline-flex;justify-content:space-between;align-items:center;
+  gap:36px;min-height:48px;border-radius:50px;
+  padding:12px 20px;background:#422f28;color:#fff8ee;
+  font:600 13px/1.2 var(--sans);
+}
+#page-coiffure .coiffure-service-menu__dialog-contact span{font-size:19px}
+
+/* Portrait tactile : sous la photo, sans modifier sa géométrie ni le texte NAMAJE. */
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-menu{
+  position:relative;z-index:5;left:auto;top:auto;
+  width:100%;height:auto;transform:none;pointer-events:auto;
+  padding:42px 18px 54px;background:#f0ded2;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-menu__panel{
+  position:static;width:100%;max-width:550px;margin:0 auto;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-menu__kicker{
+  font-size:10px;gap:9px;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-menu__kicker:before,
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-menu__kicker:after{width:25px}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-menu__title{
+  font-size:clamp(35px,9.8vw,48px);margin-bottom:14px;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-menu__intro{
+  font-size:13px;line-height:1.5;margin-bottom:22px;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-menu__intro br{display:none}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-menu__cards{
+  gap:10px;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-card{
+  height:176px;border-radius:12px;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-card__icon{
+  width:36px;height:36px;left:10px;top:10px;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-card__icon svg{
+  width:21px;height:21px;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-card__content{
+  left:10px;right:35px;bottom:11px;gap:3px;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-card__name{
+  font-size:15px;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-card__detail{
+  font-size:10px;white-space:normal;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-card__arrow{
+  width:30px;height:30px;right:7px;bottom:8px;font-size:19px;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-menu__cta{
+  margin-top:23px;max-width:100%;min-height:53px;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-menu__dialog-body{
+  padding:48px 23px 26px;
+}
+body.change-home-layout.home-canvas-mobile #page-coiffure .coiffure-service-menu__dialog h2{
+  font-size:35px;
+}
+@media(prefers-reduced-motion:reduce){
+  #page-coiffure .coiffure-service-card,
+  #page-coiffure .coiffure-service-card img,
+  #page-coiffure .coiffure-service-card__arrow,
+  #page-coiffure .coiffure-service-menu__cta{
+    transition:none!important;
+  }
+}
