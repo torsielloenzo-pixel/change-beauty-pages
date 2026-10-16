@@ -66,6 +66,7 @@
 <link rel="stylesheet" href="./design-public.css?v=5">
 <link rel="stylesheet" href="./home-reference.css?v=3">
 <link rel="stylesheet" href="./home-canvas.css?v=6">
+<link rel="stylesheet" href="./scene-superposition.css?v=1">
 <link rel="stylesheet" href="./header-brand.css?v=4">
 </head>
 <body>
@@ -270,7 +271,9 @@
     filters.forEach(btn=>{const active=btn.dataset.filter===category;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',String(active));});
     careItems.forEach(item=>{item.hidden=category!=='tout' && item.dataset.category!==category;});
   }
-  function route(){
+  let displayedPage=null, currentTransition=null;
+  const seamlessPages=new Set(['accueil','esthetique','coiffure']);
+  function renderRoute(){
     const hash=decodeURIComponent(location.hash.slice(1)||'accueil');
     const [name,query]=hash.split('?');
     const active=pages.some(el=>el.dataset.page===name)?name:'accueil';
@@ -286,6 +289,26 @@
       else a.removeAttribute('aria-current');
     });
     window.scrollTo({top:0,behavior:'instant'});
+    displayedPage=active;
+  }
+  function route(){
+    const next=decodeURIComponent(location.hash.slice(1)||'accueil').split('?')[0];
+    const target=pages.some(el=>el.dataset.page===next)?next:'accueil';
+    const hasReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canFade=!!displayedPage&&displayedPage!==target&&
+      seamlessPages.has(displayedPage)&&seamlessPages.has(target)&&
+      !hasReducedMotion&&typeof document.startViewTransition==='function';
+    if(currentTransition){currentTransition.skipTransition();currentTransition=null;}
+    if(!canFade){renderRoute();return;}
+    const destination=document.getElementById('page-'+target);
+    const duration=Number(destination?.dataset.universeFade);
+    document.documentElement.style.setProperty('--universe-fade-duration',
+      (Number.isFinite(duration)&&duration>=160&&duration<=800?duration:340)+'ms');
+    const transition=document.startViewTransition(renderRoute);
+    currentTransition=transition;
+    transition.finished.catch(()=>{}).finally(()=>{
+      if(currentTransition===transition)currentTransition=null;
+    });
   }
   function closeMobileMenu(){
     if(!mobile||!toggle)return;
@@ -322,5 +345,5 @@
   window.addEventListener('hashchange',route);route();
 })();
 </script>
-<script src="./supabase-config.js"></script><script src="./site-interactions.js" defer></script><script src="./design-public.js?v=9" defer></script><script src="./header-brand.js?v=3" defer></script>
+<script src="./supabase-config.js"></script><script src="./site-interactions.js" defer></script><script src="./design-public.js?v=10" defer></script><script src="./header-brand.js?v=3" defer></script>
 <script src="./home-canvas.js?v=4" defer></script><script src="./site-dynamic.js?v=8" defer></script><script src="./soins-details.js" defer></script><script src="./tarifs-public.js" defer></script></body></html>
