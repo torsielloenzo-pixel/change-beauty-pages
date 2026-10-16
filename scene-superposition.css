@@ -1,0 +1,63 @@
+/*
+ * CH'ANGE — superposition visuelle des 3 univers.
+ * Le gabarit de référence est FIXE : 1536×1024 en desktop,
+ * 430×1280 en mobile, déjà redimensionné par home-canvas.js.
+ * Ces règles ne remplacent aucune image ni aucun réglage individuel.
+ */
+body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home,
+body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__grid{
+  transform-style:flat;
+}
+body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .change-landing-stage{
+  position:absolute!important;
+  inset:0!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:100%!important;
+  min-height:100%!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  overflow:hidden!important;
+  margin:0!important;
+  padding:0!important;
+}
+body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .change-stage-photo{
+  position:absolute!important;
+  inset:0!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:100%!important;
+  min-height:100%!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  display:block;
+}
+
+/*
+ * Seul le visuel d'ouverture bénéficie du fondu.
+ * L'en-tête reste fixe, sans doublon ni déplacement pendant le changement.
+ */
+body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure):not([hidden]) .dual-home{
+  view-transition-name:change-universe-hero;
+}
+::view-transition-old(root),::view-transition-new(root){
+  animation:none;
+}
+::view-transition-old(change-universe-hero){
+  animation:var(--universe-fade-duration,340ms) ease-out both universe-hero-out;
+}
+::view-transition-new(change-universe-hero){
+  animation:var(--universe-fade-duration,340ms) ease-in both universe-hero-in;
+}
+@keyframes universe-hero-out{from{opacity:1}to{opacity:0}}
+@keyframes universe-hero-in{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){
+  ::view-transition-old(root),::view-transition-new(root),
+  ::view-transition-old(change-universe-hero),::view-transition-new(change-universe-hero){
+    animation:none!important;
+  }
+}
