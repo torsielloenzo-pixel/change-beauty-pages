@@ -120,6 +120,14 @@
    const currentStage=stages.get(page.slug);
    if(!currentStage)return;
    const cfg=page.hero_image_settings||{},d=cfg.design||{};
+   // Mode « cadre synchronisé » : seule la géométrie est copiée de l'accueil.
+   // L'URL, la transparence, le voile et les calques restent PROPRES à la page.
+   const reference=pages.get('accueil');
+   const referenceCfg=reference?.hero_image_settings||{};
+   const referenceDesign=referenceCfg.design||{};
+   const matchHome=page.slug!=='accueil'&&d.scene_align_home!==false&&!!reference;
+   const imageSettings=matchHome?referenceDesign:d;
+   const imageLegacy=matchHome?referenceCfg:cfg;
    const primary=imageUrl(page.hero_image_url,!!page.__preview);
    const show=d.stage_enabled!==false&&(!!primary||(Array.isArray(d.layers)&&d.layers.some(x=>imageUrl(x?.url,!!page.__preview))));
    currentStage.hidden=!show;
@@ -128,14 +136,14 @@
    img.hidden=!primary;
    if(primary&&img.src!==primary)img.src=primary;
    else if(!primary)img.removeAttribute('src');
-   currentStage.style.setProperty('--stage-x',number(d.image_x??cfg.x,0,100,50)+'%');
-   currentStage.style.setProperty('--stage-y',number(d.image_y??cfg.y,0,100,50)+'%');
-   currentStage.style.setProperty('--stage-mobile-x',number(d.image_mobile_x??cfg.mobile_x,0,100,50)+'%');
-   currentStage.style.setProperty('--stage-mobile-y',number(d.image_mobile_y??cfg.mobile_y,0,100,50)+'%');
-   currentStage.style.setProperty('--stage-zoom',number(d.image_scale,30,250,100)/100);
+   currentStage.style.setProperty('--stage-x',number(imageSettings.image_x??imageLegacy.x,0,100,50)+'%');
+   currentStage.style.setProperty('--stage-y',number(imageSettings.image_y??imageLegacy.y,0,100,50)+'%');
+   currentStage.style.setProperty('--stage-mobile-x',number(imageSettings.image_mobile_x??imageLegacy.mobile_x,0,100,50)+'%');
+   currentStage.style.setProperty('--stage-mobile-y',number(imageSettings.image_mobile_y??imageLegacy.mobile_y,0,100,50)+'%');
+   currentStage.style.setProperty('--stage-zoom',number(imageSettings.image_scale,30,250,100)/100);
    currentStage.style.setProperty('--stage-opacity',number(d.image_opacity,0,100,100)/100);
    currentStage.style.setProperty('--stage-veil',number(d.veil??cfg.overlay,0,100,25)/100);
-   img.style.objectFit=d.image_fit==='contain'?'contain':'cover';
+   img.style.objectFit=imageSettings.image_fit==='contain'?'contain':'cover';
    renderLayers(currentStage.querySelector('.change-stage-layers'),d.layers,!!page.__preview);
    currentStage.style.height='100%';
  }
@@ -166,7 +174,16 @@
    // Le logo d'en-tête est global mais son choix est enregistré sur « Accueil ».
    if(page.slug==='accueil')window.CHANGE_HEADER_BRAND?.apply(design,!!page.__preview);
    updateText(page.slug,design);
-   if(sceneSlugs.has(page.slug))renderScene(page);
+   if(sceneSlugs.has(page.slug)){
+     renderScene(page);
+     // En mise à jour/aperçu de l'accueil, recalculer les seules pages alignées.
+     if(page.slug==='accueil'){
+       for(const slug of ['esthetique','coiffure']){
+         const linked=pages.get(slug);
+         if(linked&&linked.hero_image_settings?.design?.scene_align_home!==false)renderScene(linked);
+       }
+     }
+   }
    const region=document.querySelector('[data-cms-page="'+page.slug+'"]');
    if(region&&!sceneSlugs.has(page.slug)){
      if(page.__preview){
