@@ -120,6 +120,8 @@
    const currentStage=stages.get(page.slug);
    if(!currentStage)return;
    const cfg=page.hero_image_settings||{},d=cfg.design||{};
+   const region=document.getElementById('page-'+page.slug);
+   if(region)region.dataset.universeFade=String(number(d.scene_fade_ms,160,800,340));
    // Mode « cadre synchronisé » : seule la géométrie est copiée de l'accueil.
    // L'URL, la transparence, le voile et les calques restent PROPRES à la page.
    const reference=pages.get('accueil');
