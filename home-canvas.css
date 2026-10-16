@@ -345,3 +345,158 @@ body.change-home-layout :is(#page-accueil,#page-esthetique) .dual-home__panel--b
     width:370px!important;
   }
 }
+
+
+/*
+ * CH'ANGE — menu « Nos prestations » de la page Esthétique.
+ * Calque indépendant superposé au canevas desktop 1536×1024.
+ * Ne modifie ni la photo, ni les coordonnées de CH'ANGE, ni l'accueil/NAMAJE.
+ */
+body.change-home-layout #page-esthetique .esthetique-service-menu{
+  position:absolute;top:0;left:0;z-index:8;
+  width:1536px;height:1024px;
+  pointer-events:none;
+  transform:scale(var(--home-canvas-scale,1));
+  transform-origin:top left;
+  font-family:var(--sans);
+}
+#page-esthetique .esthetique-service-menu__panel{
+  position:absolute;top:202px;right:68px;
+  width:605px;max-width:none;
+  color:#fff6ef;text-align:center;pointer-events:auto;
+}
+#page-esthetique .esthetique-service-menu__kicker{
+  display:flex;align-items:center;justify-content:center;gap:13px;
+  margin:0 0 12px;color:#f5e4d7;
+  font-size:12px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;
+  text-shadow:0 2px 8px rgba(28,17,14,.75);
+}
+#page-esthetique .esthetique-service-menu__kicker:before,
+#page-esthetique .esthetique-service-menu__kicker:after{
+  content:"";width:43px;height:1px;background:currentColor;opacity:.65;
+}
+#page-esthetique .esthetique-service-menu__title{
+  margin:0 0 12px;
+  color:#fff8f1;font:400 49px/1.05 var(--display);
+  text-shadow:0 2px 18px rgba(29,17,13,.8),0 1px 4px rgba(29,17,13,.7);
+  letter-spacing:-.018em;
+}
+#page-esthetique .esthetique-service-menu__intro{
+  margin:0 auto 23px;max-width:520px;
+  color:#fff7f0;font:500 15px/1.5 var(--sans);
+  text-shadow:0 2px 9px rgba(29,17,13,.9);
+}
+#page-esthetique .esthetique-service-menu__cards{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+#page-esthetique .esthetique-service-card{
+  display:block;position:relative;isolation:isolate;
+  height:198px;min-width:0;overflow:hidden;border-radius:17px;
+  border:1px solid rgba(255,245,235,.56);
+  text-align:left;background:#72564b;color:#fff9f3;
+  box-shadow:0 10px 26px rgba(20,10,8,.22);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+#page-esthetique .esthetique-service-card:before{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(29,17,14,.05) 0%,rgba(39,20,16,.12) 37%,rgba(35,17,14,.79) 100%);
+}
+#page-esthetique .esthetique-service-card img{
+  position:absolute;inset:0;display:block;
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(.79) sepia(.1);
+  transition:transform .45s ease;
+}
+#page-esthetique .esthetique-service-card__icon{
+  position:absolute;top:15px;left:15px;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  width:47px;height:47px;border-radius:50%;
+  background:rgba(255,250,245,.94);color:#745d53;
+  box-shadow:0 1px 8px rgba(52,30,22,.16);
+}
+#page-esthetique .esthetique-service-card__icon svg{
+  display:block;width:25px;height:25px;fill:none;
+  stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
+}
+#page-esthetique .esthetique-service-card__content{
+  position:absolute;z-index:2;left:15px;right:55px;bottom:16px;
+  display:flex;flex-direction:column;gap:4px;
+}
+#page-esthetique .esthetique-service-card__name{
+  font:600 20px/1.13 var(--sans);letter-spacing:-.02em;
+  text-shadow:0 1px 4px rgba(20,10,7,.33);
+}
+#page-esthetique .esthetique-service-card__detail{
+  color:#fff1e8;font:500 11px/1.3 var(--sans);
+  white-space:nowrap;text-shadow:0 1px 4px rgba(20,10,7,.4);
+}
+#page-esthetique .esthetique-service-card__arrow{
+  position:absolute;right:12px;bottom:12px;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  width:39px;height:39px;border-radius:50%;
+  background:#fff9f4;color:#57433d;font:400 23px/1 var(--sans);
+  transition:transform .2s ease,background .2s ease;
+}
+#page-esthetique .esthetique-service-card:hover,
+#page-esthetique .esthetique-service-card:focus-visible{
+  transform:translateY(-3px);
+  border-color:#fffaf4;box-shadow:0 15px 30px rgba(20,10,8,.34);
+}
+#page-esthetique .esthetique-service-card:hover img,
+#page-esthetique .esthetique-service-card:focus-visible img{transform:scale(1.065)}
+#page-esthetique .esthetique-service-card:hover .esthetique-service-card__arrow,
+#page-esthetique .esthetique-service-card:focus-visible .esthetique-service-card__arrow{
+  transform:translateX(3px);background:white;
+}
+#page-esthetique .esthetique-service-card:focus-visible{
+  outline:3px solid #fff6ee;outline-offset:3px;
+}
+/* Sur vrai mobile, les cartes suivent le hero (sans décaler la photo/canevas).
+   Elles restent accessibles au doigt et conservent un format 2×2. */
+body.change-home-layout.home-canvas-mobile #page-esthetique .esthetique-service-menu{
+  position:relative;z-index:5;left:auto;top:auto;
+  width:100%;height:auto;transform:none;pointer-events:auto;
+  padding:42px 18px 55px;background:#4d362f;
+}
+body.change-home-layout.home-canvas-mobile #page-esthetique .esthetique-service-menu__panel{
+  position:static;width:100%;max-width:550px;margin:0 auto;
+}
+body.change-home-layout.home-canvas-mobile #page-esthetique .esthetique-service-menu__title{
+  font-size:42px;
+}
+body.change-home-layout.home-canvas-mobile #page-esthetique .esthetique-service-menu__intro{
+  font-size:13px;max-width:350px;
+}
+body.change-home-layout.home-canvas-mobile #page-esthetique .esthetique-service-menu__cards{
+  gap:10px;
+}
+body.change-home-layout.home-canvas-mobile #page-esthetique .esthetique-service-card{
+  height:185px;border-radius:13px;
+}
+body.change-home-layout.home-canvas-mobile #page-esthetique .esthetique-service-card__icon{
+  width:37px;height:37px;top:11px;left:11px;
+}
+body.change-home-layout.home-canvas-mobile #page-esthetique .esthetique-service-card__icon svg{
+  width:21px;height:21px;
+}
+body.change-home-layout.home-canvas-mobile #page-esthetique .esthetique-service-card__content{
+  left:10px;bottom:12px;right:35px;gap:3px;
+}
+body.change-home-layout.home-canvas-mobile #page-esthetique .esthetique-service-card__name{
+  font-size:16px;
+}
+body.change-home-layout.home-canvas-mobile #page-esthetique .esthetique-service-card__detail{
+  font-size:10px;white-space:normal;
+}
+body.change-home-layout.home-canvas-mobile #page-esthetique .esthetique-service-card__arrow{
+  width:30px;height:30px;right:7px;bottom:9px;font-size:19px;
+}
+@media(prefers-reduced-motion:reduce){
+  #page-esthetique .esthetique-service-card,
+  #page-esthetique .esthetique-service-card img,
+  #page-esthetique .esthetique-service-card__arrow{
+    transition:none!important;
+  }
+}
