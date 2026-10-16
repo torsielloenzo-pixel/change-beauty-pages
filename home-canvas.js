@@ -56,6 +56,8 @@
 /* CH'ANGE — quatre cartes de navigation exclusives à la page Esthétique. */
 (function(){
   'use strict';
+  // Le script doit aussi fonctionner dans les tests du canevas à DOM simulé.
+  if(typeof document.createElement!=='function')return;
   const page=document.getElementById('page-esthetique');
   const hero=page?.querySelector(':scope > .dual-home');
   if(!hero||page.querySelector('.esthetique-service-menu'))return;
