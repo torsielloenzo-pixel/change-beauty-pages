@@ -12,6 +12,7 @@ on:
       - 'tests/header-brand.test.cjs'
       - 'tests/home-canvas.test.cjs'
       - 'tests/three-universes.test.cjs'
+      - 'tests/aesthetic-parity.test.cjs'
       - 'site-dynamic.js'
       - 'index.html'
       - '.github/workflows/change-design-ci.yml'
@@ -36,6 +37,7 @@ jobs:
           node --test tests/header-brand.test.cjs
           node --test tests/home-canvas.test.cjs
           node --test tests/three-universes.test.cjs
+          node --test tests/aesthetic-parity.test.cjs
       - name: Vérifier les ressources de l'accueil
         run: |
           test -s design-public.css
