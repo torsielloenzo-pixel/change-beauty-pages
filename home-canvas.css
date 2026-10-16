@@ -317,3 +317,31 @@ body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual
 /* Les trois scènes emploient strictement le même repère.
    Seuls les contenus textuels, la photo et les calques changent d'une page à l'autre. */
 body.change-home-layout :is(#page-esthetique,#page-coiffure) .dual-home__center{display:none!important}
+
+/*
+ * Affichage garanti du bloc Esthétique sur l'accueil ET sa page dédiée.
+ * Il conserve exactement les mêmes coordonnées dans le canevas 1536x1024,
+ * le même alignement mobile et le même niveau de visibilité au-dessus de la photo.
+ * Les réglages typographiques du Mode éditeur restent prioritaires.
+ */
+body.change-home-layout :is(#page-accueil,#page-esthetique) .dual-home__panel--beauty{
+  position:absolute!important;
+  left:82px!important;
+  top:390px!important;
+  width:405px!important;
+  z-index:5!important;
+  visibility:visible;
+  isolation:isolate;
+}
+body.change-home-layout :is(#page-accueil,#page-esthetique) .dual-home__panel--beauty .dual-home__copy{
+  position:relative;
+  z-index:1;
+  min-width:0;
+}
+@media(max-width:699px){
+  body.change-home-layout.home-canvas-mobile :is(#page-accueil,#page-esthetique) .dual-home__panel--beauty{
+    left:30px!important;
+    top:148px!important;
+    width:370px!important;
+  }
+}
