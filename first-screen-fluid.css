@@ -364,3 +364,70 @@ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #
  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__panel,
  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header{transition:none!important}
 }
+
+/* Pages secondaires : les grandes photographies d'introduction tiennent
+   dans l'espace disponible sans réduire les textes de contenu. */
+#page-cadeaux .gift-hero{
+  min-height:calc(100svh - 125px);
+  gap:clamp(25px,5vw,75px);
+  padding-block:clamp(27px,5svh,76px);
+}
+#page-cadeaux .gift-hero h1{
+  font-size:clamp(42px,5.1vw,78px);
+  text-wrap:balance;
+}
+#page-cadeaux .gift-hero img{
+  width:100%;
+  height:min(62svh,610px);
+  min-height:310px;
+  object-fit:cover;
+  object-position:center;
+}
+#page-univers .inner-intro,
+#page-galerie .inner-intro,
+#page-soins .inner-intro{
+  padding-top:clamp(40px,7svh,92px);
+  padding-bottom:clamp(25px,4svh,57px);
+}
+#page-univers .inner-intro h1,
+#page-galerie .inner-intro h1,
+#page-soins .inner-intro h1{
+  font-size:clamp(43px,5.5vw,81px);
+  text-wrap:balance;
+}
+#page-univers .universe-grid img{
+  height:clamp(300px,46svh,560px);
+  width:100%;
+  object-fit:cover;
+}
+#page-galerie .gallery-grid{
+  grid-auto-rows:clamp(220px,30svh,330px);
+}
+@media(max-width:760px){
+  #page-cadeaux .gift-hero{
+    min-height:0;
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    padding-block:clamp(55px,8svh,95px) 42px;
+  }
+  #page-cadeaux .gift-hero > div{padding:0}
+  #page-cadeaux .gift-hero h1{font-size:clamp(40px,10vw,58px)}
+  #page-cadeaux .gift-hero img{
+    height:clamp(260px,42svh,420px);
+    min-height:0;
+    margin:0;
+  }
+  #page-univers .inner-intro,
+  #page-galerie .inner-intro,
+  #page-soins .inner-intro{
+    padding-top:clamp(48px,7svh,76px);
+    padding-bottom:24px;
+  }
+  #page-univers .inner-intro h1,
+  #page-galerie .inner-intro h1,
+  #page-soins .inner-intro h1{
+    font-size:clamp(40px,10vw,57px);
+  }
+  #page-univers .universe-grid img{height:clamp(260px,39svh,420px)}
+  #page-galerie .gallery-grid{grid-auto-rows:clamp(180px,27svh,260px)}
+}
