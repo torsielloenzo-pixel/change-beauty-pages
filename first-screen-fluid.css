@@ -5,17 +5,17 @@
  * Les sections sous l'image (tarifs, prestations, contenu) restent déroulables.
  */
 html{--first-view-header:clamp(68px,9svh,104px)}
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home{
   display:block!important;position:relative!important;
   height:100svh!important;min-height:560px!important;width:100%!important;
   margin:0!important;padding:0!important;overflow:hidden!important;
 }
 @supports(height:100dvh){
-  html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home{
     height:100dvh!important;
   }
 }
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__grid{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__grid{
   position:relative!important;inset:auto!important;
   width:100%!important;max-width:none!important;
   height:100%!important;min-height:0!important;
@@ -23,18 +23,18 @@ html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) 
   transform:none!important;transform-origin:center!important;
   display:block!important;overflow:hidden!important;
 }
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .change-landing-stage,
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .change-landing-stage .change-stage-photo{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .change-landing-stage,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .change-landing-stage .change-stage-photo{
   width:100%!important;height:100%!important;
 }
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .change-stage-photo{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .change-stage-photo{
   object-fit:cover!important;
   object-position:var(--stage-x,50%) var(--stage-y,50%)!important;
 }
 
 /* En-tête indépendant du zoom de la photo, sans police écrasée par un transform. */
-html body.change-home-layout .site-header,
-html body.change-home-layout.change-stage-scrolled .site-header{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).change-stage-scrolled .site-header{
   position:fixed!important;top:0!important;left:0!important;right:0!important;
   width:100%!important;height:var(--first-view-header)!important;
   padding:0 clamp(17px,3.5vw,58px)!important;
@@ -42,30 +42,30 @@ html body.change-home-layout.change-stage-scrolled .site-header{
   transform:none!important;transform-origin:center!important;
   align-items:center!important;
 }
-html body.change-home-layout .site-header .wordmark,
-html body.change-home-layout.change-stage-scrolled .site-header .wordmark{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .wordmark,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).change-stage-scrolled .site-header .wordmark{
   font-size:clamp(34px,3.7vw,58px)!important;
   line-height:.87!important;
 }
-html body.change-home-layout .site-header .wordmark small{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .wordmark small{
   font-size:clamp(7px,.65vw,10px)!important;
 }
-html body.change-home-layout .site-header .change-home-nav{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .change-home-nav{
   display:flex!important;gap:clamp(9px,1.45vw,26px)!important;
   min-width:0;justify-content:center!important;
 }
-html body.change-home-layout .site-header .change-home-nav>a{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .change-home-nav>a{
   font-size:clamp(11px,.88vw,14px)!important;
   white-space:nowrap;
 }
-html body.change-home-layout .site-header .nav-reserve,
-html body.change-home-layout.change-stage-scrolled .site-header .nav-reserve{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .nav-reserve,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).change-stage-scrolled .site-header .nav-reserve{
   font-size:clamp(10px,.82vw,13px)!important;
   min-height:clamp(43px,5.5svh,57px)!important;
   padding:10px clamp(12px,1.8vw,25px)!important;
   white-space:nowrap;
 }
-html body.change-home-layout .site-header .mobile-menu{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .mobile-menu{
   position:absolute!important;left:0!important;right:0!important;
   top:100%!important;width:100%!important;
   max-height:calc(100dvh - var(--first-view-header));
@@ -76,21 +76,21 @@ html body.change-home-layout .site-header .mobile-menu{
 
 /* Texte et boutons fluides. Une taille personnalisée définie par l'éditeur
    reste prioritaire via --home-editor-font-size. */
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__panel{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__panel{
   position:absolute!important;z-index:5!important;
   top:clamp(190px,36%,430px)!important;
   width:clamp(265px,29vw,420px)!important;
   max-width:42%!important;
   margin:0!important;padding:0!important;
 }
-html body.change-home-layout :is(#page-accueil,#page-esthetique) .dual-home__panel--beauty{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique) .dual-home__panel--beauty{
   left:clamp(20px,5.2vw,88px)!important;right:auto!important;
   top:clamp(190px,36%,430px)!important;
 }
-html body.change-home-layout :is(#page-accueil,#page-coiffure) .dual-home__panel--hair{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-coiffure) .dual-home__panel--hair{
   right:clamp(20px,5.2vw,88px)!important;left:auto!important;
 }
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy{
   display:grid!important;grid-template-columns:minmax(0,1fr)!important;
   grid-template-rows:auto auto auto auto!important;
   row-gap:clamp(7px,1.25svh,16px)!important;
@@ -98,25 +98,25 @@ html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) 
   align-content:start!important;
   width:100%!important;
 }
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > :is(h1,h2){
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > :is(h1,h2){
   grid-row:auto!important;
   font-size:min(clamp(39px,4.15vw,75px),var(--home-editor-font-size,110px))!important;
   line-height:1.04!important;white-space:normal!important;
   margin:0!important;overflow-wrap:normal;
 }
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__label{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__label{
   grid-row:auto!important;
   font-size:min(clamp(11px,.99vw,16px),var(--home-editor-font-size,100px))!important;
   letter-spacing:.15em!important;margin:0!important;
 }
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > p:not(.dual-home__sub){
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > p:not(.dual-home__sub){
   grid-row:auto!important;
   font-size:min(clamp(13px,1.15vw,18px),var(--home-editor-font-size,100px))!important;
   line-height:1.46!important;
   width:auto!important;max-width:100%!important;
   margin:0!important;text-wrap:pretty;
 }
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > .btn{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > .btn{
   grid-row:auto!important;
   box-sizing:border-box!important;
   width:min(100%,330px)!important;min-width:0!important;max-width:100%!important;
@@ -125,100 +125,100 @@ html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) 
   font-size:min(clamp(10px,.95vw,14px),var(--home-editor-font-size,100px))!important;
   margin:0!important;
 }
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__center{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__center{
   position:absolute!important;
   top:clamp(235px,40%,510px)!important;left:50%!important;
   transform:translateX(-50%)!important;
   width:30%!important;max-width:390px!important;
 }
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__center h2{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__center h2{
   font-size:min(clamp(28px,3.1vw,49px),var(--home-editor-font-size,100px))!important;
   margin:0 0 clamp(8px,1.4svh,20px)!important;
 }
-html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__center p{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__center p{
   font-size:min(clamp(11px,.85vw,15px),var(--home-editor-font-size,100px))!important;
 }
-html body.change-home-layout #page-accueil .dual-home__services{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__services{
   position:absolute!important;
   top:auto!important;bottom:clamp(16px,3.5svh,44px)!important;
   left:clamp(24px,6vw,100px)!important;right:clamp(24px,6vw,100px)!important;
   gap:clamp(10px,2vw,28px)!important;
   grid-template-columns:repeat(4,minmax(0,1fr))!important;
 }
-html body.change-home-layout #page-accueil .dual-home__services li{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__services li{
   font-size:min(clamp(11px,.94vw,15px),var(--home-editor-font-size,100px))!important;
 }
-html body.change-home-layout #page-accueil .dual-home__scroll{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__scroll{
   top:auto!important;bottom:clamp(89px,12svh,136px)!important;
   font-size:clamp(10px,.8vw,12px)!important;
 }
 
 /* Les menus de prestations sont ancrés dans la même fenêtre que la photo
    sur écran large, puis deviennent des sections autonomes sur mobile. */
-html body.change-home-layout #page-esthetique .esthetique-service-menu,
-html body.change-home-layout #page-coiffure .coiffure-service-menu{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-service-menu,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-coiffure .coiffure-service-menu{
   position:absolute!important;top:clamp(110px,17svh,205px)!important;
   width:min(46vw,650px)!important;height:auto!important;
   transform:none!important;pointer-events:none;
 }
-html body.change-home-layout #page-esthetique .esthetique-service-menu{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-service-menu{
   left:auto!important;right:clamp(20px,4.2vw,70px)!important;
 }
-html body.change-home-layout #page-coiffure .coiffure-service-menu{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-coiffure .coiffure-service-menu{
   left:clamp(20px,4.2vw,70px)!important;right:auto!important;
 }
-html body.change-home-layout #page-esthetique .esthetique-service-menu__panel,
-html body.change-home-layout #page-coiffure .coiffure-service-menu__panel{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-service-menu__panel,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-coiffure .coiffure-service-menu__panel{
   position:relative!important;inset:auto!important;width:100%!important;
   max-width:none!important;
 }
-html body.change-home-layout #page-esthetique .esthetique-service-menu__title,
-html body.change-home-layout #page-coiffure .coiffure-service-menu__title{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-service-menu__title,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-coiffure .coiffure-service-menu__title{
   font-size:clamp(30px,3.2vw,49px)!important;
   margin-bottom:8px!important;
 }
-html body.change-home-layout #page-esthetique .esthetique-service-menu__intro,
-html body.change-home-layout #page-coiffure .coiffure-service-menu__intro{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-service-menu__intro,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-coiffure .coiffure-service-menu__intro{
   font-size:clamp(12px,1vw,16px)!important;margin-bottom:clamp(10px,1.8svh,18px)!important;
 }
-html body.change-home-layout :is(#page-esthetique,#page-coiffure) :is(.esthetique-service-menu__cards,.coiffure-service-menu__cards){
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-esthetique,#page-coiffure) :is(.esthetique-service-menu__cards,.coiffure-service-menu__cards){
   gap:clamp(7px,.95vw,13px)!important;
 }
-html body.change-home-layout :is(#page-esthetique,#page-coiffure) :is(.esthetique-service-card,.coiffure-service-card){
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-esthetique,#page-coiffure) :is(.esthetique-service-card,.coiffure-service-card){
   height:clamp(100px,17svh,174px)!important;
 }
-html body.change-home-layout #page-coiffure .coiffure-service-menu__cta{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-coiffure .coiffure-service-menu__cta{
   min-height:clamp(42px,5svh,53px)!important;margin-top:clamp(8px,1.5svh,19px)!important;
 }
 
 /* Petite fenêtre bureau / tablette horizontale. On garde les 2 univers
    et les boutons, on réduit les détails secondaires. */
 @media(max-width:1100px){
- html body.change-home-layout .site-header .change-home-nav{display:none!important}
- html body.change-home-layout .site-header .mobile-toggle{display:block!important;margin-left:0!important}
- html body.change-home-layout .site-header .header-actions{margin-left:auto}
- html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__panel{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .change-home-nav{display:none!important}
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .mobile-toggle{display:block!important;margin-left:0!important}
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .header-actions{margin-left:auto}
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__panel{
    max-width:43%!important;
  }
- html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__center{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__center{
    width:24%!important;
  }
- html body.change-home-layout #page-esthetique .esthetique-service-menu,
- html body.change-home-layout #page-coiffure .coiffure-service-menu{width:44vw!important}
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-service-menu,
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-coiffure .coiffure-service-menu{width:44vw!important}
 }
 @media(max-height:750px) and (min-width:761px){
- html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__panel{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__panel{
    top:clamp(135px,29%,220px)!important;
  }
- html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy{
    row-gap:6px!important;
  }
- html body.change-home-layout #page-accueil .dual-home__scroll{display:none!important}
- html body.change-home-layout #page-esthetique .esthetique-service-menu,
- html body.change-home-layout #page-coiffure .coiffure-service-menu{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__scroll{display:none!important}
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-service-menu,
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-coiffure .coiffure-service-menu{
    top:clamp(90px,13svh,120px)!important;
  }
- html body.change-home-layout :is(#page-esthetique,#page-coiffure) :is(.esthetique-service-card,.coiffure-service-card){
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-esthetique,#page-coiffure) :is(.esthetique-service-card,.coiffure-service-card){
    height:clamp(95px,14svh,116px)!important;
  }
 }
@@ -227,136 +227,136 @@ html body.change-home-layout #page-coiffure .coiffure-service-menu__cta{
    des lettres. Les cartes détaillées sont juste sous la photographie. */
 @media(max-width:760px){
  html{--first-view-header:clamp(61px,8.5svh,78px)}
- html body.change-home-layout .site-header,
- html body.change-home-layout.change-stage-scrolled .site-header{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header,
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).change-stage-scrolled .site-header{
    width:100%!important;height:var(--first-view-header)!important;
    padding:0 clamp(12px,4vw,22px)!important;gap:7px!important;
    transform:none!important;
  }
- html body.change-home-layout .site-header .wordmark,
- html body.change-home-layout.change-stage-scrolled .site-header .wordmark{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .wordmark,
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).change-stage-scrolled .site-header .wordmark{
    font-size:clamp(34px,8.1vw,48px)!important;
  }
- html body.change-home-layout .site-header .wordmark small{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .wordmark small{
    font-size:7px!important;margin-top:7px!important;letter-spacing:.08em!important;
  }
- html body.change-home-layout .site-header .change-home-nav{display:none!important}
- html body.change-home-layout .site-header .mobile-toggle{display:block!important;font-size:23px!important}
- html body.change-home-layout .site-header .nav-reserve,
- html body.change-home-layout.change-stage-scrolled .site-header .nav-reserve{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .change-home-nav{display:none!important}
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .mobile-toggle{display:block!important;font-size:23px!important}
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .nav-reserve,
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).change-stage-scrolled .site-header .nav-reserve{
    font-size:9px!important;min-height:40px!important;padding:8px 10px!important;
  }
- html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home{
    min-height:640px!important;
  }
- html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__grid{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__grid{
    position:relative!important;width:100%!important;height:100%!important;
    max-width:none!important;transform:none!important;
  }
- html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__panel{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__panel{
    width:min(84%,370px)!important;max-width:none!important;
    top:auto!important;left:auto!important;right:auto!important;
  }
- html body.change-home-layout #page-accueil .dual-home__panel--beauty{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--beauty{
    top:clamp(108px,15svh,145px)!important;left:clamp(15px,5vw,27px)!important;
  }
- html body.change-home-layout #page-accueil .dual-home__panel--hair{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--hair{
    top:auto!important;bottom:clamp(127px,17svh,183px)!important;
    right:clamp(15px,5vw,27px)!important;left:auto!important;
  }
- html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy{
    display:grid!important;
    grid-template-rows:auto auto auto auto!important;
    row-gap:clamp(4px,.85svh,9px)!important;
    height:auto!important;align-items:start!important;
  }
- html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > :is(h1,h2){
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > :is(h1,h2){
    font-size:min(clamp(37px,9.5vw,53px),var(--home-editor-font-size,110px))!important;
    line-height:1!important;
  }
- html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__label{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__label{
    font-size:min(clamp(11px,2.8vw,13px),var(--home-editor-font-size,100px))!important;
    line-height:1.25!important;
  }
- html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > p:not(.dual-home__sub){
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > p:not(.dual-home__sub){
    font-size:min(clamp(12px,3.2vw,15px),var(--home-editor-font-size,100px))!important;
    line-height:1.32!important;
    width:auto!important;max-width:100%!important;
  }
- html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > .btn{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > .btn{
    height:auto!important;min-height:42px!important;max-height:none!important;
    width:min(100%,320px)!important;max-width:100%!important;
    padding:10px 14px!important;font-size:clamp(10px,2.5vw,12px)!important;
  }
- html body.change-home-layout #page-accueil .dual-home__center{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center{
    display:block!important;
    top:clamp(310px,43.5%,435px)!important;
    left:50%!important;transform:translateX(-50%)!important;
    width:87%!important;max-width:390px!important;
  }
- html body.change-home-layout #page-accueil .dual-home__center h2{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center h2{
    font-size:min(clamp(28px,7.1vw,38px),var(--home-editor-font-size,110px))!important;
    line-height:1.06!important;
    margin:0 0 5px!important;
  }
- html body.change-home-layout #page-accueil .dual-home__center p{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center p{
    font-size:11px!important;line-height:1.2!important;
  }
- html body.change-home-layout #page-accueil .dual-home__services{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__services{
    display:grid!important;top:auto!important;bottom:17px!important;
    left:clamp(15px,5vw,27px)!important;right:clamp(15px,5vw,27px)!important;
    grid-template-columns:repeat(2,minmax(0,1fr))!important;
    gap:9px 16px!important;
  }
- html body.change-home-layout #page-accueil .dual-home__services li{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__services li{
    font-size:clamp(10px,2.6vw,12px)!important;line-height:1.25!important;
  }
- html body.change-home-layout #page-accueil .dual-home__scroll{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__scroll{
    display:none!important;
  }
- html body.change-home-layout #page-esthetique .dual-home__panel--beauty{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__panel--beauty{
    left:clamp(20px,6vw,46px)!important;right:auto!important;
    top:clamp(195px,34%,330px)!important;
  }
- html body.change-home-layout #page-coiffure .dual-home__panel--hair{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-coiffure .dual-home__panel--hair{
    right:clamp(20px,6vw,46px)!important;left:auto!important;
    top:clamp(235px,39%,390px)!important;
  }
- html body.change-home-layout #page-esthetique .esthetique-service-menu,
- html body.change-home-layout #page-coiffure .coiffure-service-menu{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-service-menu,
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-coiffure .coiffure-service-menu{
    position:relative!important;inset:auto!important;
    width:100%!important;height:auto!important;
    transform:none!important;pointer-events:auto!important;
    padding:35px 16px 47px!important;
  }
- html body.change-home-layout #page-esthetique .esthetique-service-menu{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-service-menu{
    background:#4d362f!important;
  }
- html body.change-home-layout #page-coiffure .coiffure-service-menu{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-coiffure .coiffure-service-menu{
    background:#f0ded2!important;
  }
- html body.change-home-layout #page-esthetique .esthetique-service-menu__panel,
- html body.change-home-layout #page-coiffure .coiffure-service-menu__panel{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-service-menu__panel,
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-coiffure .coiffure-service-menu__panel{
    width:100%!important;max-width:550px!important;margin:0 auto!important;
  }
- html body.change-home-layout #page-esthetique .esthetique-service-menu__cards,
- html body.change-home-layout #page-coiffure .coiffure-service-menu__cards{
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-service-menu__cards,
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-coiffure .coiffure-service-menu__cards{
    grid-template-columns:repeat(2,minmax(0,1fr))!important;
  }
- html body.change-home-layout :is(#page-esthetique,#page-coiffure) :is(.esthetique-service-card,.coiffure-service-card){
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-esthetique,#page-coiffure) :is(.esthetique-service-card,.coiffure-service-card){
    height:clamp(132px,22vw,178px)!important;
  }
 }
 /* Petits téléphones / affichage paysage court : préserver des lettres lisibles,
    alléger les éléments d'ambiance plutôt que comprimer tous les textes. */
 @media(max-width:760px) and (max-height:725px){
- html body.change-home-layout #page-accueil .dual-home__panel--beauty{top:clamp(82px,13svh,112px)!important}
- html body.change-home-layout #page-accueil .dual-home__panel--hair{bottom:clamp(64px,10svh,100px)!important}
- html body.change-home-layout #page-accueil .dual-home__center{display:none!important}
- html body.change-home-layout #page-accueil .dual-home__services{display:none!important}
- html body.change-home-layout #page-accueil .dual-home__copy > p:not(.dual-home__sub){font-size:12px!important}
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--beauty{top:clamp(82px,13svh,112px)!important}
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--hair{bottom:clamp(64px,10svh,100px)!important}
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center{display:none!important}
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__services{display:none!important}
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__copy > p:not(.dual-home__sub){font-size:12px!important}
 }
 @media(prefers-reduced-motion:reduce){
- html body.change-home-layout :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__panel,
- html body.change-home-layout .site-header{transition:none!important}
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__panel,
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header{transition:none!important}
 }
