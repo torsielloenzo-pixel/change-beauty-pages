@@ -201,6 +201,32 @@
      canvas.style.opacity=String(number(design.page_opacity,0,100,100)/100);
    }
    activate();
+   // Accusé de réception réel : la photo doit être chargée dans l'iframe avant
+   // que l'éditeur professionnel affiche « prévisualisation actualisée ».
+   if(isPreview&&page.__preview&&Number.isSafeInteger(page.__preview_id)){
+     const id=page.__preview_id, expected=imageUrl(page.hero_image_url,true);
+     const target=sceneSlugs.has(page.slug)
+       ? stages.get(page.slug)?.querySelector('.change-stage-photo')
+       : region?.querySelector('.hero-visual img,.universe-grid img,.gift-hero img');
+     const report=(ok,error='')=>{
+       if(pages.get(page.slug)?.__preview_id!==id)return;
+       window.parent.postMessage({type:'change-editor-applied',preview_id:id,ok,error},'https://pro.institut-change.fr');
+     };
+     if(!expected){
+       report(true);
+     }else if(sceneSlugs.has(page.slug)&&stages.get(page.slug)?.hidden){
+       report(false,'L’image plein cadre est désactivée. Activez-la pour voir le résultat.');
+     }else if(!target){
+       report(false,'Aucun emplacement de photo n’est disponible sur cette page.');
+     }else if(target.src!==expected){
+       report(false,'L’image sélectionnée n’a pas été appliquée à la page.');
+     }else if(target.complete){
+       report(target.naturalWidth>0,'Le navigateur ne parvient pas à afficher la photo choisie.');
+     }else{
+       target.addEventListener('load',()=>report(true),{once:true});
+       target.addEventListener('error',()=>report(false,'Le navigateur ne parvient pas à décoder cette photo dans l’aperçu.'),{once:true});
+     }
+   }
  }
  const isPreview=new URLSearchParams(location.search).get('change_preview')==='1';
  if(isPreview){
@@ -211,7 +237,7 @@
      const prev=pages.get(payload.slug)||{slug:payload.slug,hero_image_url:''};
      if(!payload.design||typeof payload.design!=='object')return;
      const settings={...(prev.hero_image_settings||{}),...payload.legacy,design:payload.design};
-     const next={...prev,hero_image_settings:settings,hero_image_url:payload.image_url||prev.hero_image_url,__preview:true};
+     const next={...prev,hero_image_settings:settings,hero_image_url:payload.image_url||prev.hero_image_url,__preview:true,__preview_id:payload.preview_id};
      apply(next);
      if(location.hash!=='#'+payload.slug)location.hash='#'+payload.slug;
    });
