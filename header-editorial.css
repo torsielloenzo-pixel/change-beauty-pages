@@ -1,0 +1,320 @@
+/*
+ * CH'ANGE · navigation photographique épurée
+ * 1. Marque + signature typographique espacées
+ * 2. Navigation strictement centrée
+ * 3. Rendez-vous à forte lisibilité
+ * 4. Voile clair semi-transparent fondu dans la photographie
+ *
+ * Cette couche ne modifie ni les images, ni les pages, ni le logo
+ * personnalisé configuré dans le Mode éditeur.
+ */
+:root{
+  --change-header-height:clamp(76px,8.9svh,104px);
+  --change-header-ink:#382720;
+  --change-header-paper:#fbf5ef;
+  --change-header-border:rgba(89,57,47,.13);
+}
+html body .site-header{
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  height:var(--change-header-height)!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,max-content) minmax(0,1fr)!important;
+  align-items:center!important;
+  justify-content:stretch!important;
+  column-gap:clamp(14px,2.4vw,42px)!important;
+  padding-inline:clamp(20px,4.3vw,76px)!important;
+  color:var(--change-header-ink)!important;
+  z-index:90!important;
+  border:0!important;
+  border-bottom:1px solid var(--change-header-border)!important;
+  box-shadow:0 6px 24px rgba(54,31,26,.035)!important;
+  transition:background-color .25s ease,box-shadow .25s ease,backdrop-filter .25s ease!important;
+}
+
+/* Au premier écran : voile discret, graduellement transparent sur la photo. */
+html body.change-home-layout .site-header,
+html body.change-home-layout.change-stage-active .site-header,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header{
+  position:fixed!important;
+  top:0!important;left:0!important;right:0!important;
+  height:var(--change-header-height)!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,max-content) minmax(0,1fr)!important;
+  padding-inline:clamp(20px,4.3vw,76px)!important;
+  transform:none!important;
+  background:linear-gradient(180deg,rgba(251,246,241,.72) 0%,rgba(251,246,241,.43) 57%,rgba(251,246,241,.16) 100%)!important;
+  -webkit-backdrop-filter:blur(7px) saturate(1.08)!important;
+  backdrop-filter:blur(7px) saturate(1.08)!important;
+}
+html body:not(.change-home-layout) .site-header{
+  position:sticky!important;
+  top:0!important;
+  background:rgba(251,246,241,.94)!important;
+  -webkit-backdrop-filter:blur(14px)!important;
+  backdrop-filter:blur(14px)!important;
+}
+
+/* La marque reste à gauche avec la typographie existante et les deux lignes. */
+html body .site-header > .wordmark{
+  grid-column:1!important;
+  justify-self:start!important;
+  display:inline-flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:max-content!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  padding:5px 0!important;
+  font-size:clamp(38px,3.85vw,58px)!important;
+  line-height:.92!important;
+  font-weight:400!important;
+  white-space:nowrap!important;
+  letter-spacing:-.035em!important;
+  color:var(--change-header-ink)!important;
+}
+html body .site-header > .wordmark small{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:clamp(5px,.65vw,11px)!important;
+  margin-top:clamp(8px,1.05svh,13px)!important;
+  font-size:clamp(7px,.65vw,9px)!important;
+  line-height:1.1!important;
+  letter-spacing:clamp(.11em,.18vw,.23em)!important;
+  font-weight:600!important;
+  color:rgba(65,45,38,.82)!important;
+}
+html body .site-header > .wordmark small::before,
+html body .site-header > .wordmark small::after{
+  content:"";
+  display:block;
+  flex:0 0 clamp(10px,1.1vw,20px)!important;
+  width:clamp(10px,1.1vw,20px)!important;
+  height:1px!important;
+  background:currentColor!important;
+  opacity:.42!important;
+}
+
+/* Un seul menu visible selon l'univers, réellement centré dans l'écran. */
+html body .site-header > .desktop-menu{
+  grid-column:2!important;
+  grid-row:1!important;
+  justify-self:center!important;
+  justify-content:center!important;
+  align-items:center!important;
+  align-self:center!important;
+  margin:0!important;
+  padding:0!important;
+  min-width:0!important;
+  gap:clamp(15px,1.65vw,28px)!important;
+  background:none!important;
+}
+html body:not(.change-home-layout) .site-header > .desktop-menu:not(.change-home-nav){
+  display:flex!important;
+}
+html body:not(.change-home-layout) .site-header > .change-home-nav{
+  display:none!important;
+}
+html body.change-home-layout .site-header > .desktop-menu:not(.change-home-nav){
+  display:none!important;
+}
+html body.change-home-layout .site-header > .change-home-nav{
+  display:flex!important;
+  flex:initial!important;
+}
+html body .site-header > .desktop-menu > a{
+  padding:12px 0!important;
+  font:600 clamp(11px,.93vw,14px)/1.35 var(--sans)!important;
+  color:rgba(51,34,29,.81)!important;
+  letter-spacing:.005em!important;
+  text-decoration:none!important;
+  text-shadow:0 1px 10px rgba(255,248,240,.32)!important;
+  white-space:nowrap!important;
+  transition:color .18s ease,opacity .18s ease!important;
+}
+html body .site-header > .desktop-menu > a:hover,
+html body .site-header > .desktop-menu > a:focus-visible,
+html body .site-header > .desktop-menu > a.active{
+  color:#2b1d19!important;
+  font-weight:700!important;
+}
+html body .site-header > .desktop-menu > a.active::after,
+html body .site-header > .desktop-menu > a:hover::after{
+  background:rgba(63,43,35,.7)!important;
+  height:1px!important;
+  bottom:6px!important;
+}
+
+/* Réservation mise en valeur à droite, sans surcharger l'entête. */
+html body .site-header > .header-actions{
+  grid-column:3!important;
+  grid-row:1!important;
+  display:flex!important;
+  justify-content:flex-end!important;
+  align-items:center!important;
+  gap:clamp(8px,1.2vw,16px)!important;
+  margin:0!important;
+  min-width:0!important;
+}
+html body .site-header .nav-reserve,
+html body.change-home-layout .site-header .nav-reserve,
+html body.change-home-layout.change-stage-scrolled .site-header .nav-reserve{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:clamp(8px,.75vw,14px)!important;
+  min-height:clamp(45px,5.5svh,54px)!important;
+  border-radius:999px!important;
+  border:1px solid rgba(71,44,37,.8)!important;
+  padding:10px clamp(15px,1.55vw,26px)!important;
+  background:#422d27!important;
+  color:#fff8f0!important;
+  box-shadow:0 5px 15px rgba(47,29,23,.13)!important;
+  font:700 clamp(11px,.87vw,13px)/1.3 var(--sans)!important;
+  letter-spacing:.015em!important;
+  text-transform:none!important;
+  text-decoration:none!important;
+  white-space:nowrap!important;
+  transform:none!important;
+  transition:background .22s ease,box-shadow .22s ease,transform .22s ease!important;
+}
+html body .site-header .nav-reserve span{
+  font:400 19px/1 var(--sans)!important;
+  margin:0!important;
+}
+html body .site-header .nav-reserve:hover,
+html body .site-header .nav-reserve:focus-visible{
+  background:#65483e!important;
+  color:#fffaf5!important;
+  box-shadow:0 7px 20px rgba(47,29,23,.2)!important;
+  transform:translateY(-1px)!important;
+}
+html body .site-header :is(a,button):focus-visible{
+  outline:2px solid #8b5949!important;
+  outline-offset:4px!important;
+}
+
+/* Au défilement : barre claire stable qui reste lisible, même sur le chocolat. */
+html body.change-home-layout.change-stage-scrolled .site-header,
+html body.change-home-layout.change-stage-active.change-stage-scrolled .site-header,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).change-stage-scrolled .site-header{
+  height:var(--change-header-height)!important;
+  background:rgba(251,246,241,.94)!important;
+  -webkit-backdrop-filter:blur(15px) saturate(1.05)!important;
+  backdrop-filter:blur(15px) saturate(1.05)!important;
+  border-bottom-color:rgba(89,57,47,.18)!important;
+  box-shadow:0 5px 22px rgba(48,31,27,.09)!important;
+}
+html body.change-home-layout.change-stage-scrolled .site-header > .wordmark,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).change-stage-scrolled .site-header > .wordmark{
+  font-size:clamp(38px,3.85vw,58px)!important;
+}
+
+/* Avec moins d'espace, le menu devient déroulant avant qu'il ne se chevauche. */
+@media(max-width:1250px){
+  html body .site-header,
+  html body.change-home-layout .site-header,
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header{
+    grid-template-columns:minmax(0,1fr) auto!important;
+    padding-inline:clamp(16px,3vw,34px)!important;
+  }
+  html body .site-header > .desktop-menu,
+  html body.change-home-layout .site-header > .change-home-nav,
+  html body:not(.change-home-layout) .site-header > .desktop-menu:not(.change-home-nav){
+    display:none!important;
+  }
+  html body .site-header > .header-actions{
+    grid-column:2!important;
+  }
+  html body .site-header .mobile-toggle,
+  html body.change-home-layout .site-header .mobile-toggle{
+    display:inline-flex!important;
+    justify-content:center!important;
+    align-items:center!important;
+    width:42px!important;
+    height:42px!important;
+    min-width:42px!important;
+    padding:0!important;
+    margin:0!important;
+    font-size:23px!important;
+    color:var(--change-header-ink)!important;
+    background:rgba(255,251,246,.35)!important;
+    border:1px solid rgba(77,49,40,.22)!important;
+    border-radius:50%!important;
+    cursor:pointer;
+  }
+  html body .site-header > .mobile-menu{
+    grid-column:1/-1!important;
+    grid-row:auto!important;
+    position:absolute!important;
+    top:100%!important;
+    left:0!important;right:0!important;
+    width:100%!important;
+    margin:0!important;
+    padding:12px clamp(20px,3vw,38px) 20px!important;
+    background:rgba(251,246,241,.98)!important;
+    -webkit-backdrop-filter:blur(16px)!important;
+    backdrop-filter:blur(16px)!important;
+    box-shadow:0 13px 27px rgba(54,31,26,.15)!important;
+    max-height:calc(100dvh - var(--change-header-height))!important;
+    overflow-y:auto!important;
+    transform:none!important;
+    z-index:95!important;
+  }
+  html body .site-header > .mobile-menu[hidden]{display:none!important}
+}
+@media(max-width:680px){
+  :root{--change-header-height:clamp(65px,9svh,77px)}
+  html body .site-header,
+  html body.change-home-layout .site-header,
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header{
+    padding-inline:clamp(12px,4vw,20px)!important;
+    column-gap:7px!important;
+  }
+  html body .site-header > .wordmark,
+  html body.change-home-layout .site-header > .wordmark,
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header > .wordmark{
+    font-size:clamp(31px,7.9vw,42px)!important;
+  }
+  html body .site-header > .wordmark small{
+    font-size:clamp(6px,1.55vw,7px)!important;
+    margin-top:6px!important;
+    letter-spacing:.1em!important;
+    gap:4px!important;
+  }
+  html body .site-header > .wordmark small::before,
+  html body .site-header > .wordmark small::after{
+    flex-basis:9px!important;
+    width:9px!important;
+  }
+  html body .site-header .nav-reserve,
+  html body.change-home-layout .site-header .nav-reserve{
+    padding:9px 12px!important;
+    min-height:40px!important;
+    font-size:10px!important;
+    gap:4px!important;
+  }
+  html body .site-header .nav-reserve span{display:none!important}
+  html body .site-header .mobile-toggle,
+  html body.change-home-layout .site-header .mobile-toggle{
+    width:37px!important;height:37px!important;min-width:37px!important;
+    font-size:21px!important;
+  }
+}
+/* Très petits écrans : un appel à l'action plus court, nom accessible intact. */
+@media(max-width:365px){
+  html body .site-header .nav-reserve{max-width:116px!important;white-space:normal!important;text-align:center!important;line-height:1.1!important}
+  html body .site-header > .wordmark{font-size:30px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html body .site-header,
+  html body .site-header .nav-reserve,
+  html body .site-header > .desktop-menu > a{
+    transition:none!important;
+  }
+}
