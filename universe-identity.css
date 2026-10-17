@@ -173,3 +173,48 @@ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
     transition:none!important;
   }
 }
+
+
+/*
+ * Accueil UNIQUEMENT — encadrés fins sans remplissage.
+ * Les deux pages dédiées conservent leurs grands badges actuels.
+ * Aucune barre décorative de part et d'autre du nom.
+ */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-accueil .dual-home__label{
+  background:transparent!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  box-shadow:none!important;
+  border:1px solid rgba(60,40,33,.76)!important;
+  border-radius:999px!important;
+  min-height:clamp(38px,4.8svh,48px)!important;
+  padding:7px clamp(13px,1.3vw,20px)!important;
+  font-size:clamp(16px,1.35vw,21px)!important;
+  font-weight:650!important;
+  letter-spacing:.095em!important;
+  gap:0!important;
+  color:#3e2923!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-accueil .dual-home__panel--hair .dual-home__label{
+  background:transparent!important;
+  border-color:rgba(255,247,239,.88)!important;
+  color:#fff6ed!important;
+  box-shadow:none!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-accueil .dual-home__label::before,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-accueil .dual-home__label::after{
+  content:none!important;
+  display:none!important;
+}
+@media(max-width:760px){
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  #page-accueil .dual-home__label{
+    min-height:37px!important;
+    padding:8px 13px!important;
+    font-size:clamp(15px,4vw,18px)!important;
+  }
+}
