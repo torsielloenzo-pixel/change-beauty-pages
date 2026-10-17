@@ -70,6 +70,7 @@
 <link rel="stylesheet" href="./header-brand.css?v=4">
 <link rel="stylesheet" href="./first-screen-fluid.css?v=2">
 <link rel="stylesheet" href="./header-editorial.css?v=1">
+<link rel="stylesheet" href="./universe-identity.css?v=1">
 </head>
 <body>
 <a class="skip" href="#main">Aller au contenu</a>
@@ -270,10 +271,13 @@
     const [name,query]=hash.split('?');
     const active=pages.some(el=>el.dataset.page===name)?name:'accueil';
     document.body.classList.toggle('change-home-layout',['accueil','esthetique','coiffure'].includes(active));
+    window.CHANGE_HEADER_BRAND?.setUniverse(active);
     pages.forEach(el=>{el.hidden=el.dataset.page!==active;});
     nav.forEach(a=>{const selected=a.dataset.nav===active;a.classList.toggle('active',selected);if(selected)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
     if(active==='soins'){const params=new URLSearchParams(query||'');filterCare(params.get('categorie')||'tout');}
-    document.title=(active==='accueil'?'Ch’ange':({esthetique:'Esthétique · CH’ANGE',coiffure:'Coiffure · NAMAJE',soins:'Les soins',tarifs:'Tarifs',univers:'L’institut',galerie:'Galerie',cadeaux:'Cartes cadeaux',contact:'Contact'}[active]+' — Ch’ange'))+' · Institut de beauté au Thor';
+    document.title=active==='coiffure'
+      ? 'NAMAJE — Institut de coiffure · Le Thor'
+      : (active==='accueil'?'Ch’ange':({esthetique:'Esthétique · CH’ANGE',soins:'Les soins',tarifs:'Tarifs',univers:'L’institut',galerie:'Galerie',cadeaux:'Cartes cadeaux',contact:'Contact'}[active]+' — Ch’ange'))+' · Institut de beauté au Thor';
     closeMobileMenu();
     mobile.querySelectorAll('a').forEach(a=>{
       const selected=a.getAttribute('href')==='#'+active;
@@ -337,5 +341,5 @@
   window.addEventListener('hashchange',route);route();
 })();
 </script>
-<script src="./supabase-config.js"></script><script src="./site-interactions.js" defer></script><script src="./design-public.js?v=12" defer></script><script src="./header-brand.js?v=3" defer></script>
+<script src="./supabase-config.js"></script><script src="./site-interactions.js" defer></script><script src="./design-public.js?v=12" defer></script><script src="./header-brand.js?v=4" defer></script>
 <script src="./home-canvas.js?v=7" defer></script><script src="./site-dynamic.js?v=8" defer></script><script src="./soins-details.js" defer></script><script src="./tarifs-public.js" defer></script></body></html>
