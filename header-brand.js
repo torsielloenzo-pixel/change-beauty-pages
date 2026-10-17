@@ -15,7 +15,7 @@
   }
   titleSlot.appendChild(textSlot);
   // Conserver les nœuds d'origine (y compris le sous-titre et son gabarit).
-  const nameNode=Array.from(textSlot.childNodes).find(node=>node.nodeType===3)||textSlot.firstChild;
+  const nameNode=Array.from(textSlot.childNodes||textSlot.children||[]).find(node=>node.nodeType===3)||textSlot.firstChild;
   const subtitle=textSlot.querySelector(':scope > small');
   wordmark.appendChild(titleSlot);
   wordmark.classList.add('change-brand-wordmark');
