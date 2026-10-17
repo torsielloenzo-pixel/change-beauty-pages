@@ -226,6 +226,10 @@ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #
 /* Portrait / écran étroit : panneaux lisibles sans réduction artificielle
    des lettres. Les cartes détaillées sont juste sous la photographie. */
 @media(max-width:760px){
+ /* Les positions mobiles configurées dans le Mode éditeur restent appliquées. */
+ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) :is(#page-accueil,#page-esthetique,#page-coiffure) .change-stage-photo{
+   object-position:var(--stage-mobile-x,var(--stage-x,50%)) var(--stage-mobile-y,var(--stage-y,50%))!important;
+ }
  html{--first-view-header:clamp(61px,8.5svh,78px)}
  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header,
  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).change-stage-scrolled .site-header{
