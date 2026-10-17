@@ -1,0 +1,331 @@
+/* CH’ANGE — finition de l'accueil inspirée de la référence éditoriale.
+   Priorité : photo entière en premier écran, titres de marques masqués,
+   pastilles vides, boutons harmonisés, lecture mobile sans débordement.
+   Les pages Esthétique / Coiffure conservent leur identité et leurs images. */
+:root{--change-cta-ease:cubic-bezier(.2,.75,.2,1)}
+
+/* Barre de navigation claire, fondue dans l'image, dont le centrage reste stable. */
+html body .site-header,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header{
+  border-bottom:1px solid rgba(80,56,48,.12)!important;
+  background:linear-gradient(180deg,rgba(251,246,242,.82),rgba(251,246,242,.44) 72%,rgba(251,246,242,.11))!important;
+  -webkit-backdrop-filter:blur(8px) saturate(1.04)!important;
+  backdrop-filter:blur(8px) saturate(1.04)!important;
+}
+html body:not(.change-home-layout) .site-header,
+html body.change-home-layout.change-stage-scrolled .site-header{
+  background:rgba(251,246,242,.95)!important;
+  -webkit-backdrop-filter:blur(15px)!important;
+  backdrop-filter:blur(15px)!important;
+}
+html body .site-header > .change-home-nav>a,
+html body.change-home-layout .site-header > .change-home-nav>a{
+  font-weight:600!important;
+  letter-spacing:.012em!important;
+  text-underline-offset:7px;
+  transition:color .22s ease!important;
+}
+html body .site-header > .change-home-nav>a:hover,
+html body .site-header > .change-home-nav>a.active{
+  color:#30221e!important;
+}
+html body .site-header > .change-home-nav>a.active::after,
+html body .site-header > .change-home-nav>a:hover::after{
+  height:2px!important;bottom:4px!important;
+  background:rgba(64,44,39,.68)!important;
+}
+
+/* Rendez-vous : crème chaleureuse, pictogramme calendrier et touche chocolat. */
+html body .site-header .nav-reserve,
+html body.change-home-layout .site-header .nav-reserve,
+html body.change-home-layout.change-stage-scrolled .site-header .nav-reserve{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  background:#fff9f4!important;
+  color:#35251f!important;
+  border:1px solid rgba(88,61,52,.28)!important;
+  min-height:clamp(43px,5.3svh,54px)!important;
+  border-radius:999px!important;
+  box-shadow:0 3px 0 rgba(72,50,41,.1),0 8px 24px rgba(50,31,25,.10)!important;
+  text-transform:uppercase!important;
+  font-size:clamp(10px,.85vw,12px)!important;
+  gap:clamp(9px,1vw,15px)!important;
+  padding:9px clamp(13px,1.35vw,21px)!important;
+  transition:background .26s var(--change-cta-ease),box-shadow .26s var(--change-cta-ease),transform .26s var(--change-cta-ease)!important;
+}
+html body .site-header .nav-reserve:hover,
+html body .site-header .nav-reserve:focus-visible{
+  background:#fffefd!important;
+  color:#35251f!important;
+  transform:translateY(-2px)!important;
+  box-shadow:0 5px 0 rgba(72,50,41,.08),0 12px 26px rgba(50,31,25,.16)!important;
+}
+html body .site-header .nav-reserve .change-calendar-icon{
+  display:inline-flex;flex:0 0 auto;width:19px;height:19px;
+  color:currentColor;
+}
+html body .site-header .nav-reserve .change-calendar-icon svg{
+  display:block;width:100%;height:100%;fill:none;stroke:currentColor;
+  stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;
+}
+html body .site-header .nav-reserve .change-reserve-label{white-space:nowrap}
+html body .site-header .nav-reserve .change-reserve-arrow{
+  margin-left:clamp(1px,1.3vw,15px)!important;
+  font-size:21px!important;font-weight:400!important;line-height:1!important;
+}
+html body .site-header > .mobile-menu{
+  border:1px solid rgba(109,73,61,.14)!important;
+  border-radius:0 0 17px 17px!important;
+}
+html body .site-header > .mobile-menu a{
+  border-bottom:1px solid rgba(87,62,51,.1)!important;
+  font-weight:600!important;
+  transition:background .18s ease,color .18s ease;
+}
+html body .site-header > .mobile-menu a:hover,
+html body .site-header > .mobile-menu a[aria-current="page"]{
+  color:#3f2b24!important;background:rgba(225,202,189,.2)!important;
+}
+html body .site-header > .mobile-menu .change-mobile-reserve{
+  margin:10px 3px 3px;
+  padding:14px!important;
+  color:#fff8f1!important;background:#3e2b25!important;
+  border-radius:24px;text-align:center!important;
+  text-transform:uppercase;font-size:12px!important;letter-spacing:.04em;
+}
+
+/* Premier écran desktop : centres de gravité cohérents avec les deux visages.
+   Pastilles fines sans fond (choix confirmé lors de la précédente retouche). */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__copy{
+  row-gap:clamp(10px,1.45svh,16px)!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--beauty{
+  top:clamp(190px,36%,410px)!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--hair{
+  top:clamp(190px,36%,410px)!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__label{
+  background:transparent!important;box-shadow:none!important;
+  border-width:1px!important;
+  min-height:clamp(35px,4.5svh,44px)!important;
+  padding:7px clamp(14px,1.1vw,20px)!important;
+  font-size:clamp(14px,1.16vw,18px)!important;
+  letter-spacing:.115em!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__label::before,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__label::after{
+  content:none!important;display:none!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__copy > p:not(.dual-home__sub){
+  font-size:clamp(13px,1.13vw,18px)!important;
+  font-weight:500!important;
+  line-height:1.5!important;
+  max-width:min(100%,330px)!important;
+  text-wrap:pretty!important;
+}
+/* Deux CTA symétriques et tactiles, blanc/crème et chocolat, avec survol naturel. */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__copy > .btn{
+  display:inline-flex!important;align-items:center!important;justify-content:space-between!important;
+  width:min(100%,310px)!important;
+  min-height:clamp(44px,5.6svh,56px)!important;
+  padding:12px clamp(16px,1.7vw,26px)!important;
+  border:1px solid rgba(94,62,51,.33)!important;
+  border-radius:999px!important;
+  background:#fff9f4!important;color:#33231f!important;
+  box-shadow:0 3px 0 rgba(68,41,34,.1),0 9px 19px rgba(54,32,26,.13)!important;
+  font:700 clamp(10px,.86vw,13px)/1.25 var(--sans)!important;
+  letter-spacing:.025em!important;
+  text-shadow:none!important;
+  white-space:normal!important;
+  text-align:left!important;
+  transition:transform .3s var(--change-cta-ease),background .3s var(--change-cta-ease),box-shadow .3s var(--change-cta-ease)!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--hair .btn{
+  background:#32221e!important;color:#fffaf5!important;
+  border-color:rgba(255,249,244,.9)!important;
+  box-shadow:0 3px 0 rgba(28,15,11,.25),0 9px 19px rgba(29,16,13,.23)!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__copy > .btn:hover{
+  transform:translateY(-2px)!important;
+  box-shadow:0 5px 0 rgba(68,41,34,.1),0 13px 24px rgba(54,32,26,.18)!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--hair .btn:hover{
+  background:#583b32!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__copy > .btn span[aria-hidden]{
+  flex:0 0 auto;font-size:20px!important;
+}
+
+/* Signature au centre sans réintroduire les énormes noms de marques. */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center{
+  width:min(35%,430px)!important;top:clamp(265px,43%,510px)!important;
+  text-align:center!important;z-index:4!important;
+  color:#382820!important;
+  text-shadow:0 1px 12px rgba(255,250,246,.56)!important;
+  pointer-events:none;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center h2{
+  font:400 clamp(30px,3.15vw,48px)/1.05 var(--display)!important;
+  letter-spacing:-.035em!important;
+  white-space:normal!important;
+  text-wrap:balance!important;
+  margin:0 0 clamp(8px,1.5svh,16px)!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center p{
+  font:700 clamp(10px,.85vw,13px)/1.35 var(--sans)!important;
+  letter-spacing:.19em!important;
+  text-transform:none!important;
+  white-space:normal!important;
+}
+
+/* Bande des prestations : verre dépoli fondu avec la photo, sans bloc opaque. */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__services{
+  bottom:0!important;
+  left:0!important;right:0!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-height:clamp(75px,11.5svh,108px)!important;
+  margin:0!important;
+  padding:clamp(15px,2svh,22px) clamp(34px,8vw,140px)!important;
+  background:linear-gradient(180deg,rgba(255,247,239,.56),rgba(255,247,239,.76))!important;
+  -webkit-backdrop-filter:blur(12px) saturate(1.04)!important;
+  backdrop-filter:blur(12px) saturate(1.04)!important;
+  border-top:1px solid rgba(252,247,242,.46)!important;
+  box-shadow:0 -12px 30px rgba(255,245,236,.13)!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:0!important;
+  align-items:center!important;
+  z-index:6!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__services li{
+  padding:0 clamp(8px,1.8vw,28px)!important;
+  font:700 clamp(10px,.92vw,13px)/1.5 var(--sans)!important;
+  letter-spacing:.125em!important;color:#4a322b!important;
+  text-align:center!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__services li+li{
+  border-left:1px solid rgba(74,52,42,.27)!important;
+}
+
+/* Flèche de défilement cliquable, sobre ; défilement actuel préservé. */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__scroll{
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:center!important;gap:9px!important;
+  left:50%!important;top:auto!important;
+  bottom:clamp(82px,12svh,125px)!important;
+  transform:translateX(-50%)!important;
+  margin:0!important;padding:4px 12px!important;
+  border:0!important;background:transparent!important;box-shadow:none!important;
+  width:max-content!important;z-index:7!important;
+  font:700 clamp(9px,.77vw,11px)/1.25 var(--sans)!important;
+  letter-spacing:.14em!important;white-space:nowrap!important;
+  color:#422d26!important;
+  cursor:pointer;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__scroll::before{
+  content:"↓";display:grid;place-items:center;
+  width:clamp(36px,4vw,48px);height:clamp(36px,4vw,48px);
+  border:1px solid rgba(111,76,63,.31);border-radius:50%;
+  background:rgba(255,250,245,.83);
+  font:400 24px/1 var(--sans);letter-spacing:0;
+  box-shadow:0 5px 12px rgba(56,37,29,.09);
+  transition:transform .25s var(--change-cta-ease),background .25s ease;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__scroll:hover::before{
+  transform:translateY(3px);background:#fffcf9;
+}
+
+/* Grand écran moins haut : recentrage et garde-fou sur le bandeau. */
+@media (min-width:761px) and (max-height:750px){
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--beauty,
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--hair{
+    top:clamp(140px,29%,228px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center{
+    top:clamp(232px,40%,350px)!important;
+  }
+}
+
+/* La lecture sur mobile prime sur les éléments secondaires : les deux CTA
+   restent accessibles, le texte central conserve sa place. */
+@media(max-width:760px){
+  html body .site-header .nav-reserve .change-calendar-icon{display:none}
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--beauty{
+    top:clamp(108px,15svh,145px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--hair{
+    top:auto!important;
+    bottom:clamp(105px,14svh,145px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__copy{
+    row-gap:clamp(6px,.85svh,10px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__copy > p:not(.dual-home__sub){
+    font-size:clamp(11px,2.85vw,13px)!important;
+    line-height:1.3!important;
+    max-width:240px!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__copy > .btn{
+    width:min(100%,270px)!important;
+    min-height:40px!important;
+    padding:9px 13px!important;
+    font-size:clamp(10px,2.5vw,12px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center{
+    display:block!important;
+    top:clamp(290px,43%,370px)!important;
+    width:90%!important;max-width:370px!important;
+    text-shadow:0 1px 15px rgba(255,248,242,.82)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center h2{
+    font-size:clamp(28px,7.7vw,39px)!important;
+    line-height:1.04!important;
+    margin-bottom:6px!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center p{
+    font-size:10px!important;letter-spacing:.12em!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__services{
+    display:none!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__scroll{
+    display:flex!important;
+    bottom:clamp(14px,2.6svh,28px)!important;
+    font-size:9px!important;
+    gap:7px!important;
+    padding:3px!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__scroll::before{
+    width:34px;height:34px;font-size:21px;
+  }
+}
+@media(max-width:760px) and (max-height:725px){
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center{
+    display:block!important;top:clamp(265px,43%,330px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center h2{
+    font-size:clamp(25px,7vw,32px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--beauty{
+    top:clamp(90px,14svh,110px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--hair{
+    top:auto!important;bottom:clamp(95px,13svh,112px)!important;
+  }
+}
+@media(max-width:610px){
+  html body .site-header .nav-reserve{display:none!important}
+  html body .site-header .mobile-toggle{margin-left:auto!important}
+  html body .site-header > .header-actions{justify-content:end!important}
+  html body .site-header > .mobile-menu .change-mobile-reserve{display:block!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__scroll::before,
+  html body .site-header .nav-reserve,
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__copy > .btn{
+    transition:none!important;
+  }
+}
