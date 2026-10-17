@@ -1,0 +1,247 @@
+/*
+ * CH’ANGE — parité des blocs héros dédiés avec les blocs de l'Accueil.
+ * Esthétique : CH’ANGE / ESTHÉTIQUE / Description / CTA.
+ * Coiffure   : NAMAJE  / COIFFURE   / Description / CTA.
+ * L'accueil garde ses deux grandes signatures volontairement masquées.
+ *
+ * Photos, recadrages et calques existants non modifiés.
+ */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-esthetique,#page-coiffure) .dual-home__copy{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:repeat(4,auto)!important;
+  row-gap:clamp(10px,1.4svh,16px)!important;
+  align-content:start!important;
+  justify-items:start!important;
+  align-items:start!important;
+  gap:clamp(10px,1.4svh,16px) 0!important;
+  height:auto!important;
+  max-width:100%!important;
+  background:none!important;
+}
+
+/* Réhabiliter les noms uniquement sur les deux pages dédiées.
+   Les anciennes règles les réduisaient à 1px et les découpaient. */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-esthetique,#page-coiffure) .dual-home__copy > :is(h1,h2){
+  display:block!important;
+  position:static!important;
+  grid-row:1!important;
+  width:auto!important;height:auto!important;
+  min-width:0!important;min-height:0!important;
+  max-width:100%!important;max-height:none!important;
+  padding:0!important;margin:0 0 clamp(2px,.5svh,7px)!important;
+  overflow:visible!important;
+  clip:auto!important;
+  -webkit-clip-path:none!important;
+  clip-path:none!important;
+  white-space:normal!important;
+  overflow-wrap:normal!important;
+  font-family:var(--display)!important;
+  font-size:min(clamp(45px,5.15vw,81px),var(--home-editor-font-size,110px))!important;
+  font-weight:400!important;
+  line-height:1!important;
+  letter-spacing:-.045em!important;
+  text-transform:uppercase!important;
+  text-shadow:none!important;
+  color:#382720!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-coiffure .dual-home__copy > h2{
+  color:#fff8f1!important;
+  text-shadow:0 2px 10px rgba(28,17,14,.35)!important;
+}
+
+/* Pastilles ESTHÉTIQUE et COIFFURE : mêmes dimensions et même typo
+   que les pastilles à contour fin actuellement validées sur l'Accueil. */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-esthetique,#page-coiffure) .dual-home__label{
+  display:inline-flex!important;
+  grid-row:2!important;
+  box-sizing:border-box!important;
+  align-items:center!important;justify-content:center!important;
+  justify-self:start!important;align-self:start!important;
+  width:max-content!important;max-width:100%!important;
+  min-height:clamp(35px,4.5svh,44px)!important;
+  padding:7px clamp(14px,1.1vw,20px)!important;
+  margin:0!important;
+  border:1px solid rgba(60,40,33,.76)!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  box-shadow:none!important;
+  font-family:var(--sans)!important;
+  font-size:clamp(14px,1.16vw,18px)!important;
+  font-weight:650!important;
+  line-height:1.2!important;
+  letter-spacing:.115em!important;
+  color:#3e2923!important;
+  text-shadow:none!important;
+  white-space:nowrap!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-coiffure .dual-home__label{
+  border-color:rgba(255,247,239,.88)!important;
+  color:#fff6ed!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-esthetique,#page-coiffure) .dual-home__label::before,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-esthetique,#page-coiffure) .dual-home__label::after{
+  content:none!important;display:none!important;
+}
+
+/* Texte identique aux cartes de l'Accueil : vrai contraste et lignes existantes. */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-esthetique,#page-coiffure) .dual-home__copy > p:not(.dual-home__sub){
+  grid-row:3!important;
+  font-family:var(--sans)!important;
+  font-size:clamp(13px,1.13vw,18px)!important;
+  font-weight:500!important;
+  line-height:1.5!important;
+  color:#382820!important;
+  text-shadow:0 1px 10px rgba(255,249,242,.17)!important;
+  width:auto!important;max-width:min(100%,340px)!important;
+  margin:0!important;
+  letter-spacing:0!important;
+  text-wrap:pretty!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-coiffure .dual-home__copy > p:not(.dual-home__sub){
+  color:#fff8f1!important;
+  text-shadow:0 2px 7px rgba(26,16,13,.47)!important;
+  margin-left:auto!important;
+}
+
+/* Boutons de même style, même hauteur et même animation que sur l'Accueil. */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-esthetique,#page-coiffure) .dual-home__copy > .btn{
+  grid-row:4!important;
+  display:inline-flex!important;
+  align-items:center!important;justify-content:space-between!important;
+  width:min(100%,310px)!important;
+  min-height:clamp(44px,5.6svh,56px)!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:12px clamp(16px,1.7vw,26px)!important;
+  border:1px solid rgba(94,62,51,.33)!important;
+  border-radius:999px!important;
+  background:#fff9f4!important;
+  color:#33231f!important;
+  box-shadow:0 3px 0 rgba(68,41,34,.1),0 9px 19px rgba(54,32,26,.13)!important;
+  font:700 clamp(10px,.86vw,13px)/1.25 var(--sans)!important;
+  letter-spacing:.025em!important;
+  text-transform:uppercase!important;
+  text-align:left!important;
+  white-space:normal!important;
+  gap:clamp(12px,1.6vw,22px)!important;
+  text-shadow:none!important;
+  transition:transform .3s cubic-bezier(.2,.75,.2,1),
+    background .3s cubic-bezier(.2,.75,.2,1),
+    box-shadow .3s cubic-bezier(.2,.75,.2,1)!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-coiffure .dual-home__copy > .btn{
+  background:#32221e!important;
+  color:#fffaf5!important;
+  border-color:rgba(255,249,244,.9)!important;
+  box-shadow:0 3px 0 rgba(28,15,11,.25),0 9px 19px rgba(29,16,13,.23)!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-esthetique,#page-coiffure) .dual-home__copy > .btn:hover{
+  transform:translateY(-2px)!important;
+  box-shadow:0 5px 0 rgba(68,41,34,.1),0 13px 24px rgba(54,32,26,.18)!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-coiffure .dual-home__copy > .btn:hover{
+  background:#583b32!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-esthetique,#page-coiffure) .dual-home__copy > .btn span[aria-hidden]{
+  flex:0 0 auto!important;font-size:20px!important;font-weight:400!important;
+}
+
+/* Même disposition que les blocs gauche/droit de la page d'Accueil. */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-esthetique .dual-home__panel--beauty{
+  top:clamp(180px,32%,390px)!important;
+  left:clamp(20px,5.2vw,88px)!important;
+  right:auto!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-coiffure .dual-home__panel--hair{
+  top:clamp(180px,32%,390px)!important;
+  right:clamp(20px,5.2vw,88px)!important;
+  left:auto!important;
+  text-align:right!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-coiffure .dual-home__copy{
+  justify-items:end!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-coiffure .dual-home__label{
+  justify-self:end!important;
+}
+
+/* Préserver chaque scène sur téléphone, sans bousculer l'en-tête NAMAJE. */
+@media(max-width:760px){
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  :is(#page-esthetique,#page-coiffure) .dual-home__copy{
+    row-gap:clamp(7px,1.1svh,12px)!important;
+    gap:clamp(7px,1.1svh,12px) 0!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  :is(#page-esthetique,#page-coiffure) .dual-home__copy > :is(h1,h2){
+    font-size:min(clamp(38px,10vw,57px),var(--home-editor-font-size,110px))!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  :is(#page-esthetique,#page-coiffure) .dual-home__label{
+    min-height:37px!important;
+    padding:8px 13px!important;
+    font-size:clamp(15px,4vw,18px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  :is(#page-esthetique,#page-coiffure) .dual-home__copy > p:not(.dual-home__sub){
+    font-size:clamp(11px,2.85vw,13px)!important;
+    line-height:1.3!important;
+    max-width:240px!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  :is(#page-esthetique,#page-coiffure) .dual-home__copy > .btn{
+    width:min(100%,270px)!important;
+    min-height:40px!important;
+    padding:9px 13px!important;
+    font-size:clamp(10px,2.5vw,12px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  #page-esthetique .dual-home__panel--beauty{
+    top:clamp(170px,27%,250px)!important;
+    left:clamp(17px,5vw,34px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  #page-coiffure .dual-home__panel--hair{
+    top:clamp(205px,33%,315px)!important;
+    right:clamp(17px,5vw,34px)!important;
+  }
+}
+@media(max-height:730px) and (min-width:761px){
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  #page-esthetique .dual-home__panel--beauty,
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  #page-coiffure .dual-home__panel--hair{
+    top:clamp(135px,25%,205px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  :is(#page-esthetique,#page-coiffure) .dual-home__copy > :is(h1,h2){
+    font-size:clamp(40px,4.5vw,64px)!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  :is(#page-esthetique,#page-coiffure) .dual-home__copy > .btn{
+    transition:none!important;
+  }
+}
