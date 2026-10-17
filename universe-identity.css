@@ -1,0 +1,175 @@
+/*
+ * CH'ANGE / NAMAJE — un seul en-tête éditorial sur toutes les pages.
+ * Noms dans la scène conservés uniquement pour l'accessibilité,
+ * invisibles sur les photographies. Les deux univers gardent les mêmes
+ * tailles, polices, rayons et espacements des étiquettes.
+ */
+
+/* Identique à l'accueil, y compris après navigation vers les autres pages. */
+html body:not(.change-home-layout) .site-header > .desktop-menu:not(.change-home-nav){
+  display:none!important;
+}
+html body:not(.change-home-layout) .site-header > .change-home-nav{
+  display:flex!important;
+  grid-column:2!important;
+  grid-row:1!important;
+  flex:initial!important;
+  justify-self:center!important;
+  justify-content:center!important;
+  align-items:center!important;
+  gap:clamp(15px,1.65vw,28px)!important;
+  margin:0!important;
+}
+@media(max-width:1250px){
+  html body:not(.change-home-layout) .site-header > .change-home-nav{
+    display:none!important;
+  }
+}
+
+/* Les anciens noms géants n'apparaissent plus sur AUCUNE scène.
+   Ils restent hors écran pour le titre sémantique et les lecteurs d'écran,
+   même si le CMS réinjecte son texte dans un brouillon administrateur. */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-accueil,#page-esthetique,#page-coiffure)
+.dual-home__copy > :is(h1,h2){
+  position:absolute!important;
+  width:1px!important;height:1px!important;
+  min-width:0!important;min-height:0!important;
+  max-width:1px!important;max-height:1px!important;
+  padding:0!important;margin:-1px!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
+  clip:rect(0 0 0 0)!important;
+  -webkit-clip-path:inset(50%)!important;
+  clip-path:inset(50%)!important;
+  border:0!important;
+  grid-row:auto!important;
+}
+
+/* Nouvelle hiérarchie : une étiquette principale, la description, le CTA.
+   Même métrique entre Esthétique et Coiffure, contraste adapté à chaque image. */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy{
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:auto auto auto!important;
+  row-gap:clamp(11px,1.7svh,21px)!important;
+  height:auto!important;
+  align-content:start!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__label{
+  grid-row:auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  justify-self:start!important;
+  align-self:start!important;
+  box-sizing:border-box!important;
+  width:max-content!important;
+  max-width:100%!important;
+  min-height:clamp(50px,6.7svh,67px)!important;
+  padding:clamp(11px,1.45svh,15px) clamp(20px,2vw,30px)!important;
+  margin:0!important;
+  border:1px solid rgba(88,56,46,.24)!important;
+  border-radius:999px!important;
+  background:rgba(255,249,244,.9)!important;
+  -webkit-backdrop-filter:blur(9px) saturate(1.09);
+  backdrop-filter:blur(9px) saturate(1.09);
+  box-shadow:0 9px 23px rgba(52,30,25,.09)!important;
+  color:#3e2923!important;
+  font-family:var(--sans)!important;
+  font-size:clamp(21px,2vw,31px)!important;
+  font-weight:700!important;
+  line-height:1.12!important;
+  letter-spacing:.105em!important;
+  text-align:center!important;
+  text-transform:uppercase!important;
+  white-space:nowrap!important;
+  text-shadow:none!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-accueil,#page-coiffure) .dual-home__panel--hair .dual-home__label{
+  justify-self:end!important;
+  background:rgba(65,42,35,.86)!important;
+  border-color:rgba(255,242,231,.43)!important;
+  color:#fff6ed!important;
+  box-shadow:0 9px 23px rgba(28,16,12,.17)!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > p:not(.dual-home__sub){
+  grid-row:auto!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy > .btn{
+  grid-row:auto!important;
+}
+/* Harmonisation des panneaux, sans zoom photo ou décalage indépendant. */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+:is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__panel{
+  top:clamp(205px,38%,440px)!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-accueil .dual-home__panel--beauty,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-esthetique .dual-home__panel--beauty{
+  top:clamp(205px,38%,440px)!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-accueil .dual-home__panel--hair,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-coiffure .dual-home__panel--hair{
+  top:clamp(205px,38%,440px)!important;
+}
+
+@media(max-width:760px){
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__label{
+    font-size:clamp(18px,5.15vw,25px)!important;
+    min-height:48px!important;
+    padding:10px clamp(16px,4.4vw,23px)!important;
+    letter-spacing:.095em!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__copy{
+    row-gap:clamp(7px,1.1svh,12px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  #page-accueil .dual-home__panel--beauty{
+    top:clamp(106px,15svh,145px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  #page-accueil .dual-home__panel--hair{
+    top:auto!important;
+    bottom:clamp(125px,17svh,183px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  #page-esthetique .dual-home__panel--beauty{
+    top:clamp(195px,34%,330px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  #page-coiffure .dual-home__panel--hair{
+    top:clamp(235px,39%,390px)!important;
+  }
+}
+/* Écrans peu hauts : limiter l'espace libre, sans miniaturiser le texte. */
+@media(min-width:761px) and (max-height:750px){
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__panel,
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  #page-accueil .dual-home__panel--beauty,
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  #page-accueil .dual-home__panel--hair{
+    top:clamp(138px,29%,230px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__label{
+    min-height:45px!important;
+    padding:9px 21px!important;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+  :is(#page-accueil,#page-esthetique,#page-coiffure) .dual-home__label{
+    transition:none!important;
+  }
+}
