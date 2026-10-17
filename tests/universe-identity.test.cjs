@@ -73,3 +73,25 @@ test('the new unified header and photographic titles are loaded on all three sce
  assert.match(css,/#page-accueil,#page-esthetique,#page-coiffure/);
  assert.match(css,/border-radius:999px!important/);
 });
+
+test('Accueil: badges are smaller, truly hollow and have no decorative strokes',()=>{
+ const marker='Accueil UNIQUEMENT — encadrés fins sans remplissage.';
+ const start=css.indexOf(marker);
+ assert.ok(start>0,'a dedicated accueil-only override is required');
+ const home=css.slice(start);
+ assert.match(home,/#page-accueil \.dual-home__label\{/);
+ assert.match(home,/background:transparent!important/);
+ assert.match(home,/backdrop-filter:none!important/);
+ assert.match(home,/box-shadow:none!important/);
+ assert.match(home,/border:1px solid rgba\(60,40,33,\.76\)!important/);
+ assert.match(home,/min-height:clamp\(38px,4\.8svh,48px\)!important/);
+ assert.match(home,/font-size:clamp\(16px,1\.35vw,21px\)!important/);
+ assert.match(home,/#page-accueil \.dual-home__label::before/);
+ assert.match(home,/#page-accueil \.dual-home__label::after/);
+ assert.match(home,/content:none!important/);
+ assert.match(home,/display:none!important/);
+ // Dedicated pages keep their own larger framed labels.
+ assert.doesNotMatch(home,/#page-esthetique \.dual-home__label/);
+ assert.doesNotMatch(home,/#page-coiffure \.dual-home__label/);
+ assert.match(html,/universe-identity\.css\?v=2/);
+});
