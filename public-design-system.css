@@ -1,0 +1,460 @@
+/*
+ * CH'ANGE — Système visuel public commun.
+ * Chargé UNIQUEMENT par index.html (site vitrine).
+ * Ne touche ni au site Pro, ni aux fichiers de gestion, ni aux données CMS.
+ * Les scènes photo de l'accueil / Esthétique / Coiffure restent intactes.
+ */
+:root{
+  --public-ivory:#fff9f4;
+  --public-soft:#f7eee7;
+  --public-chocolate:#392721;
+  --public-ink:#3e2d28;
+  --public-secondary:#77665e;
+  --public-line:rgba(101,70,56,.18);
+  --public-shadow:0 12px 36px rgba(73,45,36,.07);
+  --public-radius:clamp(16px,1.7vw,25px);
+  --public-ease:cubic-bezier(.22,.72,.24,1);
+}
+/* Cohérence du fond et de la lecture sur toutes les pages intérieures. */
+main > .page{
+  color:var(--public-ink);
+  background:#faf6f1;
+}
+main > .page > :not(.dual-home):not(.cms-modules){
+  scroll-margin-top:clamp(80px,9svh,110px);
+}
+main > .page :is(.overline,.section-kicker){
+  color:#997569;
+  font-family:var(--sans);
+  font-size:clamp(10px,.78vw,12px);
+  line-height:1.45;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+main > .page :is(.inner-intro,.price-heading){
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  text-align:center;
+  padding-top:clamp(72px,11svh,145px);
+  padding-bottom:clamp(40px,7svh,84px);
+  margin-bottom:clamp(18px,3.2svh,38px);
+  background:radial-gradient(ellipse at 48% -60%,rgba(215,166,147,.2),transparent 73%);
+}
+main > .page :is(.inner-intro,.price-heading)::after{
+  content:"";
+  display:block;
+  width:clamp(40px,5vw,75px);
+  height:1px;
+  background:rgba(160,117,97,.5);
+  margin:clamp(25px,3vw,42px) auto 0;
+}
+main > .page :is(.inner-intro,.price-heading) h1{
+  font:400 clamp(46px,5.7vw,83px)/1.08 var(--display);
+  letter-spacing:-.033em;
+  text-wrap:balance;
+  max-width:960px;
+  margin:clamp(14px,2svh,25px) auto clamp(15px,2.5svh,30px);
+}
+main > .page :is(.inner-intro,.price-heading) h1 i,
+main > .page :is(.universe-grid,.contact-card,.hours-card,.action-panel,.price-contact,.gift-hero) h2 i{
+  font-weight:400;
+  color:#ad8378;
+}
+main > .page :is(.inner-intro,.price-heading) p{
+  font-size:clamp(13px,1.04vw,16px);
+  line-height:1.82;
+  max-width:675px;
+  margin-left:auto;margin-right:auto;
+  color:var(--public-secondary);
+  text-wrap:pretty;
+}
+
+/* Les sections intérieures des trois grands univers partagent la même grammaire.
+   Ne PAS sélectionner .dual-home (réglages de scène individuels). */
+main > .page > :not(.dual-home) :is(.intro-bands h2,.section-heading h2,.feature-content h2,.universe-grid h2){
+  font-family:var(--display);
+  font-weight:400;
+  font-size:clamp(35px,4vw,61px);
+  line-height:1.12;
+  letter-spacing:-.027em;
+  text-wrap:balance;
+}
+main > .page .intro-bands{
+  text-align:center;
+  padding-top:clamp(64px,8svh,105px);
+  padding-bottom:clamp(55px,7svh,95px);
+}
+main > .page .intro-bands > p:last-child,
+main > .page .split-feature p,
+main > .page .universe-grid p{
+  color:var(--public-secondary);
+  font-size:clamp(13px,1vw,16px);
+  line-height:1.85;
+}
+
+/* Les boutons non photographiques deviennent des CTA cohérents, sans toucher
+   aux deux gros boutons superposés à l'image. Liens et actions inchangés. */
+main > .page > :not(.dual-home) .btn,
+#care-detail-dialog .btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:clamp(18px,2.7vw,35px);
+  min-height:clamp(45px,5.7svh,56px);
+  max-width:100%;
+  width:max-content;
+  border-radius:999px;
+  padding:12px clamp(20px,2vw,29px);
+  font:700 clamp(11px,.88vw,13px)/1.25 var(--sans);
+  letter-spacing:.015em;
+  text-transform:uppercase;
+  text-align:left;
+  text-decoration:none;
+  box-shadow:0 3px 0 rgba(71,46,38,.08),0 8px 22px rgba(52,34,27,.08);
+  transition:background .28s var(--public-ease),color .28s ease,transform .28s var(--public-ease),box-shadow .28s var(--public-ease);
+}
+main > .page > :not(.dual-home) :is(.btn-dark,.btn-outline),
+#care-detail-dialog .btn-dark{
+  border:1px solid rgba(68,42,34,.68);
+  background:var(--public-chocolate);
+  color:var(--public-ivory);
+}
+main > .page > :not(.dual-home) .btn-light{
+  border:1px solid rgba(90,61,49,.25);
+  color:var(--public-ink);
+  background:var(--public-ivory);
+}
+main > .page > :not(.dual-home) .btn:hover,
+#care-detail-dialog .btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 4px 0 rgba(71,46,38,.06),0 12px 26px rgba(52,34,27,.13);
+}
+main > .page > :not(.dual-home) :is(.btn-dark,.btn-outline):hover,
+#care-detail-dialog .btn-dark:hover{
+  background:#5d4137;
+  color:#fffdf9;
+}
+main > .page > :not(.dual-home) .btn-light:hover{
+  background:#fffefa;
+}
+main > .page > :not(.dual-home) .btn span[aria-hidden],
+#care-detail-dialog .btn span[aria-hidden]{
+  flex-shrink:0;
+  font-size:19px;
+  font-weight:400;
+  transition:transform .28s var(--public-ease);
+}
+main > .page > :not(.dual-home) .btn:hover span[aria-hidden],
+#care-detail-dialog .btn:hover span[aria-hidden]{
+  transform:translateX(3px);
+}
+
+/* Filtres tarifs/soins : pastilles transparentes, bord fin et état actif net. */
+#page-tarifs .price-filter,
+#page-soins .care-filters{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap:clamp(8px,1.1vw,13px);
+  margin-bottom:clamp(28px,4svh,50px);
+}
+#page-tarifs .price-chip,
+#page-soins .chip{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:43px;
+  padding:10px clamp(15px,1.5vw,22px);
+  border:1px solid rgba(101,70,56,.32);
+  border-radius:999px;
+  background:transparent;
+  color:var(--public-ink);
+  font:600 clamp(11px,.9vw,13px)/1.35 var(--sans);
+  white-space:normal;
+  transition:background .22s ease,color .22s ease,border-color .22s ease;
+}
+#page-tarifs .price-chip:hover,
+#page-soins .chip:hover{background:rgba(232,213,201,.38)}
+#page-tarifs .price-chip[aria-pressed="true"],
+#page-soins .chip.active,
+#page-soins .chip[aria-pressed="true"]{
+  color:#fff9f4;background:#3e2b25;border-color:#3e2b25;
+}
+
+/* Des photographies nettes, des coins doux et une perspective homogène. */
+main > .page :is(.category-card,.gallery-item){
+  border-radius:var(--public-radius);
+  box-shadow:var(--public-shadow);
+}
+main > .page :is(.category-card,.gallery-item) img{
+  transition:transform .65s var(--public-ease);
+}
+main > .page :is(.category-card,.gallery-item):hover img{transform:scale(1.035)}
+main > .page .category-overlay strong{font-weight:500;line-height:1.2}
+main > .page .gallery-item span{font-weight:600}
+main > .page .care-item,
+main > .page .care-item-dynamic{
+  overflow:hidden;
+  border:1px solid var(--public-line);
+  border-radius:var(--public-radius);
+  box-shadow:var(--public-shadow);
+  background:#fffaf6;
+}
+main > .page .care-item h2{line-height:1.18}
+main > .page .care-item p{line-height:1.75}
+main > .page .care-more,
+main > .page .text-arrow,
+main > .page .under-link{
+  color:var(--public-ink);
+  text-underline-offset:5px;
+  transition:color .2s ease,opacity .2s ease;
+}
+main > .page :is(.care-more,.text-arrow,.under-link):hover{
+  color:#916756;
+}
+
+/* Univers : image et texte harmonisés, sans déformer les proportions. */
+#page-univers .universe-grid{
+  overflow:hidden;
+  border:1px solid rgba(117,78,59,.13);
+  border-radius:var(--public-radius);
+  background:linear-gradient(125deg,#f0e2d8,#f7eee6);
+  box-shadow:var(--public-shadow);
+}
+#page-univers .universe-grid>div{
+  padding:clamp(30px,5vw,85px);
+}
+#page-univers .universe-grid img{
+  width:100%;height:100%;
+  min-height:clamp(315px,43svh,555px);
+  object-fit:cover;
+  object-position:center;
+}
+#page-univers .philosophy{
+  gap:clamp(28px,4vw,65px);
+  padding-top:clamp(55px,8svh,100px);
+}
+#page-univers .philosophy>div{
+  border-top:1px solid var(--public-line);
+  padding-top:20px;
+}
+
+/* Tarifs : lignes fines et bandeau de contact raccord aux boutons. */
+#page-tarifs .price-shell{max-width:1140px}
+#page-tarifs .price-section-head{border-color:rgba(107,75,57,.3)}
+#page-tarifs .price-section h2{
+  font-size:clamp(36px,3.65vw,59px);
+  letter-spacing:-.02em;
+}
+#page-tarifs .price-row{
+  border-bottom:1px solid var(--public-line);
+  transition:background .2s ease;
+}
+#page-tarifs .price-row:hover{background:rgba(243,227,218,.3)}
+#page-tarifs .price-contact{
+  border:1px solid var(--public-line);
+  border-radius:var(--public-radius);
+  padding:clamp(24px,3vw,44px);
+  background:linear-gradient(125deg,#f3e8de,#ecdacd);
+  box-shadow:var(--public-shadow);
+}
+#page-tarifs .price-contact h2{
+  font-size:clamp(32px,3.3vw,49px);
+  line-height:1.15;
+}
+
+/* Cartes cadeaux : image de couverture intacte, ligne de progression raffinée. */
+#page-cadeaux .gift-hero img{
+  border-radius:clamp(140px,21vw,300px) clamp(140px,21vw,300px) var(--public-radius) var(--public-radius);
+  object-fit:cover;object-position:center;
+  box-shadow:var(--public-shadow);
+}
+#page-cadeaux .gift-hero h1{
+  font-size:clamp(42px,5.2vw,80px);
+  line-height:1.09;
+  text-wrap:balance;
+}
+#page-cadeaux .gift-steps{
+  gap:clamp(18px,2.3vw,35px);
+}
+#page-cadeaux .gift-steps>div{
+  border-top:1px solid var(--public-line);
+  padding-top:clamp(18px,2.4vw,30px);
+}
+#page-cadeaux .gift-steps b{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:42px;min-height:42px;
+  border:1px solid rgba(126,89,74,.35);
+  border-radius:50%;
+  color:#875e50;
+  font-weight:700;
+}
+
+/* Contact : même chaleur que le reste du site, paragraphes bien respirants. */
+#page-contact .contact-grid{
+  gap:clamp(15px,2.3vw,30px);
+}
+#page-contact :is(.contact-card,.hours-card){
+  border-radius:var(--public-radius);
+  border:1px solid var(--public-line);
+  background:#fffaf6;
+  box-shadow:var(--public-shadow);
+  padding:clamp(26px,4vw,63px);
+}
+#page-contact :is(.contact-card,.hours-card) h2{
+  font-size:clamp(37px,4vw,57px);
+  line-height:1.1;
+  margin-bottom:clamp(19px,3vw,35px);
+}
+#page-contact .contact-field,
+#page-contact .hours-list>div{
+  border-color:var(--public-line);
+}
+#page-contact .faq{
+  gap:clamp(25px,4vw,55px);
+}
+#page-contact .faqs details{
+  border-bottom:1px solid var(--public-line);
+}
+#page-contact .faqs summary{
+  min-height:63px;
+  padding:clamp(18px,2svh,25px) 0;
+}
+#page-contact .faqs summary:hover{color:#906656}
+
+/* Même finition des panneaux d'appel, y compris sous les deux scènes. */
+main > .page .action-panel{
+  border-radius:var(--public-radius);
+  overflow:hidden;
+  border:1px solid rgba(255,239,227,.18);
+  background:linear-gradient(118deg,#9e756b,#76554c);
+  padding:clamp(32px,5vw,72px);
+  gap:clamp(25px,3vw,45px);
+  box-shadow:var(--public-shadow);
+}
+main > .page .action-panel h2{
+  font:400 clamp(32px,3.4vw,49px)/1.16 var(--display);
+  text-wrap:balance;
+}
+main > .page .action-panel .btn-light{
+  flex:0 0 auto;
+  background:#fff9f4;
+}
+
+/* Pied de page : visuellement aligné à la navigation et accessible. */
+body .footer{
+  background:linear-gradient(130deg,#3e2d28,#342520);
+  color:#f4e9df;
+}
+body .footer-top{gap:clamp(20px,4vw,50px)}
+body .footer-top a,
+body .footer-bottom a{
+  transition:color .2s ease,opacity .2s ease;
+}
+body .footer-top a:hover,
+body .footer-bottom a:hover{
+  color:#fffdfa;
+  text-decoration:underline;
+  text-underline-offset:5px;
+}
+body .footer-bottom{border-color:rgba(255,249,242,.17)}
+
+/* Modal des soins : boutons et fermeture assortis, sans toucher au JS. */
+#care-detail-dialog{
+  border:1px solid var(--public-line);
+  border-radius:clamp(15px,2vw,25px);
+  background:#fffaf6;
+}
+#care-detail-dialog .care-dialog-secondary,
+#care-detail-dialog .care-dialog-close{
+  border-radius:999px;
+  background:#fff9f4;
+  border-color:rgba(100,71,57,.33);
+}
+
+/* Tablette et mobile : colonnes souples, actions accessibles au doigt. */
+@media(max-width:900px){
+  main > .page :is(.inner-intro,.price-heading){
+    padding-top:clamp(60px,8svh,94px);
+  }
+  #page-univers .universe-grid img{
+    height:clamp(300px,43svh,500px);
+    min-height:0;
+  }
+  main > .page .action-panel{
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+}
+@media(max-width:680px){
+  main > .page :is(.inner-intro,.price-heading){
+    padding:clamp(40px,7svh,70px) 0 clamp(25px,4svh,46px);
+    margin-bottom:12px;
+  }
+  main > .page :is(.inner-intro,.price-heading) h1{
+    font-size:clamp(39px,10.7vw,57px);
+    letter-spacing:-.032em;
+  }
+  main > .page :is(.inner-intro,.price-heading) p{
+    font-size:13px;line-height:1.7;
+  }
+  main > .page :is(.inner-intro,.price-heading)::after{
+    margin-top:23px;
+  }
+  main > .page > :not(.dual-home) .btn,
+  #care-detail-dialog .btn{
+    min-height:44px;
+    padding:11px 18px;
+    gap:14px;
+    font-size:11px;
+  }
+  #page-tarifs .price-filter,#page-soins .care-filters{
+    justify-content:flex-start;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    padding:1px 1px 12px;
+    scrollbar-width:thin;
+    overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;
+  }
+  #page-tarifs .price-chip,#page-soins .chip{
+    flex-shrink:0;
+    min-height:41px;
+    white-space:nowrap;
+  }
+  #page-univers .universe-grid{
+    display:grid;grid-template-columns:minmax(0,1fr);
+  }
+  #page-univers .universe-grid>div{padding:clamp(24px,6vw,42px)}
+  #page-univers .universe-grid img{
+    height:clamp(270px,41svh,430px);
+    border-radius:0;
+  }
+  #page-contact :is(.contact-card,.hours-card){padding:clamp(22px,5vw,34px)}
+  #page-contact :is(.contact-card,.hours-card) h2{font-size:clamp(35px,9vw,49px)}
+  #page-tarifs .price-contact{
+    flex-direction:column;
+    align-items:stretch;
+    gap:22px;
+  }
+  #page-tarifs .price-contact .btn{width:100%}
+  main > .page .action-panel{padding:clamp(27px,6vw,40px)}
+  main > .page .action-panel .btn{width:100%}
+  body .footer-top{padding-top:clamp(47px,7svh,67px)}
+}
+@media(max-width:380px){
+  #page-tarifs .price-row{
+    grid-template-columns:minmax(0,1fr) 74px;
+    gap:5px;
+  }
+  main > .page .gift-hero h1{font-size:40px}
+}
+@media(prefers-reduced-motion:reduce){
+  main > .page :is(.btn,.category-card img,.gallery-item img,.chip,.price-chip),
+  body .footer a{
+    transition:none!important;
+  }
+}
