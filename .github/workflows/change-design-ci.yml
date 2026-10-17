@@ -11,6 +11,8 @@ on:
       - 'header-editorial.css'
       - 'universe-identity.css'
       - 'home-editorial-polish.css'
+      - 'public-design-system.css'
+      - 'tests/public-design-system.test.cjs'
       - 'tests/home-editorial-polish.test.cjs'
       - 'tests/universe-identity.test.cjs'
       - 'tests/header-editorial.test.cjs'
@@ -53,6 +55,7 @@ jobs:
           node --test tests/header-editorial.test.cjs
           node --test tests/universe-identity.test.cjs
           node --test tests/home-editorial-polish.test.cjs
+          node --test tests/public-design-system.test.cjs
       - name: Vérifier les ressources de l'accueil
         run: |
           test -s design-public.css
