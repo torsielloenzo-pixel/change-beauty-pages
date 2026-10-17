@@ -318,3 +318,25 @@ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).c
     transition:none!important;
   }
 }
+
+/* Priorité sur les anciennes dimensions du canevas photographique.
+   Le logo personnalisé conserve son conteneur, seul le texte est dimensionné. */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header > .wordmark,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).change-stage-scrolled .site-header > .wordmark{
+  font-size:clamp(38px,3.85vw,58px)!important;
+  margin:0!important;
+}
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header > .wordmark small{
+  font-size:clamp(7px,.65vw,9px)!important;
+  margin-top:clamp(8px,1.05svh,13px)!important;
+}
+@media(max-width:680px){
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header > .wordmark,
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).change-stage-scrolled .site-header > .wordmark{
+    font-size:clamp(31px,7.9vw,42px)!important;
+  }
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header > .wordmark small{
+    font-size:clamp(6px,1.55vw,7px)!important;
+    margin-top:6px!important;
+  }
+}
