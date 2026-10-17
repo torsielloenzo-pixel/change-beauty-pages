@@ -7,6 +7,8 @@ on:
       - 'home-reference.css'
       - 'home-canvas.css'
       - 'home-canvas.js'
+      - 'first-screen-fluid.css'
+      - 'tests/first-screen-fluid.test.cjs'
       - 'header-brand.js'
       - 'header-brand.css'
       - 'tests/header-brand.test.cjs'
@@ -41,6 +43,7 @@ jobs:
           node --test tests/three-universes.test.cjs
           node --test tests/aesthetic-parity.test.cjs
           node --test tests/scene-superposition.test.cjs
+          node --test tests/first-screen-fluid.test.cjs
       - name: Vérifier les ressources de l'accueil
         run: |
           test -s design-public.css
