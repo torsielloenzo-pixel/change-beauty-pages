@@ -8,6 +8,8 @@ on:
       - 'home-canvas.css'
       - 'home-canvas.js'
       - 'first-screen-fluid.css'
+      - 'header-editorial.css'
+      - 'tests/header-editorial.test.cjs'
       - 'tests/first-screen-fluid.test.cjs'
       - 'header-brand.js'
       - 'header-brand.css'
@@ -44,6 +46,7 @@ jobs:
           node --test tests/aesthetic-parity.test.cjs
           node --test tests/scene-superposition.test.cjs
           node --test tests/first-screen-fluid.test.cjs
+          node --test tests/header-editorial.test.cjs
       - name: Vérifier les ressources de l'accueil
         run: |
           test -s design-public.css
