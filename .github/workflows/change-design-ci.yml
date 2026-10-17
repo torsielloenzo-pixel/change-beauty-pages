@@ -10,6 +10,8 @@ on:
       - 'first-screen-fluid.css'
       - 'header-editorial.css'
       - 'universe-identity.css'
+      - 'home-editorial-polish.css'
+      - 'tests/home-editorial-polish.test.cjs'
       - 'tests/universe-identity.test.cjs'
       - 'tests/header-editorial.test.cjs'
       - 'tests/first-screen-fluid.test.cjs'
@@ -50,6 +52,7 @@ jobs:
           node --test tests/first-screen-fluid.test.cjs
           node --test tests/header-editorial.test.cjs
           node --test tests/universe-identity.test.cjs
+          node --test tests/home-editorial-polish.test.cjs
       - name: Vérifier les ressources de l'accueil
         run: |
           test -s design-public.css
