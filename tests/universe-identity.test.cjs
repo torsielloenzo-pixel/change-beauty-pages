@@ -30,35 +30,33 @@ function boot(initialHash='#accueil'){
  vm.runInNewContext(source,{document:doc,window:win,URL});
  return {api:win.CHANGE_HEADER_BRAND,wordmark,text,small,window:win};
 }
-test('NAMAJE appears only while navigating within Coiffure and restores CH’ANGE',()=>{
+test('CH’ANGE reste la seule identité de l’entête sur toutes les routes',()=>{
  const x=boot('#accueil');
  assert.equal(x.text.textContent,'CH’ANGE ');
  assert.equal(x.small.textContent,'INSTITUT DE BEAUTÉ');
- x.api.setUniverse('coiffure');
- assert.equal(x.text.textContent,'NAMAJE ');
- assert.equal(x.small.textContent,'INSTITUT DE COIFFURE');
- assert.match(x.wordmark['aria-label'],/NAMAJE/);
- x.api.setUniverse('esthetique');
- assert.equal(x.text.textContent,'CH’ANGE ');
- assert.equal(x.small.textContent,'INSTITUT DE BEAUTÉ');
- x.window.location.hash='#coiffure';
- x.window.events.hashchange();
- assert.equal(x.small.textContent,'INSTITUT DE COIFFURE');
+ for(const slug of ['coiffure','esthetique','tarifs','accueil']){
+  x.api.setUniverse(slug);
+  assert.equal(x.text.textContent,'CH’ANGE ');
+  assert.equal(x.small.textContent,'INSTITUT DE BEAUTÉ');
+  assert.match(x.wordmark['aria-label'],/CH’ANGE/);
+ }
+ const fromHair=boot('#coiffure');
+ assert.equal(fromHair.text.textContent,'CH’ANGE ');
+ assert.equal(fromHair.small.textContent,'INSTITUT DE BEAUTÉ');
 });
-test('saved image logo cannot cover NAMAJE, and returns on other routes',()=>{
+test('Le logo image choisi pour CH’ANGE reste inchangé en visitant Coiffure',()=>{
  const x=boot('#accueil'),slot=x.wordmark.firstChild,img=slot.children[1];
  x.api.apply({header_logo:{mode:'image',url:'https://example.org/logo.png'}});
  img.onload();
  assert.equal(img.hidden,false);
  x.api.setUniverse('coiffure');
- assert.equal(img.hidden,true);
- assert.equal(slot.classList.contains('change-brand-mode-image'),false);
- x.api.apply({header_logo:{mode:'image',url:'https://example.org/new.png'}});
- assert.equal(img.hidden,true);
- x.api.setUniverse('accueil');
- assert.match(img.src,/new.png/);
- img.onload();
  assert.equal(img.hidden,false);
+ assert.equal(slot.classList.contains('change-brand-mode-image'),true);
+ x.api.setUniverse('accueil');
+ assert.equal(img.hidden,false);
+ x.api.apply({header_logo:{mode:'text'}});
+ assert.equal(img.hidden,true);
+ assert.equal(x.text.textContent,'CH’ANGE ');
 });
 test('the new unified header and photographic titles are loaded on all three scenes',()=>{
  assert.ok(html.indexOf('universe-identity.css')>html.indexOf('header-editorial.css'));
