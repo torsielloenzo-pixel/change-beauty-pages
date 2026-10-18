@@ -7,17 +7,17 @@ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
 #page-accueil .dual-home__panel--beauty,
 html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
 #page-accueil .dual-home__panel--hair {
-  top: clamp(320px,55%,570px) !important;
+  top: 70% !important;
   bottom: auto !important;
 }
 
-/* Fenêtres basses : garder tous les boutons à l'intérieur de la photo. */
+/* Sur ordinateur, le point de départ des deux menus est exactement à 70 % de la photo. */
 @media (min-width:761px) and (max-height:750px) {
   html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
   #page-accueil .dual-home__panel--beauty,
   html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
   #page-accueil .dual-home__panel--hair {
-    top: clamp(235px,45%,335px) !important;
+    top: 70% !important;
   }
 }
 
