@@ -21,14 +21,16 @@ test('only Esthétique and Coiffure have their own restored editorial brand titl
   assert.doesNotMatch(css,/#page-accueil \.dual-home__copy > :is\(h1,h2\)/);
   const beauty=pageBody('esthetique');
   const hair=pageBody('coiffure');
-  assert.match(beauty,/<h1>CH’ANGE<\/h1>/);
-  assert.match(beauty,/<div class="dual-home__label">ESTHÉTIQUE<\/div>/);
+  // Esthétique possède désormais une introduction orientée première visite.
+  // Le titre NAMAJE et sa disposition sur la page Coiffure restent inchangés.
+  assert.match(beauty,/<h1>ESTHÉTIQUE<\/h1>/);
+  assert.match(beauty,/<div class="dual-home__label">CH’ANGE · LE THOR<\/div>/);
   assert.match(beauty,/Des soins sur mesure<br>pour révéler votre beauté<br>naturelle\./);
   assert.match(hair,/<h2>NAMAJE<\/h2>/);
   assert.match(hair,/<div class="dual-home__label">COIFFURE<\/div>/);
   assert.match(hair,/Des cheveux sublimés,<br>une signature unique\./);
 });
-test('both dedicated pages match Accueil badge and button metrics',()=>{
+test('La feuille de parité historique conserve ses métriques, indépendantes du nouveau thème Esthétique',()=>{
   assert.match(css,/font-size:clamp\(14px,1\.16vw,18px\)!important/);
   assert.match(css,/min-height:clamp\(35px,4\.5svh,44px\)!important/);
   assert.match(css,/border-radius:999px!important/);
