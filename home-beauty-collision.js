@@ -37,9 +37,12 @@
       reset();return;
     }
     const row=categories.getBoundingClientRect();
+    const scene=hero.getBoundingClientRect();
     const bar=header?.getBoundingClientRect();
     const gap=Math.max(16,Math.min(24,window.innerHeight*.025));
-    const upperLimit=bar&&bar.height>0?bar.bottom+gap:gap;
+    // Mesurer dans le même repère que la photo : la marge reste valable
+    // même si un redimensionnement survient après un défilement de la page.
+    const upperLimit=scene.top+(bar&&bar.height>0?bar.height:0)+gap;
     // Hauteur disponible strictement entre le bas de la navigation et les catégories.
     // En fenêtre inhabituellement basse, le bloc peut défiler sur lui-même plutôt
     // que déborder sur les prestations.
