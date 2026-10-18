@@ -9,7 +9,7 @@
 
 /* Grande composition photographique : l'espace rose à droite accueille
    l'information ; la photographie et les fleurs restent libres à gauche. */
-html body.change-home-layout #page-esthetique .dual-home__grid > .dual-home__panel--beauty{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__grid > .dual-home__panel--beauty{
   display:block!important;
   visibility:visible!important;
   position:absolute!important;
@@ -31,7 +31,7 @@ html body.change-home-layout #page-esthetique .dual-home__grid > .dual-home__pan
 }
 
 /* Une seule colonne fluide : repère, titre, description, action, familles. */
-html body.change-home-layout #page-esthetique .dual-home__grid > .dual-home__panel--beauty .dual-home__copy{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__grid > .dual-home__panel--beauty .dual-home__copy{
   display:flex!important;
   flex-direction:column!important;
   align-items:center!important;
@@ -52,7 +52,7 @@ html body.change-home-layout #page-esthetique .dual-home__grid > .dual-home__pan
 }
 
 /* La marque reste dans l'en-tête : seul un repère discret rappelle Le Thor. */
-html body.change-home-layout #page-esthetique .dual-home__copy > .dual-home__label{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > .dual-home__label{
   display:block!important;
   order:0!important;
   grid-row:auto!important;
@@ -76,15 +76,15 @@ html body.change-home-layout #page-esthetique .dual-home__copy > .dual-home__lab
   text-shadow:none!important;
   white-space:normal!important;
 }
-html body.change-home-layout #page-esthetique .dual-home__copy > .dual-home__label::before,
-html body.change-home-layout #page-esthetique .dual-home__copy > .dual-home__label::after{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > .dual-home__label::before,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > .dual-home__label::after{
   content:none!important;
   display:none!important;
 }
 
 /* Titre principal : Italiana, grand mais respirant. L'éditeur conserve son
    sélecteur h1 existant pour les changements ultérieurs. */
-html body.change-home-layout #page-esthetique .dual-home__copy > h1{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > h1{
   display:block!important;
   order:1!important;
   grid-row:auto!important;
@@ -112,7 +112,7 @@ html body.change-home-layout #page-esthetique .dual-home__copy > h1{
   text-align:center!important;
   text-transform:uppercase!important;
 }
-html body.change-home-layout #page-esthetique .dual-home__copy > h1::after{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > h1::after{
   content:"";
   display:block;
   width:54px;
@@ -122,7 +122,7 @@ html body.change-home-layout #page-esthetique .dual-home__copy > h1::after{
 }
 
 /* Accroche inchangée : les trois lignes sont celles déjà présentes sur le site. */
-html body.change-home-layout #page-esthetique .dual-home__copy > p:not(.dual-home__sub):not(.esthetique-hero-disciplines){
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > p:not(.dual-home__sub):not(.esthetique-hero-disciplines){
   display:block!important;
   order:2!important;
   grid-row:auto!important;
@@ -139,7 +139,7 @@ html body.change-home-layout #page-esthetique .dual-home__copy > p:not(.dual-hom
 }
 
 /* Le bouton principal conserve la redirection vers les vrais tarifs. */
-html body.change-home-layout #page-esthetique .dual-home__copy > .btn{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > .btn{
   display:inline-flex!important;
   order:3!important;
   grid-row:auto!important;
@@ -169,20 +169,20 @@ html body.change-home-layout #page-esthetique .dual-home__copy > .btn{
   text-transform:uppercase!important;
   transition:background .2s ease,transform .2s ease,box-shadow .2s ease!important;
 }
-html body.change-home-layout #page-esthetique .dual-home__copy > .btn:hover,
-html body.change-home-layout #page-esthetique .dual-home__copy > .btn:focus-visible{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > .btn:hover,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > .btn:focus-visible{
   background:#fffaf6!important;
   transform:translateY(-2px)!important;
   box-shadow:0 9px 20px rgba(73,40,32,.14)!important;
 }
-html body.change-home-layout #page-esthetique .dual-home__copy > .btn span[aria-hidden]{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > .btn span[aria-hidden]{
   flex:0 0 auto;
   margin-left:12px;
   font:400 19px/1 var(--sans,'DM Sans',Arial,sans-serif)!important;
 }
 
 /* Information concise, non interactive, en dessous de l'action. */
-html body.change-home-layout #page-esthetique .dual-home__copy > .esthetique-hero-disciplines{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > .esthetique-hero-disciplines{
   display:block!important;
   order:4!important;
   grid-row:auto!important;
@@ -198,13 +198,13 @@ html body.change-home-layout #page-esthetique .dual-home__copy > .esthetique-her
   text-shadow:none!important;
   white-space:normal!important;
 }
-html body.change-home-layout #page-esthetique .esthetique-hero-disciplines span{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-hero-disciplines span{
   padding-inline:.2em;
   color:#98786c;
 }
 
 /* Guide de défilement : destination déjà câblée par data-hero-scroll. */
-html body.change-home-layout #page-esthetique .dual-home__grid > .esthetique-hero-scroll{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__grid > .esthetique-hero-scroll{
   display:inline-flex!important;
   visibility:visible!important;
   position:absolute!important;
@@ -228,13 +228,13 @@ html body.change-home-layout #page-esthetique .dual-home__grid > .esthetique-her
   white-space:nowrap!important;
   cursor:pointer!important;
 }
-html body.change-home-layout #page-esthetique .esthetique-hero-scroll span{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-hero-scroll span{
   font-size:19px!important;
   line-height:1!important;
   transition:transform .2s ease;
 }
-html body.change-home-layout #page-esthetique .esthetique-hero-scroll:hover span,
-html body.change-home-layout #page-esthetique .esthetique-hero-scroll:focus-visible span{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-hero-scroll:hover span,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-hero-scroll:focus-visible span{
   transform:translateY(3px);
 }
 
@@ -243,30 +243,30 @@ html body.change-home-layout #page-esthetique .esthetique-hero-scroll:focus-visi
   from{opacity:0;transform:translateY(9px)}
   to{opacity:1;transform:translateY(0)}
 }
-html body.change-home-layout #page-esthetique:not([hidden]) .dual-home__copy > .dual-home__label{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique:not([hidden]) .dual-home__copy > .dual-home__label{
   animation:change-esthetique-enter .6s ease-out .12s both;
 }
-html body.change-home-layout #page-esthetique:not([hidden]) .dual-home__copy > h1{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique:not([hidden]) .dual-home__copy > h1{
   animation:change-esthetique-enter .6s ease-out .25s both;
 }
-html body.change-home-layout #page-esthetique:not([hidden]) .dual-home__copy > p:not(.esthetique-hero-disciplines){
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique:not([hidden]) .dual-home__copy > p:not(.esthetique-hero-disciplines){
   animation:change-esthetique-enter .6s ease-out .48s both;
 }
-html body.change-home-layout #page-esthetique:not([hidden]) .dual-home__copy > .btn{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique:not([hidden]) .dual-home__copy > .btn{
   animation:change-esthetique-enter .6s ease-out .68s both;
 }
-html body.change-home-layout #page-esthetique:not([hidden]) .dual-home__copy > .esthetique-hero-disciplines{
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique:not([hidden]) .dual-home__copy > .esthetique-hero-disciplines{
   animation:change-esthetique-enter .6s ease-out .82s both;
 }
 
 @media(max-width:980px){
-  html body.change-home-layout #page-esthetique .dual-home__grid > .dual-home__panel--beauty{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__grid > .dual-home__panel--beauty{
     right:clamp(22px,4.8vw,60px)!important;
     width:min(43vw,430px)!important;
     max-width:46%!important;
     top:clamp(170px,31%,350px)!important;
   }
-  html body.change-home-layout #page-esthetique .dual-home__copy > h1{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > h1{
     font-size:clamp(42px,5.15vw,68px)!important;
   }
 }
@@ -274,7 +274,7 @@ html body.change-home-layout #page-esthetique:not([hidden]) .dual-home__copy > .
 /* Sur mobile : contenu lisible mais compact, en bas de photo.
    Le voile discret appartient au bloc de texte, jamais à la photo enregistrée. */
 @media(max-width:760px){
-  html body.change-home-layout #page-esthetique .dual-home__grid > .dual-home__panel--beauty{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__grid > .dual-home__panel--beauty{
     top:auto!important;
     bottom:clamp(82px,11svh,119px)!important;
     right:clamp(14px,4vw,24px)!important;
@@ -289,34 +289,34 @@ html body.change-home-layout #page-esthetique:not([hidden]) .dual-home__copy > .
     backdrop-filter:blur(12px) saturate(1.08);
     box-shadow:0 7px 30px rgba(66,36,27,.07)!important;
   }
-  html body.change-home-layout #page-esthetique .dual-home__copy > .dual-home__label{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > .dual-home__label{
     font-size:9px!important;
     margin-bottom:8px!important;
   }
-  html body.change-home-layout #page-esthetique .dual-home__copy > h1{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > h1{
     font-size:clamp(43px,11vw,61px)!important;
     margin-bottom:12px!important;
   }
-  html body.change-home-layout #page-esthetique .dual-home__copy > h1::after{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > h1::after{
     margin-top:10px!important;
   }
-  html body.change-home-layout #page-esthetique .dual-home__copy > p:not(.dual-home__sub):not(.esthetique-hero-disciplines){
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > p:not(.dual-home__sub):not(.esthetique-hero-disciplines){
     font-size:clamp(12px,3vw,14px)!important;
     line-height:1.48!important;
     margin-bottom:16px!important;
   }
-  html body.change-home-layout #page-esthetique .dual-home__copy > .btn{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > .btn{
     min-height:44px!important;
     width:min(100%,288px)!important;
     padding:10px 18px!important;
     font-size:10px!important;
   }
-  html body.change-home-layout #page-esthetique .dual-home__copy > .esthetique-hero-disciplines{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > .esthetique-hero-disciplines{
     margin-top:17px!important;
     font-size:9px!important;
     letter-spacing:.08em!important;
   }
-  html body.change-home-layout #page-esthetique .dual-home__grid > .esthetique-hero-scroll{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__grid > .esthetique-hero-scroll{
     bottom:clamp(12px,2.6svh,23px)!important;
     font-size:9px!important;
     letter-spacing:.12em!important;
@@ -324,26 +324,26 @@ html body.change-home-layout #page-esthetique:not([hidden]) .dual-home__copy > .
 }
 
 @media(max-height:690px) and (min-width:761px){
-  html body.change-home-layout #page-esthetique .dual-home__grid > .dual-home__panel--beauty{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__grid > .dual-home__panel--beauty{
     top:clamp(148px,24%,215px)!important;
   }
-  html body.change-home-layout #page-esthetique .dual-home__copy > .dual-home__label{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > .dual-home__label{
     margin-bottom:8px!important;
   }
-  html body.change-home-layout #page-esthetique .dual-home__copy > h1{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > h1{
     margin-bottom:10px!important;
   }
-  html body.change-home-layout #page-esthetique .dual-home__copy > p:not(.dual-home__sub):not(.esthetique-hero-disciplines){
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > p:not(.dual-home__sub):not(.esthetique-hero-disciplines){
     margin-bottom:15px!important;
   }
-  html body.change-home-layout #page-esthetique .dual-home__copy > .esthetique-hero-disciplines{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > .esthetique-hero-disciplines{
     margin-top:15px!important;
   }
 }
 
 @media(prefers-reduced-motion:reduce){
-  html body.change-home-layout #page-esthetique .dual-home__copy > *,
-  html body.change-home-layout #page-esthetique .esthetique-hero-scroll span{
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .dual-home__copy > *,
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-esthetique .esthetique-hero-scroll span{
     animation:none!important;
     transition:none!important;
   }
