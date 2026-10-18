@@ -11,6 +11,7 @@ on:
       - 'header-editorial.css'
       - 'universe-identity.css'
       - 'home-editorial-polish.css'
+      - 'home-menu-position.css'
       - 'public-design-system.css'
       - 'universe-detail-parity.css'
       - 'tests/universe-detail-parity.test.cjs'
@@ -64,11 +65,13 @@ jobs:
           test -s design-public.css
           test -s home-reference.css
           test -s home-canvas.css
+          test -s home-menu-position.css
           test -s scene-superposition.css
           test -s header-brand.css
           grep -q 'header-brand.js' index.html
           grep -q 'header-brand.css' index.html
           grep -q 'home-reference.css' index.html
+          grep -q 'home-menu-position.css' index.html
           grep -q 'dual-home__center' index.html
           grep -q 'dual-home__services' index.html
           grep -q 'change-home-layout' index.html
