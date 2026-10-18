@@ -8,7 +8,7 @@ const css=fs.readFileSync(path.join(__dirname,'../home-editorial-polish.css'),'u
 const previous=fs.readFileSync(path.join(__dirname,'../universe-identity.css'),'utf8');
 
 test('new stylesheet is loaded last and original homepage CTAs remain functional',()=>{
-  assert.ok(html.indexOf('home-editorial-polish.css?v=2')>html.indexOf('universe-identity.css?v=2'));
+  assert.ok(html.search(/home-editorial-polish\.css\?v=\d+/)>html.indexOf('universe-identity.css?v=2'));
   assert.match(html, /href="#esthetique">DÉCOUVRIR L’ESTHÉTIQUE/);
   assert.match(html, /href="#coiffure">DÉCOUVRIR LA COIFFURE/);
   assert.match(html, /id="change-hero-scroll"/);
