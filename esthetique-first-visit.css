@@ -1,0 +1,350 @@
+/*
+ * CH’ANGE · Première visite Esthétique
+ * Strictement limitée à #page-esthetique. L'image, son cadrage, ses calques,
+ * l'en-tête, la page d'Accueil et la page Coiffure sont conservés.
+ *
+ * La règle « universe-photo-only » masque volontairement les interfaces
+ * des deux univers : nous réactivons UNIQUEMENT le contenu Esthétique.
+ */
+
+/* Grande composition photographique : l'espace rose à droite accueille
+   l'information ; la photographie et les fleurs restent libres à gauche. */
+html body.change-home-layout #page-esthetique .dual-home__grid > .dual-home__panel--beauty{
+  display:block!important;
+  visibility:visible!important;
+  position:absolute!important;
+  box-sizing:border-box!important;
+  top:clamp(205px,35%,405px)!important;
+  right:clamp(42px,6.5vw,126px)!important;
+  bottom:auto!important;
+  left:auto!important;
+  width:clamp(315px,34vw,490px)!important;
+  max-width:44%!important;
+  height:auto!important;
+  min-height:0!important;
+  padding:0!important;
+  margin:0!important;
+  transform:none!important;
+  z-index:9!important;
+  text-align:center!important;
+  pointer-events:auto!important;
+}
+
+/* Une seule colonne fluide : repère, titre, description, action, familles. */
+html body.change-home-layout #page-esthetique .dual-home__grid > .dual-home__panel--beauty .dual-home__copy{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  justify-items:center!important;
+  gap:0!important;
+  grid-template-rows:none!important;
+  width:100%!important;
+  max-width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  padding:0!important;
+  margin:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#412d26!important;
+  text-align:center!important;
+}
+
+/* La marque reste dans l'en-tête : seul un repère discret rappelle Le Thor. */
+html body.change-home-layout #page-esthetique .dual-home__copy > .dual-home__label{
+  display:block!important;
+  order:0!important;
+  grid-row:auto!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0 0 clamp(10px,1.7svh,18px)!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  color:#815d51!important;
+  font:650 clamp(10px,.78vw,12px)/1.3 var(--sans,'DM Sans',Arial,sans-serif)!important;
+  letter-spacing:.26em!important;
+  text-transform:uppercase!important;
+  text-shadow:none!important;
+  white-space:normal!important;
+}
+html body.change-home-layout #page-esthetique .dual-home__copy > .dual-home__label::before,
+html body.change-home-layout #page-esthetique .dual-home__copy > .dual-home__label::after{
+  content:none!important;
+  display:none!important;
+}
+
+/* Titre principal : Italiana, grand mais respirant. L'éditeur conserve son
+   sélecteur h1 existant pour les changements ultérieurs. */
+html body.change-home-layout #page-esthetique .dual-home__copy > h1{
+  display:block!important;
+  order:1!important;
+  grid-row:auto!important;
+  position:static!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  padding:0!important;
+  margin:0 0 clamp(13px,2.3svh,24px)!important;
+  overflow:visible!important;
+  clip:auto!important;
+  -webkit-clip-path:none!important;
+  clip-path:none!important;
+  color:#412a24!important;
+  font-family:'Italiana',Georgia,serif!important;
+  font-size:clamp(56px,5.25vw,82px)!important;
+  font-weight:400!important;
+  line-height:1.07!important;
+  letter-spacing:-.035em!important;
+  white-space:nowrap!important;
+  text-shadow:none!important;
+  text-align:center!important;
+  text-transform:uppercase!important;
+}
+html body.change-home-layout #page-esthetique .dual-home__copy > h1::after{
+  content:"";
+  display:block;
+  width:54px;
+  height:1px;
+  margin:clamp(12px,1.8svh,18px) auto 0;
+  background:rgba(89,57,47,.38);
+}
+
+/* Accroche inchangée : les trois lignes sont celles déjà présentes sur le site. */
+html body.change-home-layout #page-esthetique .dual-home__copy > p:not(.dual-home__sub):not(.esthetique-hero-disciplines){
+  display:block!important;
+  order:2!important;
+  grid-row:auto!important;
+  width:auto!important;
+  max-width:370px!important;
+  margin:0 0 clamp(19px,3svh,29px)!important;
+  padding:0!important;
+  color:#4e3730!important;
+  font:500 clamp(14px,1.07vw,17px)/1.65 var(--sans,'DM Sans',Arial,sans-serif)!important;
+  letter-spacing:0!important;
+  text-align:center!important;
+  text-wrap:balance!important;
+  text-shadow:none!important;
+}
+
+/* Le bouton principal conserve la redirection vers les vrais tarifs. */
+html body.change-home-layout #page-esthetique .dual-home__copy > .btn{
+  display:inline-flex!important;
+  order:3!important;
+  grid-row:auto!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  justify-self:center!important;
+  align-self:center!important;
+  box-sizing:border-box!important;
+  width:min(100%,304px)!important;
+  min-width:0!important;
+  max-width:100%!important;
+  min-height:52px!important;
+  height:auto!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:12px 23px!important;
+  border:1px solid rgba(92,61,50,.46)!important;
+  border-radius:999px!important;
+  background:rgba(255,250,246,.87)!important;
+  box-shadow:0 5px 19px rgba(73,40,32,.08)!important;
+  color:#38251e!important;
+  font:700 clamp(11px,.82vw,13px)/1.3 var(--sans,'DM Sans',Arial,sans-serif)!important;
+  letter-spacing:.065em!important;
+  white-space:normal!important;
+  text-align:left!important;
+  text-decoration:none!important;
+  text-transform:uppercase!important;
+  transition:background .2s ease,transform .2s ease,box-shadow .2s ease!important;
+}
+html body.change-home-layout #page-esthetique .dual-home__copy > .btn:hover,
+html body.change-home-layout #page-esthetique .dual-home__copy > .btn:focus-visible{
+  background:#fffaf6!important;
+  transform:translateY(-2px)!important;
+  box-shadow:0 9px 20px rgba(73,40,32,.14)!important;
+}
+html body.change-home-layout #page-esthetique .dual-home__copy > .btn span[aria-hidden]{
+  flex:0 0 auto;
+  margin-left:12px;
+  font:400 19px/1 var(--sans,'DM Sans',Arial,sans-serif)!important;
+}
+
+/* Information concise, non interactive, en dessous de l'action. */
+html body.change-home-layout #page-esthetique .dual-home__copy > .esthetique-hero-disciplines{
+  display:block!important;
+  order:4!important;
+  grid-row:auto!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin:clamp(22px,3.7svh,35px) 0 0!important;
+  padding:0!important;
+  color:#795e53!important;
+  font:650 clamp(10px,.75vw,12px)/1.7 var(--sans,'DM Sans',Arial,sans-serif)!important;
+  letter-spacing:.12em!important;
+  text-align:center!important;
+  text-transform:uppercase!important;
+  text-shadow:none!important;
+  white-space:normal!important;
+}
+html body.change-home-layout #page-esthetique .esthetique-hero-disciplines span{
+  padding-inline:.2em;
+  color:#98786c;
+}
+
+/* Guide de défilement : destination déjà câblée par data-hero-scroll. */
+html body.change-home-layout #page-esthetique .dual-home__grid > .esthetique-hero-scroll{
+  display:inline-flex!important;
+  visibility:visible!important;
+  position:absolute!important;
+  z-index:10!important;
+  left:50%!important;
+  right:auto!important;
+  bottom:clamp(22px,4svh,40px)!important;
+  top:auto!important;
+  transform:translateX(-50%)!important;
+  align-items:center!important;
+  gap:12px!important;
+  width:auto!important;
+  min-height:38px!important;
+  padding:6px 12px!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#694b40!important;
+  font:650 clamp(10px,.75vw,12px)/1.4 var(--sans,'DM Sans',Arial,sans-serif)!important;
+  letter-spacing:.16em!important;
+  white-space:nowrap!important;
+  cursor:pointer!important;
+}
+html body.change-home-layout #page-esthetique .esthetique-hero-scroll span{
+  font-size:19px!important;
+  line-height:1!important;
+  transition:transform .2s ease;
+}
+html body.change-home-layout #page-esthetique .esthetique-hero-scroll:hover span,
+html body.change-home-layout #page-esthetique .esthetique-hero-scroll:focus-visible span{
+  transform:translateY(3px);
+}
+
+/* Micro-entrée sur la première visite, sans bouger la photographie. */
+@keyframes change-esthetique-enter{
+  from{opacity:0;transform:translateY(9px)}
+  to{opacity:1;transform:translateY(0)}
+}
+html body.change-home-layout #page-esthetique:not([hidden]) .dual-home__copy > .dual-home__label{
+  animation:change-esthetique-enter .6s ease-out .12s both;
+}
+html body.change-home-layout #page-esthetique:not([hidden]) .dual-home__copy > h1{
+  animation:change-esthetique-enter .6s ease-out .25s both;
+}
+html body.change-home-layout #page-esthetique:not([hidden]) .dual-home__copy > p:not(.esthetique-hero-disciplines){
+  animation:change-esthetique-enter .6s ease-out .48s both;
+}
+html body.change-home-layout #page-esthetique:not([hidden]) .dual-home__copy > .btn{
+  animation:change-esthetique-enter .6s ease-out .68s both;
+}
+html body.change-home-layout #page-esthetique:not([hidden]) .dual-home__copy > .esthetique-hero-disciplines{
+  animation:change-esthetique-enter .6s ease-out .82s both;
+}
+
+@media(max-width:980px){
+  html body.change-home-layout #page-esthetique .dual-home__grid > .dual-home__panel--beauty{
+    right:clamp(22px,4.8vw,60px)!important;
+    width:min(43vw,430px)!important;
+    max-width:46%!important;
+    top:clamp(170px,31%,350px)!important;
+  }
+  html body.change-home-layout #page-esthetique .dual-home__copy > h1{
+    font-size:clamp(42px,5.15vw,68px)!important;
+  }
+}
+
+/* Sur mobile : contenu lisible mais compact, en bas de photo.
+   Le voile discret appartient au bloc de texte, jamais à la photo enregistrée. */
+@media(max-width:760px){
+  html body.change-home-layout #page-esthetique .dual-home__grid > .dual-home__panel--beauty{
+    top:auto!important;
+    bottom:clamp(82px,11svh,119px)!important;
+    right:clamp(14px,4vw,24px)!important;
+    left:auto!important;
+    width:min(430px,calc(100% - 28px))!important;
+    max-width:calc(100% - 28px)!important;
+    padding:clamp(15px,4vw,24px)!important;
+    border:1px solid rgba(145,108,92,.16)!important;
+    border-radius:22px!important;
+    background:linear-gradient(145deg,rgba(255,249,246,.87),rgba(255,246,241,.72))!important;
+    -webkit-backdrop-filter:blur(12px) saturate(1.08);
+    backdrop-filter:blur(12px) saturate(1.08);
+    box-shadow:0 7px 30px rgba(66,36,27,.07)!important;
+  }
+  html body.change-home-layout #page-esthetique .dual-home__copy > .dual-home__label{
+    font-size:9px!important;
+    margin-bottom:8px!important;
+  }
+  html body.change-home-layout #page-esthetique .dual-home__copy > h1{
+    font-size:clamp(43px,11vw,61px)!important;
+    margin-bottom:12px!important;
+  }
+  html body.change-home-layout #page-esthetique .dual-home__copy > h1::after{
+    margin-top:10px!important;
+  }
+  html body.change-home-layout #page-esthetique .dual-home__copy > p:not(.dual-home__sub):not(.esthetique-hero-disciplines){
+    font-size:clamp(12px,3vw,14px)!important;
+    line-height:1.48!important;
+    margin-bottom:16px!important;
+  }
+  html body.change-home-layout #page-esthetique .dual-home__copy > .btn{
+    min-height:44px!important;
+    width:min(100%,288px)!important;
+    padding:10px 18px!important;
+    font-size:10px!important;
+  }
+  html body.change-home-layout #page-esthetique .dual-home__copy > .esthetique-hero-disciplines{
+    margin-top:17px!important;
+    font-size:9px!important;
+    letter-spacing:.08em!important;
+  }
+  html body.change-home-layout #page-esthetique .dual-home__grid > .esthetique-hero-scroll{
+    bottom:clamp(12px,2.6svh,23px)!important;
+    font-size:9px!important;
+    letter-spacing:.12em!important;
+  }
+}
+
+@media(max-height:690px) and (min-width:761px){
+  html body.change-home-layout #page-esthetique .dual-home__grid > .dual-home__panel--beauty{
+    top:clamp(148px,24%,215px)!important;
+  }
+  html body.change-home-layout #page-esthetique .dual-home__copy > .dual-home__label{
+    margin-bottom:8px!important;
+  }
+  html body.change-home-layout #page-esthetique .dual-home__copy > h1{
+    margin-bottom:10px!important;
+  }
+  html body.change-home-layout #page-esthetique .dual-home__copy > p:not(.dual-home__sub):not(.esthetique-hero-disciplines){
+    margin-bottom:15px!important;
+  }
+  html body.change-home-layout #page-esthetique .dual-home__copy > .esthetique-hero-disciplines{
+    margin-top:15px!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  html body.change-home-layout #page-esthetique .dual-home__copy > *,
+  html body.change-home-layout #page-esthetique .esthetique-hero-scroll span{
+    animation:none!important;
+    transition:none!important;
+  }
+}
