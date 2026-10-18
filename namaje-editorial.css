@@ -1,0 +1,359 @@
+/*
+ * NAMAJE — composition éditoriale du héros Coiffure.
+ * Strictement limité à #page-coiffure : aucune image supplémentaire,
+ * aucun remplacement de la photo/du calque, aucun changement de header.
+ */
+#page-coiffure .namaje-art {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  color: #f7e5d9;
+  font-family: var(--sans, "DM Sans", sans-serif);
+  pointer-events: none;
+}
+#page-coiffure .namaje-art::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg,
+    rgba(28, 13, 10, .70) 0%,
+    rgba(31, 15, 12, .56) 25%,
+    rgba(46, 24, 19, .26) 47%,
+    transparent 69%
+  );
+  pointer-events: none;
+}
+#page-coiffure .namaje-art__scene {
+  display: grid;
+  grid-template-columns: clamp(96px, 10vw, 155px) minmax(0, 660px) minmax(0, 1fr);
+  gap: clamp(10px, 1.7vw, 29px);
+  align-items: center;
+  min-height: 0;
+  padding: clamp(126px, 14vh, 172px) clamp(28px, 4.6vw, 86px) clamp(20px, 4vh, 44px);
+}
+#page-coiffure .namaje-art__index {
+  align-self: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid rgba(249, 226, 205, .34);
+}
+#page-coiffure .namaje-art__index li {
+  position: relative;
+  padding: 0 0 clamp(10px, 1.9vh, 20px) 18px;
+  display: grid;
+  gap: 3px;
+}
+#page-coiffure .namaje-art__index li::before {
+  content: "";
+  position: absolute;
+  width: 11px;
+  height: 1px;
+  top: 9px;
+  left: -1px;
+  background: rgba(249, 226, 205, .60);
+}
+#page-coiffure .namaje-art__index-num {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .17em;
+  color: #f2d7be;
+}
+#page-coiffure .namaje-art__index-name {
+  font-size: clamp(9px, .65vw, 11px);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255, 235, 223, .78);
+}
+#page-coiffure .namaje-art__scroll {
+  pointer-events: auto;
+  margin: 6px 0 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #f7e5d9;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  font-size: 9px;
+  letter-spacing: .19em;
+  text-transform: uppercase;
+}
+#page-coiffure .namaje-art__scroll-mark {
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(251, 228, 210, .70);
+  border-radius: 50%;
+  font-size: 16px;
+}
+#page-coiffure .namaje-art__text {
+  position: relative;
+  max-width: min(100%, 670px);
+  padding-bottom: clamp(8px, 2vh, 32px);
+  text-shadow: 0 1px 13px rgba(29, 14, 10, .18);
+  animation: namaje-art-arrive .85s ease-out both;
+}
+#page-coiffure .namaje-art__kicker {
+  margin: 0 0 clamp(14px, 2.5vh, 24px);
+  font-size: clamp(10px, .85vw, 13px);
+  letter-spacing: clamp(.16em, .28vw, .35em);
+  color: rgba(255, 233, 217, .9);
+  text-transform: uppercase;
+}
+#page-coiffure .namaje-art__title {
+  font-family: var(--display, "Italiana", Georgia, serif);
+  font-weight: 400;
+  font-size: clamp(70px, 7.2vw, 132px);
+  line-height: .93;
+  letter-spacing: -.035em;
+  white-space: nowrap;
+  margin: 0;
+  color: #f5e1d2;
+}
+#page-coiffure .namaje-art__sub {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 15px 0 0;
+  font-size: clamp(10px, .86vw, 14px);
+  letter-spacing: .28em;
+  color: rgba(248, 229, 216, .89);
+  white-space: nowrap;
+}
+#page-coiffure .namaje-art__sub::before,
+#page-coiffure .namaje-art__sub::after {
+  content: "";
+  display: block;
+  height: 1px;
+  width: clamp(20px, 4vw, 65px);
+  background: rgba(244, 208, 184, .63);
+}
+#page-coiffure .namaje-art__signature {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: clamp(31px, 3.25vw, 58px);
+  line-height: 1.13;
+  font-weight: 400;
+  letter-spacing: -.03em;
+  color: #dfad8a;
+  margin: clamp(19px, 3.4vh, 34px) 0 clamp(20px, 3.6vh, 35px);
+  transform: rotate(-2deg);
+}
+#page-coiffure .namaje-art__disciplines {
+  margin: 0 0 clamp(18px, 3.1vh, 32px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 13px;
+  font-size: clamp(9px, .70vw, 12px);
+  letter-spacing: .13em;
+  line-height: 1.5;
+  color: rgba(255, 235, 221, .88);
+}
+#page-coiffure .namaje-art__disciplines b {
+  font-weight: 400;
+  color: #b98463;
+}
+#page-coiffure .namaje-art__cta {
+  pointer-events: auto;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 53px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2.4vw, 32px);
+  padding: 12px 16px 12px 27px;
+  border: 1px solid rgba(244, 203, 174, .47);
+  border-radius: 60px;
+  background: linear-gradient(110deg, #301913 0%, #513024 80%);
+  box-shadow: 0 13px 32px rgba(17, 6, 3, .25);
+  color: #fff5ed;
+  font-family: var(--sans, "DM Sans", sans-serif);
+  font-size: clamp(10px, .79vw, 13px);
+  font-weight: 600;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .25s, transform .25s, box-shadow .25s;
+}
+#page-coiffure .namaje-art__cta:hover {
+  background: linear-gradient(110deg, #48261b, #744530);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(17, 6, 3, .31);
+}
+#page-coiffure .namaje-art__cta-arrow {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 236, 223, .35);
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1;
+}
+#page-coiffure .namaje-art__bottom {
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr minmax(178px, .85fr);
+  gap: clamp(12px, 2.5vw, 45px);
+  align-items: center;
+  min-height: clamp(108px, 12vh, 135px);
+  padding: 20px clamp(26px, 4.6vw, 85px);
+  background: rgba(24, 12, 10, .77);
+  border-top: 1px solid rgba(255, 223, 201, .2);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+#page-coiffure .namaje-art__bottom-cell {
+  min-width: 0;
+  display: flex;
+  align-items: start;
+  gap: 14px;
+}
+#page-coiffure .namaje-art__bottom-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 27px;
+  width: 27px;
+  height: 27px;
+  margin-top: 2px;
+  border: 1px solid rgba(214, 159, 114, .6);
+  border-radius: 50%;
+  color: #deaf8d;
+  font-size: 14px;
+}
+#page-coiffure .namaje-art__bottom-label {
+  display: block;
+  margin: 0 0 7px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .25em;
+  color: #d9a784;
+}
+#page-coiffure .namaje-art__bottom-value,
+#page-coiffure .namaje-art__bottom-value a {
+  color: #f9e8dd;
+  font: 400 clamp(11px, .85vw, 13px)/1.6 var(--sans, "DM Sans", sans-serif);
+  letter-spacing: .005em;
+}
+#page-coiffure .namaje-art__bottom-value a:hover { text-decoration: underline; }
+#page-coiffure .namaje-art__bottom-slogan {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(14px, 2vw, 30px);
+  border-left: 1px solid rgba(235, 197, 169, .2);
+  padding-left: 20px;
+  color: #f1d3c1;
+  font: 400 clamp(13px, 1.05vw, 17px)/1.4 var(--display, "Italiana", Georgia, serif);
+  letter-spacing: .05em;
+}
+#page-coiffure .namaje-art__bottom-slogan a {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 226, 204, .52);
+  border-radius: 50%;
+  font: 400 19px/1 var(--sans, sans-serif);
+  color: #f9e8dd;
+}
+#page-coiffure .namaje-art__bottom-slogan a:hover { background: rgba(255,255,255,.1); }
+@keyframes namaje-art-arrive {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 1220px) {
+  #page-coiffure .namaje-art__scene {
+    grid-template-columns: 100px minmax(0, 600px) minmax(0, 1fr);
+    gap: 20px;
+  }
+  #page-coiffure .namaje-art__bottom {
+    gap: 14px;
+    padding-inline: 30px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  #page-coiffure .namaje-art__bottom-slogan { display: none; }
+}
+@media (max-width: 840px) {
+  #page-coiffure .namaje-art::before {
+    background: linear-gradient(90deg, rgba(24, 11, 9, .72), rgba(28, 13, 9, .25) 75%, transparent);
+  }
+  #page-coiffure .namaje-art__scene {
+    grid-template-columns: minmax(0, 1fr);
+    padding: clamp(110px, 15vh, 145px) clamp(25px, 6vw, 48px) 16px;
+  }
+  #page-coiffure .namaje-art__index { display: none; }
+  #page-coiffure .namaje-art__text { max-width: 560px; }
+  #page-coiffure .namaje-art__title { font-size: clamp(62px, 11vw, 94px); }
+  #page-coiffure .namaje-art__signature { font-size: clamp(32px, 5.4vw, 46px); }
+  #page-coiffure .namaje-art__bottom { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 590px) {
+  #page-coiffure .namaje-art::before {
+    background: linear-gradient(90deg, rgba(26, 12, 10, .78) 0%, rgba(27, 13, 10, .48) 60%, rgba(27, 13, 10, .12) 100%);
+  }
+  #page-coiffure .namaje-art__scene {
+    align-items: center;
+    padding: calc(var(--change-official-header-height, 84px) + 22px) 23px 14px;
+  }
+  #page-coiffure .namaje-art__text {
+    max-width: min(100%, 420px);
+    padding: 0 0 12px;
+  }
+  #page-coiffure .namaje-art__kicker { font-size: 9px; letter-spacing: .16em; margin-bottom: 13px; }
+  #page-coiffure .namaje-art__title { font-size: clamp(58px, 15vw, 77px); letter-spacing: -.04em; }
+  #page-coiffure .namaje-art__sub { gap: 8px; font-size: 9px; letter-spacing: .14em; white-space: normal; }
+  #page-coiffure .namaje-art__sub::before,
+  #page-coiffure .namaje-art__sub::after { width: 16px; flex: 0 0 16px; }
+  #page-coiffure .namaje-art__signature {
+    margin: 19px 0 20px;
+    font-size: clamp(31px, 8vw, 41px);
+  }
+  #page-coiffure .namaje-art__disciplines { max-width: 330px; margin-bottom: 19px; font-size: 9px; gap: 4px 8px; }
+  #page-coiffure .namaje-art__cta {
+    min-height: 48px;
+    padding: 9px 10px 9px 17px;
+    font-size: 9px;
+    letter-spacing: .09em;
+  }
+  #page-coiffure .namaje-art__cta-arrow { width: 30px; height: 30px; }
+  #page-coiffure .namaje-art__bottom {
+    min-height: 100px;
+    padding: 14px 22px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  #page-coiffure .namaje-art__bottom-cell { gap: 8px; }
+  #page-coiffure .namaje-art__bottom-icon { width: 22px; height: 22px; flex-basis: 22px; font-size: 12px; }
+  #page-coiffure .namaje-art__bottom-label { font-size: 9px; letter-spacing: .12em; margin-bottom: 3px; }
+  #page-coiffure .namaje-art__bottom-value,
+  #page-coiffure .namaje-art__bottom-value a { font-size: 10px; }
+  #page-coiffure .namaje-art__bottom-cell--address { display: none; }
+}
+@media (max-height: 675px) and (min-width: 591px) {
+  #page-coiffure .namaje-art__scene { padding-top: 100px; }
+  #page-coiffure .namaje-art__kicker { margin-bottom: 8px; }
+  #page-coiffure .namaje-art__signature { margin: 12px 0 13px; }
+  #page-coiffure .namaje-art__disciplines { margin-bottom: 12px; }
+}
+@media (max-height: 700px) and (max-width: 590px) {
+  #page-coiffure .namaje-art__scene { padding-top: 92px; }
+  #page-coiffure .namaje-art__kicker { display: none; }
+  #page-coiffure .namaje-art__signature { margin: 12px 0 13px; }
+  #page-coiffure .namaje-art__disciplines { display: none; }
+  #page-coiffure .namaje-art__bottom { min-height: 82px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #page-coiffure .namaje-art__text { animation: none; }
+  #page-coiffure .namaje-art__cta { transition: none; }
+}
