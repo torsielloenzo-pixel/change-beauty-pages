@@ -14,6 +14,8 @@ on:
       - 'home-menu-position.css'
       - 'public-design-system.css'
       - 'universe-detail-parity.css'
+      - 'esthetique-first-visit.css'
+      - 'tests/esthetique-first-visit.test.cjs'
       - 'tests/universe-detail-parity.test.cjs'
       - 'tests/public-design-system.test.cjs'
       - 'tests/home-editorial-polish.test.cjs'
@@ -63,6 +65,7 @@ jobs:
           node --test tests/home-editorial-polish.test.cjs
           node --test tests/public-design-system.test.cjs
           node --test tests/universe-detail-parity.test.cjs
+          node --test tests/esthetique-first-visit.test.cjs
       - name: Vérifier les ressources de l'accueil
         run: |
           test -s design-public.css
@@ -72,6 +75,8 @@ jobs:
           test -s scene-superposition.css
           test -s header-brand.css
           test -s official-public-header.css
+          test -s esthetique-first-visit.css
+          grep -q 'esthetique-first-visit.css' index.html
           grep -q 'official-public-header.css' index.html
           grep -q 'header-brand.js' index.html
           grep -q 'header-brand.css' index.html
