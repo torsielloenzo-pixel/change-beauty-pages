@@ -20,6 +20,8 @@ on:
       - 'tests/universe-identity.test.cjs'
       - 'tests/header-editorial.test.cjs'
       - 'tests/first-screen-fluid.test.cjs'
+      - 'official-public-header.css'
+      - 'tests/official-public-header.test.cjs'
       - 'header-brand.js'
       - 'header-brand.css'
       - 'tests/header-brand.test.cjs'
@@ -50,6 +52,7 @@ jobs:
           node --check home-canvas.js
           node --check header-brand.js
           node --test tests/header-brand.test.cjs
+          node --test tests/official-public-header.test.cjs
           node --test tests/home-canvas.test.cjs
           node --test tests/three-universes.test.cjs
           node --test tests/aesthetic-parity.test.cjs
@@ -68,6 +71,8 @@ jobs:
           test -s home-menu-position.css
           test -s scene-superposition.css
           test -s header-brand.css
+          test -s official-public-header.css
+          grep -q 'official-public-header.css' index.html
           grep -q 'header-brand.js' index.html
           grep -q 'header-brand.css' index.html
           grep -q 'home-reference.css' index.html
