@@ -60,7 +60,7 @@ test('Le logo image choisi pour CH’ANGE reste inchangé en visitant Coiffure',
 });
 test('the new unified header and photographic titles are loaded on all three scenes',()=>{
  assert.ok(html.indexOf('universe-identity.css')>html.indexOf('header-editorial.css'));
- assert.ok(html.indexOf('header-brand.js?v=4')>0);
+ assert.ok(html.indexOf('header-brand.js?v=5')>0);
  assert.match(html,/CHANGE_HEADER_BRAND\?\.setUniverse\(active\)/);
  assert.match(css,/body:not\(\.change-home-layout\).*\.change-home-nav/);
  assert.match(css,/dual-home__copy > :is\(h1,h2\)/);
