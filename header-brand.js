@@ -14,9 +14,6 @@
     textSlot.appendChild(wordmark.firstChild);
   }
   titleSlot.appendChild(textSlot);
-  // Conserver les nœuds d'origine (y compris le sous-titre et son gabarit).
-  const nameNode=Array.from(textSlot.childNodes||textSlot.children||[]).find(node=>node.nodeType===3)||textSlot.firstChild;
-  const subtitle=textSlot.querySelector(':scope > small');
   wordmark.appendChild(titleSlot);
   wordmark.classList.add('change-brand-wordmark');
   const image=document.createElement('img');
@@ -40,12 +37,8 @@
     image.removeAttribute('src');
   }
   image.addEventListener('error',setText);
-  let latest='text:',isHair=false,savedDesign=null,savedPreview=false;
+  let latest='text:';
   function apply(design,preview=false){
-    savedDesign=design;savedPreview=preview;
-    // La Coiffure impose temporairement sa signature NAMAJE :
-    // une mise à jour tardive de l'accueil ne peut pas remettre son ancien logo.
-    if(isHair){setText();latest='coiffure:text';return;}
     const cfg=design&&typeof design==='object'?design.header_logo:null;
     const mode=cfg?.mode==='image'?'image':'text';
     const src=mode==='image'?validSrc(cfg?.url,preview):'';
@@ -66,30 +59,12 @@
       titleSlot.classList.add('change-brand-mode-image');
     }
   }
-  function setUniverse(slug){
-    const nextHair=slug==='coiffure';
-    if(nextHair===isHair)return;
-    isHair=nextHair;
-    if(nameNode)nameNode.textContent=nextHair?'NAMAJE ':'CH’ANGE ';
-    if(subtitle)subtitle.textContent=nextHair?'INSTITUT DE COIFFURE':'INSTITUT DE BEAUTÉ';
-    wordmark.setAttribute?.('aria-label',nextHair
-      ?'NAMAJE, institut de coiffure — retour à l’accueil'
-      :'CH’ANGE, institut de beauté — retour à l’accueil');
-    if(nextHair){
-      latest='coiffure:text';
-      setText();
-    }else{
-      // Reprendre fidèlement le logo paramétré dans le Mode éditeur.
-      latest='switch:reset';
-      apply(savedDesign,savedPreview);
-    }
-  }
-  function routeUniverse(){
-    const slug=decodeURIComponent((window.location?.hash||'#accueil').slice(1)).split('?')[0];
-    setUniverse(slug||'accueil');
+  // API conservée pour le routeur existant : aucune page ne change l'identité
+  // officielle de l'en-tête. NAMAJE reste seulement un titre du contenu Coiffure.
+  function setUniverse(_slug){
+    wordmark.setAttribute?.('aria-label','CH’ANGE, institut de beauté — retour à l’accueil');
   }
   window.CHANGE_HEADER_BRAND={apply,setUniverse};
-  // Le script différé peut être exécuté avant ou après le routeur public.
-  if(window.location)routeUniverse();
-  window.addEventListener?.('hashchange',routeUniverse);
+  // Même identité de marque au chargement, à la navigation et au défilement.
+  setUniverse('accueil');
 })();
