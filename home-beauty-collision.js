@@ -14,6 +14,7 @@
 
   const liftName='--change-home-beauty-safe-lift';
   const heightName='--change-home-beauty-safe-max-height';
+  const overflowName='--change-home-beauty-safe-overflow';
   let previousLift=0,scheduled=false;
 
   function reset(){
@@ -22,6 +23,7 @@
       panel.style.setProperty(liftName,'0px');
     }
     panel.style.removeProperty(heightName);
+    panel.style.removeProperty(overflowName);
   }
   function visible(element){
     if(!element||typeof element.getBoundingClientRect!=='function')return false;
@@ -45,6 +47,13 @@
     const heightValue=Math.floor(room)+'px';
     if(panel.style.getPropertyValue(heightName)!==heightValue){
       panel.style.setProperty(heightName,heightValue);
+    }
+    // Ne mettre de défilement interne qu'en dernier recours : le contenu
+    // garde autrement son ombre, ses boutons et son style d'origine.
+    const overflowing=panel.scrollHeight>panel.clientHeight+2;
+    const overflow=overflowing?'auto':'visible';
+    if(panel.style.getPropertyValue(overflowName)!==overflow){
+      panel.style.setProperty(overflowName,overflow);
     }
     const box=panel.getBoundingClientRect();
     // Retrouver la position de départ même si un déplacement précédent est actif.
