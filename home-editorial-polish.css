@@ -109,10 +109,10 @@ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #
   row-gap:clamp(10px,1.45svh,16px)!important;
 }
 html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--beauty{
-  top:clamp(190px,36%,410px)!important;
+  top:clamp(235px,43%,475px)!important;
 }
 html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--hair{
-  top:clamp(190px,36%,410px)!important;
+  top:clamp(235px,43%,475px)!important;
 }
 html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__label{
   background:transparent!important;box-shadow:none!important;
@@ -250,7 +250,7 @@ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #
 @media (min-width:761px) and (max-height:750px){
   html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--beauty,
   html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--hair{
-    top:clamp(140px,29%,228px)!important;
+    top:clamp(157px,33%,254px)!important;
   }
   html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__center{
     top:clamp(232px,40%,350px)!important;
@@ -262,11 +262,11 @@ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #
 @media(max-width:760px){
   html body .site-header .nav-reserve .change-calendar-icon{display:none}
   html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--beauty{
-    top:clamp(108px,15svh,145px)!important;
+    top:clamp(128px,17.5svh,168px)!important;
   }
   html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--hair{
     top:auto!important;
-    bottom:clamp(105px,14svh,145px)!important;
+    bottom:clamp(72px,10svh,112px)!important;
   }
   html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__copy{
     row-gap:clamp(6px,.85svh,10px)!important;
@@ -318,10 +318,10 @@ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #
     font-size:clamp(25px,7vw,32px)!important;
   }
   html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--beauty{
-    top:clamp(90px,14svh,110px)!important;
+    top:clamp(102px,16svh,123px)!important;
   }
   html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) #page-accueil .dual-home__panel--hair{
-    top:auto!important;bottom:clamp(95px,13svh,112px)!important;
+    top:auto!important;bottom:clamp(70px,10svh,88px)!important;
   }
 }
 @media(max-width:610px){
