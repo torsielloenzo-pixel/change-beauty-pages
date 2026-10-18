@@ -1,0 +1,10 @@
+/*
+ * Pages Esthétique et Coiffure : scènes photographiques sans interface superposée.
+ * La photo et ses calques gérés par le Mode éditeur restent présents.
+ * L'accueil, l'en-tête et les sections après la scène ne sont pas concernés.
+ */
+html body :is(#page-esthetique,#page-coiffure) .dual-home__grid > :not(.change-landing-stage),
+html body #page-esthetique > .esthetique-service-menu,
+html body #page-coiffure > .coiffure-service-menu {
+  display: none !important;
+}
