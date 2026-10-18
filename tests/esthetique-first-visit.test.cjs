@@ -14,9 +14,11 @@ const scene=(slug)=>{
  return html.slice(start,next>start?next:html.length);
 };
 test('Une composition dédiée strictement à Esthétique, sans toucher aux autres pages',()=>{
- const before=html.indexOf('official-public-header.css');
- const after=html.indexOf('esthetique-first-visit.css');
- assert.ok(after>before);
+ const official=html.indexOf('official-public-header.css');
+ const dedicated=html.indexOf('esthetique-first-visit.css');
+ const oldHide=html.indexOf('universe-photo-only.css');
+ assert.ok(oldHide<dedicated && dedicated<official,
+  'Le style Esthétique suit les anciennes règles de masquage, mais précède l’en-tête officiel');
  assert.match(photoOnly,/#page-esthetique,#page-coiffure/);
  assert.match(editorial,/\#page-esthetique \.dual-home__grid > \.dual-home__panel--beauty\{[\s\S]*?display:block!important/);
  assert.match(editorial,/\#page-esthetique \.dual-home__grid > \.esthetique-hero-scroll\{[\s\S]*?display:inline-flex!important/);
