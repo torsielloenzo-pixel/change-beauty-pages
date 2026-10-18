@@ -1,0 +1,19 @@
+/*
+ * CH’ANGE — réserve verticale de l'accueil / bloc Esthétique.
+ * Le placement choisi à 70 % reste inchangé tant qu'il n'y a pas de
+ * collision. En cas de besoin, seul ce bloc remonte juste assez pour
+ * garder un espace visible avec la rangée des quatre prestations.
+ */
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
+#page-accueil .dual-home__grid > .dual-home__panel--beauty{
+  transform:translate3d(0,calc(-1 * var(--change-home-beauty-safe-lift,0px)),0)!important;
+  max-height:var(--change-home-beauty-safe-max-height,none)!important;
+  overflow-y:auto!important;
+  scrollbar-width:none;
+  transition:none!important;
+}
+html body.change-home-layout #page-accueil .dual-home__grid > .dual-home__panel--beauty::-webkit-scrollbar{
+  display:none;
+}
+/* Les contrôles gardent leur style et leur zone cliquable ; rien ne change
+   sur les autres pages, la photo ou le bloc Coiffure. */
