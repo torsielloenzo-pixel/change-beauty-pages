@@ -8,7 +8,7 @@ html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile))
 #page-accueil .dual-home__grid > .dual-home__panel--beauty{
   transform:translate3d(0,calc(-1 * var(--change-home-beauty-safe-lift,0px)),0)!important;
   max-height:var(--change-home-beauty-safe-max-height,none)!important;
-  overflow-y:auto!important;
+  overflow-y:var(--change-home-beauty-safe-overflow,visible)!important;
   scrollbar-width:none;
   transition:none!important;
 }
