@@ -38,3 +38,13 @@ test('small hollow labels and hidden giant brand titles stay enforced',()=>{
  assert.match(css, /background:transparent!important;box-shadow:none!important/);
  assert.doesNotMatch(html, /href="https?:\/\/facebook\.com\//);
 });
+
+test('Les deux menus de la seule page Accueil sont déplacés vers le bas',()=>{
+ const file=fs.readFileSync(path.join(__dirname,'../home-menu-position.css'),'utf8');
+ assert.ok(html.indexOf('home-menu-position.css?v=1')>html.indexOf('universe-photo-only.css?v=1'));
+ assert.match(file,/#page-accueil \.dual-home__panel--beauty/);
+ assert.match(file,/#page-accueil \.dual-home__panel--hair/);
+ assert.match(file,/top: clamp\(320px,55%,570px\) !important/);
+ assert.match(file,/@media \(max-width:760px\)/);
+ assert.doesNotMatch(file,/#page-esthetique|#page-coiffure/);
+});
