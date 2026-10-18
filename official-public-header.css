@@ -1,0 +1,144 @@
+/*
+ * CH’ANGE — UNIQUE EN-TÊTE OFFICIEL (site public uniquement).
+ * Référence : CH’ANGE, haut de page, fond transparent sur la photographie.
+ * Une seule géométrie / couleur / transparence à toutes les URL, au défilement
+ * et après changement de page. Ce fichier est chargé en DERNIER.
+ *
+ * L'image personnalisée du logo officiel (Mode éditeur) reste autorisée ;
+ * la signature NAMAJE ne remplace plus la marque du site.
+ */
+:root{
+  --change-official-header-height:var(--change-header-height,clamp(76px,8.9svh,104px));
+  --change-official-header-background:linear-gradient(
+    180deg,
+    rgba(251,246,242,.82) 0%,
+    rgba(251,246,242,.44) 72%,
+    rgba(251,246,242,.11) 100%
+  );
+}
+
+/* Barre de présentation supplémentaire absente de l'accueil d'origine :
+   la supprimer également des pages intérieures pour une seule version. */
+html body .preview-bar,
+html body:not(.change-home-layout) .preview-bar{
+  display:none!important;
+}
+
+/* Regrouper explicitement toutes les classes historiques.
+   Aucune d'elles ne peut transformer l'entête en bandeau blanc. */
+html body .site-header,
+html body:not(.change-home-layout) .site-header,
+html body.change-home-layout .site-header,
+html body.change-home-layout.change-stage-active .site-header,
+html body.change-home-layout.change-stage-scrolled .site-header,
+html body.change-home-layout.change-stage-active.change-stage-scrolled .site-header,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).change-stage-scrolled .site-header,
+html body.change-page-header-active .site-header{
+  position:fixed!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  bottom:auto!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:var(--change-official-header-height)!important;
+  min-height:0!important;
+  max-height:none!important;
+  transform:none!important;
+  transform-origin:top left!important;
+  padding-inline:clamp(20px,4.3vw,76px)!important;
+  background:var(--change-official-header-background)!important;
+  background-color:transparent!important;
+  color:var(--change-header-ink,#382720)!important;
+  -webkit-backdrop-filter:blur(8px) saturate(1.04)!important;
+  backdrop-filter:blur(8px) saturate(1.04)!important;
+  border:0!important;
+  border-bottom:1px solid rgba(80,56,48,.12)!important;
+  box-shadow:none!important;
+  opacity:1!important;
+  z-index:90!important;
+  transition:none!important;
+}
+
+/* Pas de rétrécissement du logo CH’ANGE quand on descend sur la page. */
+html body .site-header > .wordmark,
+html body.change-home-layout.change-stage-scrolled .site-header > .wordmark,
+html body.change-home-layout.change-stage-scrolled .site-header .wordmark,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header > .wordmark,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)).change-stage-scrolled .site-header > .wordmark,
+html body.change-page-header-active .site-header > .wordmark{
+  font-size:clamp(38px,3.85vw,58px)!important;
+  line-height:.92!important;
+  color:var(--change-header-ink,#382720)!important;
+  letter-spacing:-.035em!important;
+  transform:none!important;
+  opacity:1!important;
+}
+html body .site-header > .wordmark small,
+html body.change-home-layout.change-stage-scrolled .site-header .wordmark small,
+html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header .wordmark small{
+  font-size:clamp(7px,.65vw,9px)!important;
+  margin-top:clamp(8px,1.05svh,13px)!important;
+}
+
+/* Même menu officiel sur les pages normales et les trois univers. */
+html body .site-header > .desktop-menu:not(.change-home-nav),
+html body:not(.change-home-layout) .site-header > .desktop-menu:not(.change-home-nav){
+  display:none!important;
+}
+html body .site-header > .change-home-nav,
+html body:not(.change-home-layout) .site-header > .change-home-nav,
+html body.change-home-layout .site-header > .change-home-nav{
+  display:flex!important;
+  grid-column:2!important;
+  justify-self:center!important;
+  justify-content:center!important;
+  flex:initial!important;
+}
+
+/* Conserver l'en-tête de référence également en largeur tablette / mobile. */
+@media(max-width:1250px){
+  html body .site-header,
+  html body.change-home-layout .site-header,
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header{
+    grid-template-columns:minmax(0,1fr) auto!important;
+    padding-inline:clamp(16px,3vw,34px)!important;
+  }
+  html body .site-header > .change-home-nav,
+  html body:not(.change-home-layout) .site-header > .change-home-nav,
+  html body.change-home-layout .site-header > .change-home-nav{
+    display:none!important;
+  }
+  html body .site-header .mobile-toggle{
+    display:inline-flex!important;
+  }
+}
+@media(max-width:680px){
+  html body .site-header,
+  html body:not(.change-home-layout) .site-header,
+  html body.change-home-layout .site-header,
+  html body.change-home-layout.home-canvas-mobile .site-header,
+  html body.change-home-layout.change-stage-scrolled .site-header{
+    height:var(--change-official-header-height)!important;
+    padding-inline:clamp(12px,4vw,20px)!important;
+  }
+  html body .site-header > .wordmark,
+  html body.change-home-layout.change-stage-scrolled .site-header > .wordmark,
+  html body.change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header > .wordmark{
+    font-size:clamp(31px,7.9vw,42px)!important;
+  }
+  html body .site-header > .wordmark small{
+    font-size:clamp(6px,1.55vw,7px)!important;
+    margin-top:6px!important;
+  }
+}
+/* Le menu déroulant conserve un fond lisible une fois ouvert ; il ne change
+   pas la version du bandeau officiel situé au-dessus. */
+html body .site-header > .mobile-menu[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){
+  html body .site-header,
+  html body .site-header > .wordmark{
+    transition:none!important;
+  }
+}
