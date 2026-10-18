@@ -12,6 +12,9 @@ on:
       - 'universe-identity.css'
       - 'home-editorial-polish.css'
       - 'home-menu-position.css'
+      - 'home-beauty-collision.js'
+      - 'home-beauty-collision.css'
+      - 'tests/home-beauty-collision.test.cjs'
       - 'public-design-system.css'
       - 'universe-detail-parity.css'
       - 'esthetique-first-visit.css'
@@ -52,10 +55,12 @@ jobs:
           node --check design-public.js
           node --check site-dynamic.js
           node --check home-canvas.js
+          node --check home-beauty-collision.js
           node --check header-brand.js
           node --test tests/header-brand.test.cjs
           node --test tests/official-public-header.test.cjs
           node --test tests/home-canvas.test.cjs
+          node --test tests/home-beauty-collision.test.cjs
           node --test tests/three-universes.test.cjs
           node --test tests/aesthetic-parity.test.cjs
           node --test tests/scene-superposition.test.cjs
@@ -72,6 +77,10 @@ jobs:
           test -s home-reference.css
           test -s home-canvas.css
           test -s home-menu-position.css
+          test -s home-beauty-collision.js
+          test -s home-beauty-collision.css
+          grep -q 'home-beauty-collision.js' index.html
+          grep -q 'home-beauty-collision.css' index.html
           test -s scene-superposition.css
           test -s header-brand.css
           test -s official-public-header.css
