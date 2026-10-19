@@ -8,11 +8,12 @@ const css=fs.readFileSync(path.join(base,'official-public-header.css'),'utf8');
 const index=fs.readFileSync(path.join(base,'index.html'),'utf8');
 const brand=fs.readFileSync(path.join(base,'header-brand.js'),'utf8');
 
-test('La version officielle CH’ANGE est la dernière feuille de style du site public',()=>{
+test('La géométrie officielle CH’ANGE précède la navigation par univers',()=>{
  const link=/official-public-header\.css\?v=\d+/.exec(index);
  assert.ok(link,'nouvelle feuille non chargée');
  const tail=index.slice(index.lastIndexOf('<link rel="stylesheet"'),index.indexOf('</head>'));
- assert.match(tail,/official-public-header\.css/);
+ assert.match(tail,/universe-gateway\.css/);
+ assert.ok(index.indexOf('universe-gateway.css')>index.indexOf('official-public-header.css'));
  assert.ok(index.indexOf('official-public-header.css')>index.indexOf('universe-photo-only.css'));
  assert.ok(index.indexOf('official-public-header.css')>index.indexOf('universe-identity.css'));
 });
