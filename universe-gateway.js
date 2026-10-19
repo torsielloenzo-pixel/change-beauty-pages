@@ -130,6 +130,7 @@
     '#page-univers .universe-grid .overline': 'L’ART DE LA COIFFURE',
     '#page-univers .universe-grid h2': 'Votre style, <i>votre signature.</i>',
     '#page-univers .universe-grid p:first-of-type': 'Chez NAMAJE, chaque coiffure se pense dans le respect du mouvement, de la texture et de la personnalité de vos cheveux.',
+    '#page-univers .universe-grid p:nth-of-type(2)': 'Notre univers réunit le sens du détail, l’écoute et le soin apporté à chaque prestation. Retrouvez-nous au 27 cours Gambetta, 84250 Le Thor.',
     '#page-tarifs .price-heading .overline': 'NAMAJE · INSTITUT DE COIFFURE',
     '#page-tarifs .price-heading h1': 'Les tarifs <i>coiffure.</i>',
     '#page-tarifs .price-heading p': 'Retrouvez les informations concernant les prestations coiffure de NAMAJE.',
@@ -145,6 +146,9 @@
   const footerCopy = footer?.querySelector('.footer-brand p');
   const footerExplore = footer?.querySelector('.footer-top > div:nth-child(2)');
   const footerCopyright = footer?.querySelector('.footer-bottom > span:first-child');
+  const footerContact = footer?.querySelector('.footer-top > div:nth-child(3) a[href^="mailto:"]');
+  const aboutImage = document.querySelector('#page-univers .universe-grid img');
+  const originalAboutImage = aboutImage?.getAttribute('src') || '';
   if(footerBrand) baseFooter.brand = footerBrand.innerHTML;
   if(footerCopy) baseFooter.copy = footerCopy.textContent;
   if(footerExplore) baseFooter.explore = footerExplore.innerHTML;
@@ -249,6 +253,11 @@
     }
     if(footerBrand)footerBrand.innerHTML=universe==='namaje'?'NAMAJE <small>INSTITUT DE COIFFURE</small>':baseFooter.brand;
     if(footerCopy)footerCopy.textContent=universe==='namaje'?'Votre style, notre attention.':baseFooter.copy;
+    if(footerContact)footerContact.textContent=universe==='namaje'?'Écrire à NAMAJE':'Écrire à Ch’ange';
+    if(aboutImage){
+      if(universe==='namaje')aboutImage.src=pictureFor('coiffure');
+      else if(originalAboutImage)aboutImage.src=originalAboutImage;
+    }
     if(footerCopyright)footerCopyright.innerHTML=universe==='namaje'? '© <span id="year-public-namaje"></span> NAMAJE · Institut de coiffure' : baseFooter.copyright;
     const footerYear=document.getElementById('year-public-namaje');
     if(footerYear)footerYear.textContent=String(new Date().getFullYear());
