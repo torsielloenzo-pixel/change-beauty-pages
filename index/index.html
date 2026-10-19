@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#382420">
+  <meta name="robots" content="noindex,follow">
+  <meta name="description" content="Découvrez deux univers de beauté : CH’ANGE esthétique et NAMAJE coiffure au Thor.">
+  <title>CH’ANGE × NAMAJE — Choisissez votre univers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../universe-gateway.css?v=3">
+  <style>
+    :root{--display:'Italiana',Georgia,serif;--sans:'DM Sans',Arial,sans-serif}
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;width:100%;height:100%;background:#382420}
+    body{font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+    button{font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+    button:focus-visible{outline:2px solid #fff0de;outline-offset:4px}
+    .universe-gate__intro h1,.universe-gate__question h2,.universe-gate__option strong{font-weight:400}
+  </style>
+</head>
+<body>
+<main class="universe-gate" id="universe-gate" role="main" aria-label="Ouverture CH’ANGE et NAMAJE">
+  <div class="universe-gate__photography" style="--gate-photo:url('https://xhahganhwgygmwuckrak.supabase.co/storage/v1/object/public/change-public-media/pages/accueil/0ac88996-3784-4615-83a5-44379a5ed568.webp');background-image:var(--gate-photo)" aria-hidden="true"></div>
+  <div class="universe-gate__shade" aria-hidden="true"></div>
+  <div class="universe-gate__frame" aria-hidden="true"></div>
+  <p class="universe-gate__eyebrow">L’ART DE RÉVÉLER VOTRE BEAUTÉ</p>
+  <section class="universe-gate__intro" aria-label="Découvrez CH’ANGE et NAMAJE">
+    <p>DEUX UNIVERS · UNE MÊME VISION</p>
+    <h1><span>CH’ANGE</span><i>×</i><span>NAMAJE</span></h1>
+    <div class="universe-gate__rule" aria-hidden="true"></div>
+    <strong>La beauté, sous toutes ses expressions.</strong>
+    <button class="universe-gate__discover" type="button">DÉCOUVRIR <span aria-hidden="true">→</span></button>
+  </section>
+  <section class="universe-gate__choice" aria-label="Choisissez votre univers" inert>
+    <div class="universe-gate__question">
+      <h2>Quel univers vous inspire ?</h2>
+      <p>CHOISISSEZ VOTRE EXPÉRIENCE</p>
+    </div>
+    <div class="universe-gate__options">
+      <button class="universe-gate__option" type="button" data-universe-choice="change" aria-label="Explorer CH’ANGE — Esthétique">
+        <span class="universe-gate__option-kicker">L’UNIVERS CH’ANGE</span>
+        <strong>Esthétique</strong>
+        <span class="universe-gate__option-action">EXPLORER <span aria-hidden="true">↗</span></span>
+      </button>
+      <button class="universe-gate__option" type="button" data-universe-choice="namaje" aria-label="Explorer NAMAJE — Coiffure">
+        <span class="universe-gate__option-kicker">L’UNIVERS NAMAJE</span>
+        <strong>Coiffure</strong>
+        <span class="universe-gate__option-action">EXPLORER <span aria-hidden="true">↗</span></span>
+      </button>
+    </div>
+  </section>
+  <button class="universe-gate__back" type="button" hidden>← RETOUR</button>
+  <p class="universe-gate__foot">CH’ANGE & NAMAJE · DEUX SIGNATURES, UNE EXPÉRIENCE</p>
+</main>
+<script>
+(() => {
+  'use strict';
+  const gate = document.getElementById('universe-gate');
+  const choice = gate.querySelector('.universe-gate__choice');
+  const intro = gate.querySelector('.universe-gate__intro');
+  const discover = gate.querySelector('.universe-gate__discover');
+  const back = gate.querySelector('.universe-gate__back');
+
+  function enterChoice(){
+    gate.classList.add('is-choosing');
+    intro.setAttribute('aria-hidden', 'true');
+    choice.inert = false;
+    back.hidden = false;
+    // No option is focused or preselected; focus stays on the back button.
+    back.focus({preventScroll:true});
+  }
+  function goBack(){
+    gate.classList.remove('is-choosing');
+    intro.removeAttribute('aria-hidden');
+    choice.inert = true;
+    back.hidden = true;
+    discover.focus({preventScroll:true});
+  }
+  discover.addEventListener('click', enterChoice);
+  back.addEventListener('click', goBack);
+  choice.querySelectorAll('[data-universe-choice]').forEach(button => {
+    button.addEventListener('click', () => {
+      const brand = button.dataset.universeChoice;
+      if (brand !== 'change' && brand !== 'namaje') return;
+      try { sessionStorage.setItem('change:universe:v1', brand); } catch (_) {}
+      window.location.assign('/?univers=' + encodeURIComponent(brand) + '#accueil');
+    });
+  });
+  document.addEventListener('keydown', event => {
+    if(event.key === 'Escape' && gate.classList.contains('is-choosing')) {
+      event.preventDefault();
+      goBack();
+    }
+  });
+})();
+</script>
+</body>
+</html>
