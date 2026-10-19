@@ -252,6 +252,7 @@
     if(footerCopyright)footerCopyright.innerHTML=universe==='namaje'? '© <span id="year-public-namaje"></span> NAMAJE · Institut de coiffure' : baseFooter.copyright;
     const footerYear=document.getElementById('year-public-namaje');
     if(footerYear)footerYear.textContent=String(new Date().getFullYear());
+    const mainYear=document.getElementById('year');if(mainYear)mainYear.textContent=String(new Date().getFullYear());
     document.title=(universe==='namaje'?'NAMAJE · Institut de coiffure':'CH’ANGE · Institut de beauté')+' — '+({
       accueil:'Accueil',esthetique:'Esthétique',coiffure:'Coiffure',univers:'À propos',tarifs:'Tarifs',contact:'Contact'
     }[hashPage()] || 'Accueil')+' · Le Thor';
@@ -293,7 +294,7 @@
   function routeWithinUniverse(){
     if(!universe)return;
     const page=hashPage();
-    if(universe==='namaje' && (page==='esthetique'||page==='soins'||page==='cadeaux')){
+    if(universe==='namaje' && (page==='esthetique'||page==='soins'||page==='cadeaux'||page==='galerie')){
       location.hash='#coiffure';return;
     }
     if(universe==='change' && page==='coiffure'){
