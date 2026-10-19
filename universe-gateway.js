@@ -43,7 +43,7 @@
     '<div class="universe-gate__choice" inert>'+
       '<div class="universe-gate__question"><h2>Quel univers vous inspire ?</h2><p>CHOISISSEZ VOTRE EXPÉRIENCE</p></div>'+
       '<div class="universe-gate__options">'+
-        '<button class="universe-gate__option is-active" type="button" data-universe-choice="change" aria-label="Entrer dans l’univers CH’ANGE esthétique">'+
+        '<button class="universe-gate__option" type="button" data-universe-choice="change" aria-label="Entrer dans l’univers CH’ANGE esthétique">'+
           '<span class="universe-gate__option-kicker">L’UNIVERS CH’ANGE</span><strong>Esthétique</strong><span class="universe-gate__option-action">EXPLORER <span aria-hidden="true">↗</span></span>'+
         '</button>'+
         '<button class="universe-gate__option" type="button" data-universe-choice="namaje" aria-label="Entrer dans l’univers NAMAJE coiffure">'+
@@ -275,9 +275,8 @@
     intro.setAttribute('aria-hidden','true');
     choice.inert=false;
     back.hidden=false;
-    opts[0]?.classList.add('is-active');
-    opts[1]?.classList.remove('is-active');
-    gate.querySelector('.universe-gate__option')?.focus({preventScroll:true});
+    // On entry neither choice is highlighted; only pointer hover changes its appearance.
+    back.focus({preventScroll:true});
   }
   function openGate(skipIntro){
     previouslyFocused = document.activeElement;
@@ -341,17 +340,15 @@
     gate.querySelector('.universe-gate__discover').focus();
   });
   for(const btn of opts){
-    btn.addEventListener('mouseenter',()=>{opts.forEach(x=>x.classList.toggle('is-active',x===btn));});
-    btn.addEventListener('focus',()=>{opts.forEach(x=>x.classList.toggle('is-active',x===btn));});
+    // Touch: select by tap; desktop: visual feedback comes only from CSS :hover.
     btn.addEventListener('click',()=>selectUniverse(btn.dataset.universeChoice));
   }
-  gate.querySelector('.universe-gate__options')?.addEventListener('mouseleave',()=>{opts.forEach((x,i)=>x.classList.toggle('is-active',i===0));});
   switcher.addEventListener('click',()=>openGate(true));
   document.addEventListener('keydown',e=>{
     if(!shown)return;
     if(e.key==='Escape' && universe){e.preventDefault();closeGate();}
     if(e.key==='Tab'){
-      const focusable=Array.from(gate.querySelectorAll('button:not([hidden])')).filter(x=>x.offsetParent!==null&&!x.closest('[inert]'));
+      const focusable=Array.from(gate.querySelectorAll('button:not([hidden])')).filter(x=>x.offsetParent!==null&&getComputedStyle(x).visibility!=='hidden'&&!x.closest('[inert]'));
       if(!focusable.length)return;
       const first=focusable[0],last=focusable[focusable.length-1];
       if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
