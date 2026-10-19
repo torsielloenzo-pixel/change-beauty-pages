@@ -211,3 +211,82 @@ body.universe-gate-open{overflow:hidden!important}
   .universe-gate__photography,.universe-gate__intro > *,.universe-gate__eyebrow{animation:none!important}
   .universe-gate__choice,.universe-gate__intro,.universe-gate__option,.universe-home__primary{transition:none!important}
 }
+
+/* 2026-10-19 — Opening at /index/: relaxed typography, lower choices, mobile portraits.
+   Equal vertical padding ensures top = bottom within every choice rectangle. */
+.universe-gate__eyebrow{top:5.4%}
+.universe-gate__question{top:15%}
+.universe-gate__question h2{margin-bottom:clamp(20px,2.7svh,31px)}
+.universe-gate__question p{letter-spacing:.35em}
+.universe-gate__options{
+  padding-top:clamp(295px,36svh,395px);
+  padding-bottom:clamp(45px,7svh,80px);
+}
+.universe-gate__option{
+  padding-block:clamp(28px,3.2vw,50px);
+}
+@media(max-width:720px){
+  /* Two large independent photo crops, instead of a tiny center crop of one landscape image. */
+  .universe-gate__photography{
+    inset:0 0 auto!important;
+    height:54svh!important;
+    background-image:none!important;
+    background-color:transparent!important;
+    animation:none!important;
+    filter:none!important;
+    transform:none!important;
+    overflow:hidden;
+    -webkit-mask-image:linear-gradient(#000 0%,#000 75%,transparent 100%);
+    mask-image:linear-gradient(#000 0%,#000 75%,transparent 100%);
+  }
+  .universe-gate__photography::before,
+  .universe-gate__photography::after{
+    content:"";position:absolute;top:0;bottom:0;width:50.1%;
+    background-image:var(--gate-photo);
+    background-repeat:no-repeat;
+    background-size:auto 100%;
+    filter:brightness(1.16) saturate(1.12);
+  }
+  .universe-gate__photography::before{left:0;background-position:12% center}
+  .universe-gate__photography::after{right:0;background-position:96% center}
+  .universe-gate__shade{
+    background:linear-gradient(180deg,rgba(26,13,16,.12) 0%,rgba(26,13,16,.08) 31%,rgba(42,18,23,.23) 43%,rgba(30,12,16,.89) 62%,rgba(25,10,14,.94) 100%);
+  }
+  .universe-gate__eyebrow{top:3.4%;font-size:clamp(7px,2vw,9px);letter-spacing:.18em}
+  .universe-gate__question{top:40%;left:4%;right:4%}
+  .universe-gate__question h2{font-size:clamp(31px,8vw,43px);margin-bottom:14px}
+  .universe-gate__question p{font-size:8px;letter-spacing:.16em}
+  .universe-gate__options{
+    grid-template-columns:1fr;
+    grid-template-rows:repeat(2,max-content);
+    align-content:end;
+    align-items:end;
+    gap:clamp(10px,1.65svh,16px);
+    padding:0 clamp(19px,7vw,42px) clamp(51px,8svh,72px);
+    height:100%;
+  }
+  .universe-gate__option{
+    justify-content:center;
+    min-height:0;
+    width:100%;
+    padding:clamp(13px,2svh,20px) clamp(18px,5vw,28px);
+    background:linear-gradient(95deg,rgba(52,24,25,.64),rgba(42,20,23,.50));
+    border:1px solid rgba(255,236,224,.58);
+    filter:brightness(.95) saturate(1);
+    transform:scale(1);
+  }
+  .universe-gate__option-kicker{font-size:clamp(8px,2.1vw,10px);letter-spacing:.2em}
+  .universe-gate__option strong{font-size:clamp(34px,10vw,46px);margin:7px 0 5px}
+  .universe-gate__option-action{font-size:9px;letter-spacing:.15em;padding:7px 0;gap:12px}
+  .universe-gate__foot{bottom:1.8%;font-size:clamp(6px,1.65vw,8px);letter-spacing:.11em}
+  .universe-gate__back{top:8%;left:7%}
+  .universe-gate__intro{bottom:14%}
+}
+@media(max-width:720px) and (max-height:730px){
+  .universe-gate__question{top:37%}
+  .universe-gate__question h2{font-size:clamp(28px,7.5vw,36px);margin-bottom:9px}
+  .universe-gate__options{gap:8px;padding-bottom:34px}
+  .universe-gate__option{padding-block:10px}
+  .universe-gate__option strong{font-size:clamp(31px,9vw,38px);margin:4px 0}
+  .universe-gate__foot{bottom:.8%}
+}
