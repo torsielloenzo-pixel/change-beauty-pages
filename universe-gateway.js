@@ -363,12 +363,12 @@
   const deepLink=hashPage();
   if(valid(explicit)) {
     universe=explicit;
-  }else if(valid(safeStored())) {
-    universe=safeStored();
   }else if(deepLink==='esthetique'){
     universe='change';
   }else if(deepLink==='coiffure'){
     universe='namaje';
+  }else if(valid(safeStored())) {
+    universe=safeStored();
   }
   if(universe){
     ROOT.dataset.universe=universe;
