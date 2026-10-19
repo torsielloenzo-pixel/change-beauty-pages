@@ -130,28 +130,33 @@ body.universe-gate-open{overflow:hidden!important}
 .universe-gate__question{position:absolute;z-index:7;top:8%;left:2%;right:2%;text-align:center;text-shadow:0 2px 15px rgba(0,0,0,.5);pointer-events:none}
 .universe-gate__question h2{font:400 clamp(35px,4vw,63px)/1 var(--display,Georgia,serif);margin:0 0 14px}
 .universe-gate__question p{font:600 10px var(--sans);letter-spacing:.32em;margin:0}
-.universe-gate__options{display:grid;grid-template-columns:1fr 1fr;gap:3.2vw;padding:clamp(170px,21svh,230px) clamp(36px,4vw,65px) clamp(70px,8svh,100px);height:100%}
+.universe-gate__options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:clamp(22px,3.2vw,55px);padding:clamp(180px,24svh,235px) clamp(35px,4.2vw,72px) clamp(60px,10svh,125px);height:100%}
 .universe-gate__option{
-  min-width:0;min-height:0;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
-  padding:20px 15px clamp(22px,6svh,76px);color:rgba(255,238,229,.69);cursor:pointer;
-  background:linear-gradient(180deg,rgba(36,17,20,.13),rgba(33,13,17,.45));
-  border:1px solid rgba(255,239,227,.2);
-  transform:scale(.96);filter:brightness(.55) saturate(.6);
+  min-width:0;min-height:0;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:clamp(28px,3.6vw,54px) clamp(20px,2.5vw,40px);color:rgba(255,238,229,.91);cursor:pointer;
+  background:linear-gradient(180deg,rgba(36,17,20,.25),rgba(33,13,17,.39));
+  border:1px solid rgba(255,239,227,.4);
+  transform:scale(1);filter:brightness(.84) saturate(.85);
   transition:transform .5s cubic-bezier(.2,.82,.25,1),filter .5s,border-color .5s,box-shadow .5s,background .5s;
 }
 .universe-gate__option::before{content:"";position:absolute;inset:-2px;opacity:0;box-shadow:0 0 38px rgba(255,192,157,.47),inset 0 0 0 1px rgba(255,238,210,.4);transition:opacity .45s}
-.universe-gate__option.is-active,.universe-gate__option:hover,.universe-gate__option:focus-visible{
-  transform:scale(1.025);filter:brightness(1.16) saturate(1.04);
-  color:#fffaf6;background:linear-gradient(180deg,rgba(255,229,213,.08),transparent 35%,rgba(63,26,24,.12));
-  border-color:#ffe7cf;box-shadow:0 0 0 1px rgba(255,236,218,.4),0 0 60px rgba(255,196,164,.35),inset 0 0 30px rgba(255,221,203,.11);
-  z-index:2;
+/* No automatic selected state. Only actual pointer hover triggers the luminous animation. */
+@media(hover:hover) and (pointer:fine){
+  .universe-gate__option:hover{
+    transform:scale(1.025);filter:brightness(1.16) saturate(1.04);
+    color:#fffaf6;background:linear-gradient(180deg,rgba(255,229,213,.08),transparent 35%,rgba(63,26,24,.12));
+    border-color:#ffe7cf;box-shadow:0 0 0 1px rgba(255,236,218,.4),0 0 60px rgba(255,196,164,.35),inset 0 0 30px rgba(255,221,203,.11);
+    z-index:2;
+  }
+  .universe-gate__option:hover::before{opacity:1}
+  .universe-gate__option:hover strong{transform:scale(1.07)}
+  .universe-gate__option:hover .universe-gate__option-action{transform:translateY(3px)}
 }
-.universe-gate__option.is-active::before,.universe-gate__option:hover::before,.universe-gate__option:focus-visible::before{opacity:1}
-.universe-gate__option-kicker{font:600 10px var(--sans);letter-spacing:.26em;transition:transform .5s}
-.universe-gate__option strong{font:400 clamp(54px,6.3vw,106px)/1 var(--display,Georgia,serif);margin:16px 0 20px;letter-spacing:-.025em;text-shadow:0 2px 20px rgba(17,7,8,.38);transition:transform .5s}
+/* Keyboard users can locate focus without simulating a pointer selection. */
+.universe-gate__option:focus-visible{outline:2px solid #fff1dd;outline-offset:4px}
+.universe-gate__option-kicker{font:600 10px var(--sans);letter-spacing:.26em}
+.universe-gate__option strong{font:400 clamp(48px,5.6vw,87px)/1 var(--display,Georgia,serif);margin:14px 0 15px;letter-spacing:-.025em;text-shadow:0 2px 20px rgba(17,7,8,.38);transition:transform .5s}
 .universe-gate__option-action{display:inline-flex;gap:23px;align-items:center;font:700 11px var(--sans);letter-spacing:.25em;border-bottom:1px solid currentColor;padding:10px 0;transition:transform .5s}
-.universe-gate__option.is-active strong,.universe-gate__option:hover strong{transform:scale(1.1)}
-.universe-gate__option.is-active .universe-gate__option-action,.universe-gate__option:hover .universe-gate__option-action{transform:translateY(4px)}
 .universe-gate__back{position:absolute;z-index:10;left:clamp(35px,4vw,66px);top:clamp(32px,4vw,60px);border:0;background:rgba(42,20,24,.35);padding:10px;color:#fff4ea;font:600 10px var(--sans);letter-spacing:.2em}
 .universe-gate__back[hidden]{display:none!important}
 @keyframes universe-photo-enter{from{filter:brightness(.72) blur(9px);transform:scale(1.09)}to{filter:brightness(.9);transform:scale(1)}}
@@ -194,8 +199,8 @@ body.universe-gate-open{overflow:hidden!important}
   .universe-gate__question{top:16%}
   .universe-gate__question h2{font-size:clamp(34px,7vw,50px)}
   .universe-gate__question p{font-size:8px;letter-spacing:.13em}
-  .universe-gate__options{gap:10px;padding:29svh 13px 13svh}
-  .universe-gate__option{padding:20px 5px 35px}
+  .universe-gate__options{gap:10px;padding:clamp(180px,27svh,260px) 13px clamp(56px,10svh,100px);align-items:center}
+  .universe-gate__option{padding:clamp(23px,5vw,32px) 7px}
   .universe-gate__option strong{font-size:clamp(25px,7.1vw,54px);margin:12px 0}
   .universe-gate__option-kicker{font-size:7px;letter-spacing:.08em}
   .universe-gate__option-action{font-size:8px;letter-spacing:.13em;gap:8px}
