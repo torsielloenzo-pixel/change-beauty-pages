@@ -56,7 +56,8 @@
   document.body.append(gate);
 
   const photo = gate.querySelector('.universe-gate__photography');
-  photo.style.backgroundImage = 'url("' + DEFAULTS.gate + '")';
+  photo.style.setProperty('--gate-photo', 'url("' + DEFAULTS.gate + '")');
+  photo.style.backgroundImage = 'var(--gate-photo)';
   const choice = gate.querySelector('.universe-gate__choice');
   const intro = gate.querySelector('.universe-gate__intro');
   const back = gate.querySelector('.universe-gate__back');
@@ -343,7 +344,9 @@
     // Touch: select by tap; desktop: visual feedback comes only from CSS :hover.
     btn.addEventListener('click',()=>selectUniverse(btn.dataset.universeChoice));
   }
-  switcher.addEventListener('click',()=>openGate(true));
+  // Switching the brand returns to the dedicated entry page instead of showing
+  // the gate over an already-open page.
+  switcher.addEventListener('click',()=>{location.assign('/index/');});
   document.addEventListener('keydown',e=>{
     if(!shown)return;
     if(e.key==='Escape' && universe){e.preventDefault();closeGate();}
@@ -376,6 +379,8 @@
     setTimeout(()=>{updateHome();updateBrandContent();},3500);
     routeWithinUniverse();
   } else {
-    openGate(false);
+    // GitHub Pages canonical entry is /index/ (a directory with index.html).
+    // The public root keeps only actual universes and their subpages.
+    location.replace('/index/');
   }
 })();
