@@ -290,3 +290,23 @@ body.universe-gate-open{overflow:hidden!important}
   .universe-gate__option strong{font-size:clamp(31px,9vw,38px);margin:4px 0}
   .universe-gate__foot{bottom:.8%}
 }
+
+
+/* Correctif en-tête unique CH’ANGE / NAMAJE (quatre URLs publiques).
+   Les anciens menus statiques étaient réactivés par first-screen-fluid.css
+   avec une spécificité supérieure, malgré display:none dans ce fichier.
+   Conserver leur DOM pour l'aperçu éditeur, mais n'afficher que la
+   navigation dynamique .universe-public-nav sur le site public. */
+html body[data-universe].change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header > nav.desktop-menu,
+html body[data-universe]:not(.change-home-layout) .site-header > nav.desktop-menu,
+html body[data-universe].change-home-layout:is(.home-canvas-mobile,:not(.home-canvas-mobile)) .site-header > nav.change-home-nav,
+html body[data-universe]:not(.change-home-layout) .site-header > nav.change-home-nav{
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+/* Une seule signature visible : CH’ANGE en esthétique, NAMAJE en coiffure. */
+html body[data-universe="change"] .site-header > .universe-namaje-brand,
+html body[data-universe="namaje"] .site-header > a.wordmark{
+  display:none!important;
+}
