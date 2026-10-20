@@ -27,6 +27,7 @@ on:
       - 'tests/first-screen-fluid.test.cjs'
       - 'universe-gateway.css'
       - 'universe-gateway.js'
+      - 'tests/namaje-wording.test.cjs'
       - 'tests/namaje-hours.test.cjs'
       - 'tests/universe-header-single.test.cjs'
       - 'official-public-header.css'
@@ -62,6 +63,7 @@ jobs:
           node --check home-beauty-collision.js
           node --check header-brand.js
           node --check universe-gateway.js
+          node --test tests/namaje-wording.test.cjs
           node --test tests/header-brand.test.cjs
           node --test tests/official-public-header.test.cjs
           node --test tests/universe-header-single.test.cjs
