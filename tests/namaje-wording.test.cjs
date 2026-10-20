@@ -15,5 +15,5 @@ test('NAMAJE emploie Maison de coiffure dans tous les points de contact publics'
  assert.match(gateway,/<small>MAISON DE COIFFURE<\/small>/);
  assert.match(gateway,/NAMAJE · MAISON DE COIFFURE/);
  assert.match(gateway,/NAMAJE · Maison de coiffure/);
- assert.match(html,/universe-gateway\.js\?v=5/);
+ assert.match(html,/universe-gateway\.js\?v=\d+/);
 });
