@@ -1,0 +1,42 @@
+/* CH’ANGE × NAMAJE — Poétique V2 · additive visual effects only */
+.universe-gate__photography{z-index:0}
+.universe-gate__shade{z-index:1}
+.universe-gate__frame{z-index:3}
+.universe-gate__choice{z-index:4}
+.universe-gate__intro,.universe-gate__eyebrow,.universe-gate__foot{z-index:5}
+.universe-gate__back{z-index:10}
+.pv2-world{position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none;isolation:isolate;contain:layout paint}
+.pv2-haze{position:absolute;inset:-5% 36% -5% -12%;background:radial-gradient(ellipse 33% 31% at 8% 68%,rgba(255,201,211,.36),transparent 78%),radial-gradient(ellipse 33% 21% at 28% 46%,rgba(255,239,233,.16),transparent 85%);mix-blend-mode:screen;filter:blur(19px);opacity:.36;animation:pv2-breathe 19s ease-in-out infinite alternate}
+.pv2-silk{position:absolute;left:-7%;bottom:-14%;width:65%;height:109%;mix-blend-mode:screen;opacity:.16;filter:blur(3px);transform-origin:10% 73%;animation:pv2-silk-sway 17s ease-in-out infinite alternate}
+.pv2-silk svg,.pv2-hair svg,.pv2-petal svg{width:100%;height:100%;display:block;overflow:visible}
+@keyframes pv2-breathe{from{opacity:.25;transform:translate3d(-1%,0,0)}to{opacity:.52;transform:translate3d(2%,-1.5%,0)}}
+@keyframes pv2-silk-sway{from{opacity:.12;transform:translate3d(-1%,0,0) rotate(-1deg)}to{opacity:.25;transform:translate3d(2%,-2%,0) rotate(1.4deg)}}
+.pv2-hair-halo{position:absolute;inset:-4% -6% 4% 45%;mix-blend-mode:screen;background:radial-gradient(ellipse 38% 21% at 78% 17%,rgba(255,226,185,.24),transparent 78%),radial-gradient(ellipse 39% 15% at 34% 60%,rgba(250,197,148,.19),transparent 82%);filter:blur(25px);opacity:.44;animation:pv2-breathe 17s ease-in-out infinite alternate}
+.pv2-hair{position:absolute;left:47%;right:-4%;top:-4%;bottom:-3%;opacity:.46;mix-blend-mode:screen;filter:blur(.2px);transform-origin:84% 15%;animation:pv2-hair-wave 19s ease-in-out infinite alternate;transition:opacity .8s ease}
+@keyframes pv2-hair-wave{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-1%,1%,0) scale(1.014)}}
+.pv2-hair-base{fill:none;stroke:url(#pv2-gold);stroke-width:1.6;stroke-linecap:round;opacity:.46}
+.pv2-hair-depth{fill:none;stroke:url(#pv2-copper);stroke-width:1.2;stroke-linecap:round;opacity:.33}
+.pv2-hair-shine{fill:none;stroke:url(#pv2-shine);stroke-width:2.4;stroke-linecap:round;stroke-dasharray:130 1480;stroke-dashoffset:1380;filter:drop-shadow(0 0 4px rgba(255,215,172,.64));animation:pv2-shine-travel 13s linear infinite}
+.pv2-hair-shine:nth-child(2){animation-delay:-4.5s;stroke-width:1.8}
+.pv2-hair-shine:nth-child(3){animation-delay:-8.7s;stroke-width:2}
+@keyframes pv2-shine-travel{to{stroke-dashoffset:-350}}
+.universe-gate[data-pv2-focus="namaje"] .pv2-hair{opacity:.78}
+.universe-gate[data-pv2-focus="change"] .pv2-hair{opacity:.3}
+.universe-gate[data-pv2-focus="change"] .pv2-haze{opacity:.6}
+.pv2-petals{position:absolute;inset:0;overflow:hidden}
+.pv2-petal{position:absolute;left:0;top:0;width:var(--petal-size,36px);height:var(--petal-size,36px);transform-origin:50% 50%;transform-style:preserve-3d;will-change:transform,opacity;opacity:0;filter:blur(var(--petal-blur,0px)) drop-shadow(0 6px 13px rgba(83,31,41,.14))}
+.pv2-petal--near{filter:blur(var(--petal-blur,3px)) drop-shadow(0 9px 20px rgba(72,25,38,.17))}
+.pv2-dust{position:absolute;inset:0}
+.pv2-dust>span{position:absolute;left:var(--x);top:var(--y);width:var(--s);height:var(--s);opacity:0;border-radius:50%;background:#ffeed7;filter:blur(var(--blur));box-shadow:0 0 10px rgba(255,202,156,.32);animation:pv2-dust-float var(--time) var(--delay) ease-in-out infinite}
+@keyframes pv2-dust-float{0%,100%{opacity:0;transform:translate3d(-5px,8px,0) scale(.55)}50%{opacity:.5;transform:translate3d(12px,-18px,0) scale(1.18)}}
+.pv2-paused .pv2-world *{animation-play-state:paused!important}
+.pv2-controls{position:fixed;z-index:6000;top:18px;right:18px;display:flex;align-items:center;gap:3px;padding:6px;border:1px solid rgba(255,231,216,.38);border-radius:999px;background:rgba(38,21,23,.79);color:#fff1e8;backdrop-filter:blur(15px);box-shadow:0 8px 26px rgba(21,9,12,.25);font:600 9px/1.25 'DM Sans',Arial,sans-serif;letter-spacing:.06em}
+.pv2-controls span{padding:0 9px;white-space:nowrap;opacity:.8}
+.pv2-controls button{border:1px solid transparent;border-radius:999px;background:transparent;color:#fff0e3;font:600 9px/1.3 'DM Sans',Arial,sans-serif;letter-spacing:.065em;padding:9px 11px;white-space:nowrap}
+.pv2-controls button[aria-pressed="true"]{background:rgba(255,229,215,.23);border-color:rgba(255,243,233,.65)}
+.pv2-controls button:hover{background:rgba(255,236,224,.19)}
+.pv2-controls button:focus-visible{outline:2px solid white;outline-offset:2px}
+.pv2-hint{position:fixed;right:21px;bottom:17px;z-index:6000;color:rgba(255,245,234,.76);text-shadow:0 2px 9px #351f1f;font:500 9px/1.4 'DM Sans',Arial,sans-serif;letter-spacing:.08em;pointer-events:none}
+@media(max-width:720px){.pv2-hair{left:49%;right:-36%;top:-3%;bottom:26%}.pv2-silk{left:-19%;bottom:14%;width:85%;height:85%}.pv2-petals{-webkit-mask-image:linear-gradient(#000 0%,#000 74%,transparent 100%);mask-image:linear-gradient(#000 0%,#000 74%,transparent 100%)}.pv2-controls{top:auto;bottom:9px;right:50%;transform:translateX(50%);padding:4px;gap:1px;max-width:calc(100vw - 12px)}.pv2-controls span,.pv2-hint{display:none}.pv2-controls button{font-size:8px;padding:8px 10px}.universe-gate__foot{bottom:8%}}
+@media(max-width:360px){.pv2-controls button{font-size:7.5px;padding:7px}}
+@media(prefers-reduced-motion:reduce){.pv2-world *, .universe-gate__photography{animation:none!important}.pv2-petal{will-change:auto}.pv2-dust{display:none}}
