@@ -109,6 +109,14 @@
   const accueil = document.getElementById('page-accueil');
   if(accueil) accueil.prepend(home);
 
+  // Les deux univers disposent désormais de leur propre accueil éditorial.
+  // Supprimer l'ancien héros CH'ANGE × NAMAJE (textes, CTA, slogan, défilement,
+  // quatre catégories) une fois l'univers actif. En prévisualisation de l'éditeur
+  // professionnel, ce script ne s'exécute pas : la scène reste éditable.
+  function removeLegacyHomeHero(){
+    accueil?.querySelector(':scope > .dual-home')?.remove();
+  }
+
   const prices = document.createElement('section');
   prices.className = 'universe-namaje-pricing container';
   prices.innerHTML =
@@ -324,6 +332,7 @@
     universe=selected;
     ROOT.dataset.universe=selected;
     document.body.dataset.universe=selected;
+    removeLegacyHomeHero();
     save(selected);
     const url=new URL(location.href);
     url.searchParams.set('univers',selected);
@@ -380,6 +389,7 @@
   if(universe){
     ROOT.dataset.universe=universe;
     document.body.dataset.universe=universe;
+    removeLegacyHomeHero();
     save(universe);
     updateNav();updateHome();updateBrandContent();
     setTimeout(()=>{updateHome();updateBrandContent();},1400);
