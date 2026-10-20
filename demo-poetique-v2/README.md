@@ -1,6 +1,6 @@
 # Poétique photographique V2 — démonstration animée
 
-URL : https://institut-change.fr/demo-poetique-v2/
+URL : https://torsielloenzo-pixel.github.io/change-beauty-pages/demo-poetique-v2/
 
 ## Animation
 
