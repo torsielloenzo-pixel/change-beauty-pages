@@ -75,7 +75,7 @@
   const newBrand = document.createElement('a');
   newBrand.className = 'universe-namaje-brand';
   newBrand.href = '#accueil';
-  newBrand.innerHTML = '<span>NAMAJE</span><small>INSTITUT DE COIFFURE</small>';
+  newBrand.innerHTML = '<span>NAMAJE</span><small>MAISON DE COIFFURE</small>';
   newBrand.setAttribute('aria-label','NAMAJE, retour à l’accueil coiffure');
   if(header) header.insertBefore(newBrand,header.querySelector('.wordmark')?.nextSibling || header.firstChild);
   const switcher = document.createElement('button');
@@ -132,7 +132,7 @@
     '#page-univers .universe-grid h2': 'Votre style, <i>votre signature.</i>',
     '#page-univers .universe-grid p:first-of-type': 'Chez NAMAJE, chaque coiffure se pense dans le respect du mouvement, de la texture et de la personnalité de vos cheveux.',
     '#page-univers .universe-grid p:nth-of-type(2)': 'Notre univers réunit le sens du détail, l’écoute et le soin apporté à chaque prestation. Retrouvez-nous au 27 cours Gambetta, 84250 Le Thor.',
-    '#page-tarifs .price-heading .overline': 'NAMAJE · INSTITUT DE COIFFURE',
+    '#page-tarifs .price-heading .overline': 'NAMAJE · MAISON DE COIFFURE',
     '#page-tarifs .price-heading h1': 'Les tarifs <i>coiffure.</i>',
     '#page-tarifs .price-heading p': 'Retrouvez les informations concernant les prestations coiffure de NAMAJE.',
     '#page-contact .inner-intro .overline': 'CONTACT · NAMAJE',
@@ -213,7 +213,7 @@
       section:'Des soins pensés pour vous.',closing:'Le plaisir de prendre soin de soi.'
     },
     namaje:{
-      kicker:'NAMAJE · INSTITUT DE COIFFURE',
+      kicker:'NAMAJE · MAISON DE COIFFURE',
       title:'NAMAJE',
       subtitle:'Des cheveux sublimés, une signature unique.',
       description:'Coupes, couleurs, mouvement et matière : exprimez votre personnalité dans un univers chaleureux et contemporain.',
@@ -259,18 +259,18 @@
       if(universe==='namaje')el.innerHTML=edits[selector];
       else if(originals.has(selector))el.innerHTML=originals.get(selector);
     }
-    if(footerBrand)footerBrand.innerHTML=universe==='namaje'?'NAMAJE <small>INSTITUT DE COIFFURE</small>':baseFooter.brand;
+    if(footerBrand)footerBrand.innerHTML=universe==='namaje'?'NAMAJE <small>MAISON DE COIFFURE</small>':baseFooter.brand;
     if(footerCopy)footerCopy.textContent=universe==='namaje'?'Votre style, notre attention.':baseFooter.copy;
     if(footerContact)footerContact.textContent=universe==='namaje'?'Écrire à NAMAJE':'Écrire à Ch’ange';
     if(aboutImage){
       if(universe==='namaje')aboutImage.src=pictureFor('coiffure');
       else if(originalAboutImage)aboutImage.src=originalAboutImage;
     }
-    if(footerCopyright)footerCopyright.innerHTML=universe==='namaje'? '© <span id="year-public-namaje"></span> NAMAJE · Institut de coiffure' : baseFooter.copyright;
+    if(footerCopyright)footerCopyright.innerHTML=universe==='namaje'? '© <span id="year-public-namaje"></span> NAMAJE · Maison de coiffure' : baseFooter.copyright;
     const footerYear=document.getElementById('year-public-namaje');
     if(footerYear)footerYear.textContent=String(new Date().getFullYear());
     const mainYear=document.getElementById('year');if(mainYear)mainYear.textContent=String(new Date().getFullYear());
-    document.title=(universe==='namaje'?'NAMAJE · Institut de coiffure':'CH’ANGE · Institut de beauté')+' — '+({
+    document.title=(universe==='namaje'?'NAMAJE · Maison de coiffure':'CH’ANGE · Institut de beauté')+' — '+({
       accueil:'Accueil',esthetique:'Esthétique',coiffure:'Coiffure',univers:'À propos',tarifs:'Tarifs',contact:'Contact'
     }[hashPage()] || 'Accueil')+' · Le Thor';
   }
