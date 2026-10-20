@@ -139,7 +139,14 @@
     '#page-contact .inner-intro h1': 'À bientôt <i>chez NAMAJE.</i>',
     '#page-contact .inner-intro p': 'Une question sur la coiffure, les prestations ou votre prochaine visite ? Contactez notre équipe.',
     '#page-contact .contact-card .overline': 'CONTACTER L’ÉQUIPE',
-    '#page-contact .contact-card h2': 'NAMAJE, <i>Le Thor.</i>'
+    '#page-contact .contact-card h2': 'NAMAJE, <i>Le Thor.</i>',
+    '#page-contact .hours-list > div:nth-child(1) > strong': 'Fermé',
+    '#page-contact .hours-list > div:nth-child(2) > strong': '10h00 — 18h00',
+    '#page-contact .hours-list > div:nth-child(3) > strong': '10h00 — 18h00',
+    '#page-contact .hours-list > div:nth-child(4) > strong': '10h00 — 18h00',
+    '#page-contact .hours-list > div:nth-child(5) > strong': '10h00 — 18h00',
+    '#page-contact .hours-list > div:nth-child(6) > strong': '10h00 — 18h00',
+    '#page-contact .hours-list > div:nth-child(7) > strong': 'Fermé'
   };
 
   const footer = document.querySelector('.footer');
