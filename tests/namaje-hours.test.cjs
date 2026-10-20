@@ -25,6 +25,6 @@ test('Les horaires CH’ANGE ne sont pas modifiés et se rétablissent au change
 test('Le bandeau NAMAJE Coiffure correspond aux mêmes horaires, sans modification de structure',()=>{
  const coiffure=html.slice(html.indexOf('id="page-coiffure"'),html.indexOf('data-cms-page="tarifs"'));
  assert.match(coiffure,/namaje-art__bottom-value">Mar\. – sam\. : 10h00 – 18h00<br>Lun\. &amp; dim\. : fermé/);
- assert.match(html,/universe-gateway\.js\?v=4/);
+ assert.match(html,/universe-gateway\.js\?v=5/);
  assert.match(coiffure,/namaje-art__bottom-cell--address/);
 });
