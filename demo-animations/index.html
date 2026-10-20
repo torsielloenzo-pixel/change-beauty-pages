@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="fr">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+ <meta name="robots" content="noindex,nofollow">
+ <meta name="theme-color" content="#382420">
+ <title>CH’ANGE × NAMAJE — Trois animations photographiques</title>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="../universe-gateway.css?v=3">
+ <style>
+:root{--display:'Italiana',Georgia,serif;--sans:'DM Sans',Arial,sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#382420}
+body{font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+button{font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:2px solid #fff1e5;outline-offset:3px}
+.universe-gate__intro h1,.universe-gate__question h2,.universe-gate__option strong{font-weight:400}
+.universe-gate__photography{z-index:0}
+.universe-gate__shade{z-index:1}
+.universe-gate__frame{z-index:3}
+.universe-gate__intro,.universe-gate__eyebrow,.universe-gate__foot{z-index:5}
+.universe-gate__choice{z-index:4}
+/* The atmospheric composition is spatially linked to the TWO photographic worlds.
+   It never covers typography: image < photographic shading < animated extensions < UI. */
+.art-direction-layer{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;isolation:isolate}
+.art-direction-layer__left,.art-direction-layer__right{position:absolute;top:0;bottom:0;width:50%;overflow:hidden}
+.art-direction-layer__left{left:0}
+.art-direction-layer__right{right:0}
+.art-direction-layer svg{display:block}
+.art-direction-layer .art-petal{position:absolute;left:var(--px);top:var(--py);width:var(--size);height:calc(var(--size) * 1.12);opacity:0;transform-origin:50% 45%;filter:drop-shadow(0 3px 8px rgba(76,29,39,.12)) blur(var(--blur));animation:petal-drift var(--duration) var(--delay) cubic-bezier(.38,.05,.6,.95) infinite}
+.art-direction-layer .art-petal svg{width:100%;height:100%;overflow:visible}
+.art-petal--near{filter:blur(2.1px) drop-shadow(0 5px 11px rgba(61,31,37,.12))}
+.art-petal--small{filter:blur(.25px)}
+@keyframes petal-drift{
+  0%{opacity:0;transform:translate3d(-26px,-46px,0) rotate(-37deg) scale(.7)}
+  16%{opacity:var(--petal-alpha,.7)}
+  48%{opacity:var(--petal-alpha,.7);transform:translate3d(calc(var(--travel-x) * .43),calc(var(--travel-y) * .4),0) rotate(12deg) scale(1)}
+  82%{opacity:var(--petal-alpha,.7)}
+  100%{opacity:0;transform:translate3d(var(--travel-x),var(--travel-y),0) rotate(114deg) scale(.83)}
+}
+/* The veils grow out of the gauze and existing flower on the LEFT image. */
+.art-veil{position:absolute;inset:-5% -10% -3% -5%;opacity:var(--veil-opacity,.2);filter:blur(3px);transform-origin:12% 78%;animation:veil-breathe var(--veil-period,17s) ease-in-out infinite alternate}
+.art-veil svg{width:100%;height:100%}
+@keyframes veil-breathe{0%{transform:translate3d(-1%,0,0) rotate(-1deg) scale(1);opacity:calc(var(--veil-opacity,.2)*.7)}100%{transform:translate3d(3%,-2%,0) rotate(2deg) scale(1.035);opacity:var(--veil-opacity,.2)}}
+/* NAMAJE: light follows the exact sweep of the image's hair instead of floating as a symbol. */
+.art-hair{position:absolute;inset:0 -4% 2% -7%;opacity:var(--hair-opacity,.42);filter:blur(.2px);transform-origin:82% 15%;animation:hair-breathe 18s ease-in-out infinite alternate}
+.art-hair svg{height:100%;width:100%}
+.art-hair__base{fill:none;stroke:url(#hair-gradient);stroke-linecap:round;stroke-width:1.15;opacity:.24}
+.art-hair__trace{fill:none;stroke:url(#hair-gradient);stroke-linecap:round;stroke-width:2.2;opacity:.65;filter:url(#hair-glow)}
+.art-hair__shine{fill:none;stroke:url(#shine-gradient);stroke-linecap:round;stroke-width:2.9;stroke-dasharray:180 1280;stroke-dashoffset:920;animation:shine-travel var(--shine-period,13s) linear infinite}
+.art-hair__shine:nth-of-type(2){animation-delay:-4.8s;stroke-width:1.8}
+.art-hair__shine:nth-of-type(3){animation-delay:-9s;stroke-width:2.2}
+@keyframes shine-travel{to{stroke-dashoffset:-650}}
+@keyframes hair-breathe{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-1.1%,1.2%,0) scale(1.012)}}
+/* Photo-matched light: edge-hugging amber caustic highlights, never random gold glitter. */
+.art-rimlight{position:absolute;right:-12%;top:5%;width:108%;height:94%;opacity:var(--rim-opacity,.2);background:
+ radial-gradient(ellipse 33% 25% at 78% 14%,rgba(250,202,149,.48),transparent 78%),
+ radial-gradient(ellipse 43% 19% at 51% 54%,rgba(250,200,163,.35),transparent 78%);
+ filter:blur(29px);mix-blend-mode:screen;animation:rim-breathe 14s ease-in-out infinite alternate}
+@keyframes rim-breathe{from{opacity:calc(var(--rim-opacity,.2)*.55);transform:translateX(2%)}to{opacity:var(--rim-opacity,.2);transform:translateX(-1%)}}
+/* A few soft photographic bokeh echoes only in existing light sources. */
+.art-dust{position:absolute;left:var(--dx);top:var(--dy);width:var(--ds);height:var(--ds);border-radius:50%;background:rgba(255,236,203,.77);box-shadow:0 0 12px 2px rgba(255,216,177,.24);opacity:0;filter:blur(var(--db));animation:dust-lift var(--dt) var(--dd) ease-in-out infinite}
+@keyframes dust-lift{0%,100%{opacity:0;transform:translate3d(0,7px,0) scale(.7)}50%{opacity:var(--dust-peak,.38);transform:translate3d(8px,-21px,0) scale(1.2)}}
+/* Real creative directions: not simply three particle-count sliders. */
+.universe-gate[data-art="editorial"]{--petal-alpha:.53;--veil-opacity:.13;--veil-period:24s;--hair-opacity:.37;--rim-opacity:.14;--shine-period:21s;--dust-peak:.22}
+.universe-gate[data-art="poetique"]{--petal-alpha:.77;--veil-opacity:.41;--veil-period:13s;--hair-opacity:.53;--rim-opacity:.22;--shine-period:15s;--dust-peak:.52}
+.universe-gate[data-art="cinema"]{--petal-alpha:.89;--veil-opacity:.3;--veil-period:10s;--hair-opacity:.9;--rim-opacity:.44;--shine-period:9s;--dust-peak:.57}
+.universe-gate[data-art="editorial"] .art-petal[data-tier="extra"],.universe-gate[data-art="editorial"] .art-dust[data-tier="extra"]{display:none}
+.universe-gate[data-art="editorial"] .art-petal--near{opacity:.1}
+.universe-gate[data-art="poetique"] .art-hair__shine{stroke-width:1.5;opacity:.55}
+.universe-gate[data-art="cinema"] .art-hair__trace{stroke-width:2.6}
+.universe-gate[data-art="cinema"] .art-rimlight{filter:blur(20px)}
+.universe-gate[data-art="cinema"] .art-petal--near{filter:blur(1.8px) drop-shadow(0 8px 18px rgba(77,33,46,.16))}
+.universe-gate[data-art="cinema"] .universe-gate__photography{animation:universe-photo-enter 3.4s cubic-bezier(.2,.77,.2,1) both,photo-drift 20s 3.4s ease-in-out infinite alternate}
+@keyframes photo-drift{from{transform:scale(1) translateX(0)}to{transform:scale(1.018) translateX(-.35%)}}
+/* Responsive tester strip with real interactions and no production navigation changes. */
+.art-demo-toolbar{
+ position:fixed;z-index:8000;top:16px;right:20px;display:flex;align-items:center;gap:5px;
+ max-width:calc(100vw - 30px);padding:6px;
+ background:rgba(35,20,23,.82);color:#fff4ee;border:1px solid rgba(255,232,220,.45);
+ border-radius:999px;backdrop-filter:blur(16px);box-shadow:0 7px 30px rgba(20,10,15,.24);
+ font:600 9px/1.3 var(--sans);letter-spacing:.09em;
+}
+.art-demo-toolbar__label{color:#f4d9ce;padding:0 10px;white-space:nowrap}
+.art-demo-toolbar button{
+ border:1px solid transparent;border-radius:999px;color:rgba(255,239,230,.77);
+ padding:10px 13px;background:none;letter-spacing:.07em;font:600 10px/1.2 var(--sans);
+ transition:background .25s,color .25s;white-space:nowrap;
+}
+.art-demo-toolbar button:hover{background:rgba(255,230,211,.15);color:#fff}
+.art-demo-toolbar button[aria-pressed="true"]{background:rgba(255,225,208,.22);color:#fff;border-color:rgba(255,240,229,.7)}
+.art-demo-helper{
+ position:fixed;bottom:16px;right:23px;z-index:7000;color:rgba(255,245,232,.8);
+ background:rgba(36,18,21,.4);backdrop-filter:blur(9px);border:1px solid rgba(255,237,225,.19);
+ padding:8px 11px;border-radius:999px;font:500 9px var(--sans);letter-spacing:.07em;
+ pointer-events:none;
+}
+@media(max-width:1000px){
+ .art-demo-toolbar{top:auto;bottom:11px;right:50%;transform:translateX(50%);gap:2px}
+ .art-demo-toolbar__label{display:none}
+ .art-demo-helper{display:none}
+ .universe-gate__foot{bottom:8%!important}
+}
+@media(max-width:720px){
+ .art-direction-layer{height:59svh;bottom:auto;mask-image:linear-gradient(#000 0%,#000 78%,transparent 100%);-webkit-mask-image:linear-gradient(#000 0%,#000 78%,transparent 100%)}
+ .art-veil{opacity:calc(var(--veil-opacity,.2)*.7);inset:0 -25% 0 -10%}
+ .art-hair{inset:0 -40% 0 -16%}
+ .art-petal[data-mobile="no"],.art-dust[data-mobile="no"]{display:none}
+ .art-demo-toolbar{padding:5px;max-width:calc(100vw - 12px);width:max-content}
+ .art-demo-toolbar button{font-size:8px;padding:9px 9px}
+ .universe-gate__eyebrow{top:3.4%}
+ .universe-gate__foot{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .art-direction-layer *,.universe-gate__photography{animation:none!important}
+ .art-petal{opacity:.28!important;transform:none!important}
+ .art-dust{opacity:0!important}
+ .art-veil,.art-hair,.art-rimlight{animation:none!important}
+ .art-hair__shine{stroke-dasharray:none}
+ .universe-gate__intro > *,.universe-gate__eyebrow{animation:none!important}
+}
+</style>
+</head>
+<body>
+<main class="universe-gate" id="universe-gate" role="main" aria-label="Démonstration des animations CH’ANGE et NAMAJE" data-art="poetique">
+ <div class="universe-gate__photography" style="--gate-photo:url('https://xhahganhwgygmwuckrak.supabase.co/storage/v1/object/public/change-public-media/pages/accueil/0ac88996-3784-4615-83a5-44379a5ed568.webp');background-image:var(--gate-photo)" aria-hidden="true"></div>
+ <div class="universe-gate__shade" aria-hidden="true"></div>
+
+ <!-- These three layers are native CSS/SVG animations, NOT static rendered pictures. -->
+ <div class="art-direction-layer" aria-hidden="true">
+  <div class="art-direction-layer__left">
+   <div class="art-veil">
+    <svg viewBox="0 0 900 980" preserveAspectRatio="none" aria-hidden="true">
+     <defs>
+      <linearGradient id="silk-flow" x1="0" y1="1" x2="1" y2="0">
+       <stop offset="0" stop-color="#eebac5" stop-opacity=".38"/>
+       <stop offset=".35" stop-color="#fff6ef" stop-opacity=".53"/>
+       <stop offset=".7" stop-color="#e9c1cf" stop-opacity=".18"/>
+       <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+     </defs>
+     <path d="M-90 350 C110 310 80 740 290 665 C465 600 350 490 630 405 C720 376 810 430 950 310 L950 520 C755 530 700 480 559 570 C360 708 465 794 220 885 C35 927 -70 760 -90 720Z" fill="url(#silk-flow)"/>
+     <path d="M-50 610 Q225 500 300 745 T960 655" fill="none" stroke="#fff9f1" stroke-opacity=".24" stroke-width="3"/>
+    </svg>
+   </div>
+  </div>
+  <div class="art-direction-layer__right">
+   <div class="art-rimlight"></div>
+   <div class="art-hair">
+    <svg viewBox="0 0 820 980" preserveAspectRatio="none" aria-hidden="true">
+     <defs>
+      <linearGradient id="hair-gradient" x1="1" y1="0" x2="0" y2="1">
+       <stop offset="0" stop-color="#c78d67" stop-opacity="0"/>
+       <stop offset=".21" stop-color="#fbe2b7" stop-opacity=".95"/>
+       <stop offset=".52" stop-color="#f2c39a" stop-opacity=".71"/>
+       <stop offset=".85" stop-color="#a97952" stop-opacity=".46"/>
+       <stop offset="1" stop-color="#81513d" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="shine-gradient" x1="1" y1="0" x2="0" y2="1">
+       <stop offset="0" stop-color="#fff7e2" stop-opacity="0"/>
+       <stop offset=".28" stop-color="#fff9ed" stop-opacity=".95"/>
+       <stop offset=".6" stop-color="#f8c99b" stop-opacity="1"/>
+       <stop offset="1" stop-color="#f2b782" stop-opacity="0"/>
+      </linearGradient>
+      <filter id="hair-glow" x="-40%" y="-40%" width="180%" height="180%">
+       <feGaussianBlur stdDeviation=".8" result="light"/>
+       <feMerge><feMergeNode in="light"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+     </defs>
+     <!-- Curves follow the original sweep: top-right to inner-left shoulder. -->
+     <path id="strand-one" class="art-hair__base" d="M850 20 C720 38 706 166 622 215 C514 288 466 326 315 338 C214 350 132 444 -45 491"/>
+     <path id="strand-two" class="art-hair__base" d="M849 94 C700 154 681 253 555 313 C447 359 391 365 299 428 C197 499 104 504 -35 591"/>
+     <path id="strand-three" class="art-hair__base" d="M862 400 C681 414 655 523 545 554 C405 590 367 635 293 705 C181 799 99 808 -35 916"/>
+     <path class="art-hair__trace" d="M850 20 C720 38 706 166 622 215 C514 288 466 326 315 338 C214 350 132 444 -45 491"/>
+     <path class="art-hair__trace" d="M849 94 C700 154 681 253 555 313 C447 359 391 365 299 428 C197 499 104 504 -35 591"/>
+     <path class="art-hair__trace" d="M862 400 C681 414 655 523 545 554 C405 590 367 635 293 705 C181 799 99 808 -35 916"/>
+     <path class="art-hair__shine" d="M850 20 C720 38 706 166 622 215 C514 288 466 326 315 338 C214 350 132 444 -45 491"/>
+     <path class="art-hair__shine" d="M849 94 C700 154 681 253 555 313 C447 359 391 365 299 428 C197 499 104 504 -35 591"/>
+     <path class="art-hair__shine" d="M862 400 C681 414 655 523 545 554 C405 590 367 635 293 705 C181 799 99 808 -35 916"/>
+    </svg>
+   </div>
+  </div>
+ </div>
+
+ <div class="universe-gate__frame" aria-hidden="true"></div>
+ <p class="universe-gate__eyebrow">L’ART DE RÉVÉLER VOTRE BEAUTÉ</p>
+ <section class="universe-gate__intro" aria-label="Découvrir les deux univers">
+  <p>DEUX UNIVERS · UNE MÊME VISION</p>
+  <h1><span>CH’ANGE</span><i>×</i><span>NAMAJE</span></h1>
+  <div class="universe-gate__rule" aria-hidden="true"></div>
+  <strong>La beauté, sous toutes ses expressions.</strong>
+  <button class="universe-gate__discover" type="button">DÉCOUVRIR <span aria-hidden="true">→</span></button>
+ </section>
+ <section class="universe-gate__choice" aria-label="Choisir votre univers" inert>
+  <div class="universe-gate__question">
+   <h2>Quel univers vous inspire ?</h2><p>CHOISISSEZ VOTRE EXPÉRIENCE</p>
+  </div>
+  <div class="universe-gate__options">
+   <button class="universe-gate__option" type="button" data-universe-choice="change" aria-label="Explorer CH’ANGE — Esthétique">
+    <span class="universe-gate__option-kicker">L’UNIVERS CH’ANGE</span>
+    <strong>Esthétique</strong><span class="universe-gate__option-action">EXPLORER <span aria-hidden="true">↗</span></span>
+   </button>
+   <button class="universe-gate__option" type="button" data-universe-choice="namaje" aria-label="Explorer NAMAJE — Coiffure">
+    <span class="universe-gate__option-kicker">L’UNIVERS NAMAJE</span>
+    <strong>Coiffure</strong><span class="universe-gate__option-action">EXPLORER <span aria-hidden="true">↗</span></span>
+   </button>
+  </div>
+ </section>
+ <button class="universe-gate__back" type="button" hidden>← RETOUR</button>
+ <p class="universe-gate__foot">CH’ANGE &amp; NAMAJE · DEUX SIGNATURES, UNE EXPÉRIENCE</p>
+</main>
+<nav class="art-demo-toolbar" aria-label="Comparer les trois animations">
+ <span class="art-demo-toolbar__label">3 ANIMATIONS</span>
+ <button type="button" data-set-art="editorial" aria-pressed="false">01 · ÉDITORIAL LUXE</button>
+ <button type="button" data-set-art="poetique" aria-pressed="true">02 · POÉTIQUE</button>
+ <button type="button" data-set-art="cinema" aria-pressed="false">03 · CINÉMATIQUE</button>
+</nav>
+<div class="art-demo-helper" aria-hidden="true">Effets animés devant la photo · derrière les textes</div>
+<script>
+(() => {
+ 'use strict';
+ const gate=document.querySelector('#universe-gate');
+ const choice=gate.querySelector('.universe-gate__choice');
+ const intro=gate.querySelector('.universe-gate__intro');
+ const discover=gate.querySelector('.universe-gate__discover');
+ const back=gate.querySelector('.universe-gate__back');
+ const controls=[...document.querySelectorAll('[data-set-art]')];
+
+ // All three styles retain the ORIGINAL two-step index animations.
+ const enter=()=>{
+  gate.classList.add('is-choosing');intro.setAttribute('aria-hidden','true');
+  choice.inert=false;back.hidden=false;back.focus({preventScroll:true});
+ };
+ const leave=()=>{
+  gate.classList.remove('is-choosing');intro.removeAttribute('aria-hidden');
+  choice.inert=true;back.hidden=true;discover.focus({preventScroll:true});
+ };
+ discover.addEventListener('click',enter);
+ back.addEventListener('click',leave);
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&gate.classList.contains('is-choosing'))leave()});
+ choice.querySelectorAll('[data-universe-choice]').forEach(button=>{
+  button.addEventListener('click',()=>{
+   const brand=button.dataset.universeChoice;
+   if(brand==='change'||brand==='namaje')
+    location.assign('/?univers='+encodeURIComponent(brand)+'#accueil');
+  });
+ });
+ const setStyle=name=>{
+  if(!['editorial','poetique','cinema'].includes(name))return;
+  gate.dataset.art=name;
+  controls.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.setArt===name)));
+  const url=new URL(location.href);url.searchParams.set('style',name);
+  history.replaceState(null,'',url.pathname+url.search);
+ };
+ controls.forEach(b=>b.addEventListener('click',()=>setStyle(b.dataset.setArt)));
+ setStyle(new URLSearchParams(location.search).get('style')||'poetique');
+
+ const ns='http://www.w3.org/2000/svg';
+ const left=document.querySelector('.art-direction-layer__left');
+ // Petals are sculpted with translucent gradient surfaces and veins; their
+ // placement follows the left-side blossoms, drifting towards the photograph's center.
+ const positions=[
+  [5,20,62,118,165,18,-8,1.3,'core'],
+  [15,47,42,77,135,15,-6,.5,'core'],
+  [67,28,44,47,113,17,-9,.2,'core'],
+  [30,70,55,105,150,20,-13,1,'core'],
+  [88,49,31,41,102,16,-11,.2,'core'],
+  [13,83,81,112,115,22,-16,2.3,'extra'],
+  [45,16,26,57,125,15,-3,.4,'extra'],
+  [70,84,49,34,120,18,-7,.3,'extra'],
+  [4,59,101,96,119,23,-12,2.1,'extra']
+ ];
+ positions.forEach(([x,y,size,dx,dy,dur,delay,blur,tier],index)=>{
+  const span=document.createElement('span');
+  span.className='art-petal '+(blur>1?'art-petal--near':'art-petal--small');
+  span.dataset.tier=tier;if(index>6)span.dataset.mobile='no';
+  const gradientId='petal-g-'+index;
+  const svg=document.createElementNS(ns,'svg');
+  svg.setAttribute('viewBox','0 0 100 114');
+  svg.setAttribute('aria-hidden','true');
+  svg.innerHTML=
+   '<defs><radialGradient id="'+gradientId+'" cx="35%" cy="24%" r="82%">'+
+    '<stop offset="0%" stop-color="#fff9f5" stop-opacity=".94"/>'+
+    '<stop offset="38%" stop-color="#ffdae0" stop-opacity=".86"/>'+
+    '<stop offset="78%" stop-color="#e5a5b6" stop-opacity=".76"/>'+
+    '<stop offset="100%" stop-color="#b26b83" stop-opacity=".62"/>'+
+   '</radialGradient></defs>'+
+   '<path d="M50 5 C73 14 99 39 91 70 C85 93 67 111 48 110 C16 104 0 73 11 45 C19 24 37 13 50 5Z" fill="url(#'+gradientId+')" stroke="rgba(255,248,238,.32)" stroke-width="1.5"/>'+
+   '<path d="M49 10 Q33 55 49 103" stroke="#fff8f5" stroke-opacity=".34" stroke-width="1.15" fill="none"/>';
+  span.append(svg);
+  [['px',x+'%'],['py',y+'%'],['size',size+'px'],['travel-x',dx+'px'],
+   ['travel-y',dy+'px'],['duration',dur+'s'],['delay',delay+'s'],['blur',blur+'px']].forEach(([k,v])=>span.style.setProperty('--'+k,v));
+  left.append(span);
+ });
+ const dustPositions=[[26,21,3.3,7,-2,'core'],[53,67,2.3,9,-4,'core'],[87,34,4,8,-6,'extra'],[21,88,2.5,6,-1,'extra']];
+ const right=document.querySelector('.art-direction-layer__right');
+ dustPositions.forEach(([x,y,s,d,delay,tier],i)=>{
+   const span=document.createElement('span');span.className='art-dust';span.dataset.tier=tier;if(i>2)span.dataset.mobile='no';
+   span.style.setProperty('--dx',x+'%');span.style.setProperty('--dy',y+'%');
+   span.style.setProperty('--ds',s+'px');span.style.setProperty('--dt',d+'s');
+   span.style.setProperty('--dd',delay+'s');span.style.setProperty('--db',i%2?'1.5px':'.7px');
+   right.append(span);
+ });
+ window.CHANGEAnimatedDemo=Object.freeze({setStyle,enter,leave});
+})();
+</script>
+</body>
+</html>
