@@ -123,7 +123,7 @@
     '<div class="universe-namaje-pricing__kicker">NAMAJE · COIFFURE</div>'+
     '<h2>Des prestations pensées pour vos cheveux.</h2>'+
     '<p>La grille tarifaire NAMAJE n’est pas encore publiée sur ce site. Contactez l’équipe pour connaître les tarifs et les prestations disponibles.</p>'+
-    '<div><a href="tel:+33615604001">NOUS APPELER <span aria-hidden="true">↗</span></a>'+
+    '<div><a href="tel:+33778903488">NOUS APPELER <span aria-hidden="true">↗</span></a>'+
     '<a href="#contact">NOUS CONTACTER <span aria-hidden="true">→</span></a></div>';
   document.getElementById('page-tarifs')?.append(prices);
 
@@ -148,6 +148,7 @@
     '#page-contact .inner-intro p': 'Une question sur la coiffure, les prestations ou votre prochaine visite ? Contactez notre équipe.',
     '#page-contact .contact-card .overline': 'CONTACTER L’ÉQUIPE',
     '#page-contact .contact-card h2': 'NAMAJE, <i>Le Thor.</i>',
+    '#page-contact .contact-card > .contact-field:nth-of-type(3) > a.contact-big': '07 78 90 34 88',
     '#page-contact .hours-list > div:nth-child(1) > strong': 'Fermé',
     '#page-contact .hours-list > div:nth-child(2) > strong': '10h00 — 18h00',
     '#page-contact .hours-list > div:nth-child(3) > strong': '10h00 — 18h00',
@@ -264,9 +265,17 @@
     for(const selector of Object.keys(edits)){
       const el=remember(selector);
       if(!el)continue;
-      if(universe==='namaje')el.innerHTML=edits[selector];
-      else if(originals.has(selector))el.innerHTML=originals.get(selector);
+      if(universe==='namaje'){
+        el.innerHTML=edits[selector];
+        if(selector==='#page-contact .contact-card > .contact-field:nth-of-type(3) > a.contact-big')el.setAttribute('href','tel:+33778903488');
+      }
+      else if(originals.has(selector)){
+        el.innerHTML=originals.get(selector);
+        if(selector==='#page-contact .contact-card > .contact-field:nth-of-type(3) > a.contact-big')el.setAttribute('href','tel:+33615604001');
+      }
     }
+    const faqPhone=document.querySelector('#page-contact .faqs details:first-child a[href^="tel:"]');
+    if(faqPhone){faqPhone.textContent=universe==='namaje'?'07 78 90 34 88':'06 15 60 40 01';faqPhone.href=universe==='namaje'?'tel:+33778903488':'tel:+33615604001';}
     if(footerBrand)footerBrand.innerHTML=universe==='namaje'?'NAMAJE <small>MAISON DE COIFFURE</small>':baseFooter.brand;
     if(footerCopy)footerCopy.textContent=universe==='namaje'?'Votre style, notre attention.':baseFooter.copy;
     if(footerContact)footerContact.textContent=universe==='namaje'?'Écrire à NAMAJE':'Écrire à Ch’ange';
