@@ -221,7 +221,7 @@
           <div class="namaje-art__text">
             <p class="namaje-art__kicker">RÉVÉLEZ VOTRE NATUREL</p>
             <h1 class="namaje-art__title">NAMAJE</h1>
-            <p class="namaje-art__sub">INSTITUT DE COIFFURE</p>
+            <p class="namaje-art__sub">MAISON DE COIFFURE</p>
             <p class="namaje-art__signature">Plus qu’une coiffure,<br>une identité.</p>
             <p class="namaje-art__disciplines" aria-label="Coupes, balayages, colorations, soins et coiffage">
               <span>COUPES</span><b aria-hidden="true">·</b><span>BALAYAGES</span><b aria-hidden="true">·</b>
@@ -349,7 +349,7 @@
     nav.forEach(a=>{const selected=a.dataset.nav===active;a.classList.toggle('active',selected);if(selected)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
     if(active==='soins'){const params=new URLSearchParams(query||'');filterCare(params.get('categorie')||'tout');}
     document.title=active==='coiffure'
-      ? 'NAMAJE — Institut de coiffure · Le Thor'
+      ? 'NAMAJE — Maison de coiffure · Le Thor'
       : (active==='accueil'?'Ch’ange':({esthetique:'Esthétique · CH’ANGE',soins:'Les soins',tarifs:'Tarifs',univers:'L’institut',galerie:'Galerie',cadeaux:'Cartes cadeaux',contact:'Contact'}[active]+' — Ch’ange'))+' · Institut de beauté au Thor';
     closeMobileMenu();
     mobile.querySelectorAll('a').forEach(a=>{
