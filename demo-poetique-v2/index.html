@@ -87,7 +87,7 @@
       const brand = button.dataset.universeChoice;
       if (brand !== 'change' && brand !== 'namaje') return;
       try { sessionStorage.setItem('change:universe:v1', brand); } catch (_) {}
-      window.location.assign('/?univers=' + encodeURIComponent(brand) + '#accueil');
+      window.location.assign('https://institut-change.fr/?univers=' + encodeURIComponent(brand) + '#accueil');
     });
   });
   document.addEventListener('keydown', event => {
