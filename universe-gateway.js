@@ -34,8 +34,7 @@
     '<div class="universe-gate__frame" aria-hidden="true"></div>'+
     '<div class="universe-gate__eyebrow">L’ART DE RÉVÉLER VOTRE BEAUTÉ</div>'+
     '<div class="universe-gate__intro">'+
-      '<p>DEUX UNIVERS · UNE MÊME VISION</p>'+
-      '<h1><span>CH’ANGE</span><i>×</i><span>NAMAJE</span></h1>'+
+      '<h1><span>CH’ANGE</span></h1>'+
       '<div class="universe-gate__rule" aria-hidden="true"></div>'+
       '<strong>La beauté, sous toutes ses expressions.</strong>'+
       '<button class="universe-gate__discover" type="button">DÉCOUVRIR <span aria-hidden="true">→</span></button>'+
