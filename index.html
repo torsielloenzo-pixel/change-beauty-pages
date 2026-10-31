@@ -80,7 +80,21 @@
 <link rel="stylesheet" href="./esthetique-first-visit.css?v=1">
 <link rel="stylesheet" href="./namaje-editorial.css?v=1">
 <link rel="stylesheet" href="./official-public-header.css?v=1">
-<link rel="stylesheet" href="./universe-gateway.css?v=4">
+
+<style>
+/* Navigation publique unique : suppression du sélecteur d'univers. */
+html body .site-header > .desktop-menu:not(.change-home-nav){display:flex!important}
+html body .site-header > .desktop-menu.change-home-nav{display:none!important}
+@media(max-width:1040px){html body .site-header > .desktop-menu:not(.change-home-nav){display:none!important}}
+.change-unified-hero{min-height:min(77svh,790px);display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px;background:linear-gradient(145deg,#faf6f1 0%,#f2e5dc 52%,#e7cfc5 100%);}
+.change-unified-hero__content{max-width:830px;margin:auto}
+.change-unified-hero__eyebrow{font-size:11px;font-weight:700;letter-spacing:.25em;color:#92746b;margin-bottom:35px}
+.change-unified-hero h1{font:400 clamp(76px,13vw,170px)/.95 var(--display);letter-spacing:-.035em;margin:0 0 24px;color:#3d2e2c}
+.change-unified-hero__lead{font:400 clamp(23px,3vw,37px)/1.25 var(--display);margin:0 0 20px}
+.change-unified-hero__description{font:400 15px/1.95 var(--sans);color:#77655f;max-width:590px;margin:0 auto 32px}
+.change-unified-hero .btn{margin:auto}
+@media(max-width:680px){.change-unified-hero{min-height:70svh;padding:70px 22px}.change-unified-hero h1{font-size:clamp(66px,18vw,105px)}.change-unified-hero__eyebrow{font-size:9px;letter-spacing:.16em}.change-unified-hero__description{font-size:13px}}
+</style>
 </head>
 <body>
 <a class="skip" href="#main">Aller au contenu</a>
@@ -111,42 +125,17 @@
 </header>
 <main id="main" tabindex="-1">
   <section class="page" data-cms-page="accueil" id="page-accueil" data-page="accueil">
-    <section class="dual-home" aria-label="Ch’ange et Namaje, deux univers réunis">
-      <figure class="dual-home__center-media" hidden aria-hidden="true">
-        <img alt="" loading="eager" decoding="async">
-      </figure>
-      <div class="dual-home__grid">
-        <article class="dual-home__panel dual-home__panel--beauty">
-          <div class="dual-home__copy">
-            <h1>CH’ANGE</h1>
-            <div class="dual-home__label">ESTHÉTIQUE</div>
-            <p>Des soins sur mesure<br>pour révéler votre beauté<br>naturelle.</p>
-            <a class="btn btn-dark" href="#esthetique">DÉCOUVRIR L’ESTHÉTIQUE <span aria-hidden="true">→</span></a>
-          </div>
-        </article>
-        <div class="dual-home__center">
-          <h2>Deux univers<br>Une même vision</h2>
-          <p>Beauté · Bien-être · Confiance</p>
-        </div>
-        <article class="dual-home__panel dual-home__panel--hair">
-          <div class="dual-home__copy">
-            <h2>NAMAJE</h2>
-            <div class="dual-home__label">COIFFURE</div>
-            <p>Des cheveux sublimés,<br>une signature unique.</p>
-            <a class="btn btn-dark" href="#coiffure">DÉCOUVRIR LA COIFFURE <span aria-hidden="true">→</span></a>
-          </div>
-        </article>
-        <button type="button" class="dual-home__scroll" id="change-hero-scroll" aria-label="Défiler vers la présentation de l’institut">SCROLLEZ POUR EXPLORER</button>
-        <ul class="dual-home__services" aria-label="Quatre univers de prestations">
-          <li>SOINS VISAGE<br>ET CORPS</li>
-          <li>ÉPILATION<br>ET BIEN-ÊTRE</li>
-          <li>COUPE &amp; BRUSHING<br>SUR MESURE</li>
-          <li>COLORATION<br>ET SOINS CAPILLAIRES</li>
-        </ul>
+    <section class="change-unified-hero" aria-label="Bienvenue chez CH’ANGE">
+      <div class="change-unified-hero__content">
+        <p class="change-unified-hero__eyebrow">L’ART DE RÉVÉLER VOTRE BEAUTÉ</p>
+        <h1>CH’ANGE</h1>
+        <p class="change-unified-hero__lead">Institut de beauté · Le Thor</p>
+        <p class="change-unified-hero__description">Des soins sur mesure pour révéler votre beauté naturelle. Découvrez nos soins du visage et du corps, nos prestations esthétiques et nos instants de bien-être.</p>
+        <a class="btn btn-dark" href="#soins">DÉCOUVRIR NOS SOINS <span aria-hidden="true">→</span></a>
       </div>
     </section>
-    <section class="intro-bands container"><p class="section-kicker">PRENEZ LE TEMPS DE VOUS RETROUVER</p><h2>Un lieu pour se sentir <i>bien.</i></h2><p>Chez Ch’ange, chaque parenthèse beauté est une invitation à vous accorder de l’attention. Découvrez nos univers de soins et choisissez le moment qui vous ressemble.</p></section>
-    <section class="home-categories container"><div class="section-heading"><div><div class="overline">NOS UNIVERS</div><h2>La beauté à votre <i>rythme.</i></h2></div><a class="text-arrow" href="#soins">Explorer les prestations <span>↗</span></a></div><div class="category-grid">
+    <section class="intro-bands container"><p class="section-kicker">PRENEZ LE TEMPS DE VOUS RETROUVER</p><h2>Un lieu pour se sentir <i>bien.</i></h2><p>Chez Ch’ange, chaque parenthèse beauté est une invitation à vous accorder de l’attention. Découvrez nos prestations et choisissez le moment qui vous ressemble.</p></section>
+    <section class="home-categories container"><div class="section-heading"><div><div class="overline">NOS PRESTATIONS</div><h2>La beauté à votre <i>rythme.</i></h2></div><a class="text-arrow" href="#soins">Explorer les prestations <span>↗</span></a></div><div class="category-grid">
       <a href="#soins?categorie=visage" class="category-card category-tall"><img data-photo="soin-visage" loading="lazy" alt="Soin du visage et moment de détente"><span class="category-overlay"><small>01 / PRENDRE SOIN</small><strong>Soins du visage</strong><b>↗</b></span></a>
       <a href="#contact" class="category-card"><img data-photo="ongles" loading="lazy" alt="Manucure rose pâle et décor floral devant le fond CH’ANGE"><span class="category-overlay"><small>02 / SE SUBLIMER</small><strong>Beauté des mains</strong><b>↗</b></span></a>
       <a href="#cadeaux" class="category-card"><img data-photo="ambiance-spa" loading="lazy" alt="Serviettes et produits disposés pour un rituel de détente"><span class="category-overlay"><small>03 / FAIRE PLAISIR</small><strong>Offrir une pause</strong><b>↗</b></span></a>
@@ -415,5 +404,5 @@
 })();
 </script>
 <script src="./supabase-config.js"></script><script src="./site-interactions.js" defer></script><script src="./design-public.js?v=12" defer></script><script src="./header-brand.js?v=5" defer></script>
-<script src="./home-canvas.js?v=7" defer></script><script src="./home-beauty-collision.js?v=1" defer></script><script src="./site-dynamic.js?v=8" defer></script><script src="./soins-details.js" defer></script><script src="./tarifs-public.js" defer></script><script src="./universe-gateway.js?v=8" defer></script>
+<script src="./home-canvas.js?v=7" defer></script><script src="./home-beauty-collision.js?v=1" defer></script><script src="./site-dynamic.js?v=8" defer></script><script src="./soins-details.js" defer></script><script src="./tarifs-public.js" defer></script>
 </body></html>
